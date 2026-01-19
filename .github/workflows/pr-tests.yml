@@ -37,20 +37,13 @@ jobs:
       
       - name: Copy test files
         run: |
-          echo "Copying tests..."
-          # Создаем директорию для тестов если она не существует
-          mkdir -p main-repo/expressions/src/test/java/hse/java
-          
           echo "📂 Listing source directory:"
           ls -R hidden-tests
           
           echo "🚀 Copying tests..."
-          # Просто копируем, без проверок if
           cp -r hidden-tests/expressions/src/test/java/hse/java/* main-repo/expressions/src/test/java/hse/java/
           echo "✅ Tests copied"
-
           
-          # Удаляем приватный репозиторий
           rm -rf hidden-tests
       
       - name: Run Maven tests
