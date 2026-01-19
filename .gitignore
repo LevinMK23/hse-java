@@ -1,0 +1,9 @@
+.idea
+.DS_Store
+
+*.class
+expressions/.vscode
+expressions/app/*
+expressions/target/*
+
+presentations/*

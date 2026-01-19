@@ -1,0 +1,11 @@
+jpackage \
+    --input target \
+    --name ButtonsApp \
+    --main-jar my-app.jar \
+    --main-class hse.java.lectures.lecture1.HelloWorld \
+    --type app-image \
+    --dest app \
+    --mac-package-identifier hse.java.expressions \
+    --mac-package-name Buttons \
+    --app-version 1.0 \
+    --icon icon.png

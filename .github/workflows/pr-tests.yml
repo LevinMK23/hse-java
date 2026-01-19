@@ -1,0 +1,98 @@
+name: PR Tests
+
+on:
+  pull_request_target:
+    branches:
+      - main
+
+jobs:
+  run-hidden-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+    
+    steps:
+      - name: Checkout main repository (PR)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: main-repo
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      
+      - name: Checkout private tests repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.TESTS_REPO_OWNER }}/${{ secrets.TESTS_REPO_NAME }}
+          token: ${{ secrets.TESTS_REPO_TOKEN }}
+          path: hidden-tests
+          fetch-depth: 1
+      
+      - name: Copy test files
+        run: |
+          echo "Copying tests..."
+          mkdir -p main-repo/expressions/src/test/java
+          
+          if [ -d "hidden-tests/src/test/java" ]; then
+            cp -r hidden-tests/src/test/java/* main-repo/expressions/src/test/java/
+            echo "✅ Tests copied successfully"
+          else
+            echo "⚠️ Tests directory not found in private repo structure"
+            ls -R hidden-tests
+            exit 1
+          fi
+      
+      - name: Run Maven tests
+        id: test
+        working-directory: main-repo/expressions
+        run: mvn clean test
+        continue-on-error: true
+      
+      - name: Comment PR with test results
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const testStatus = '${{ steps.test.outcome }}';
+            let comment = '## 🧪 Результаты автоматического тестирования\n\n';
+            
+            if (testStatus === 'success') {
+              comment += '✅ **Все тесты прошли успешно!**\n\n';
+            } else {
+              comment += '❌ **Некоторые тесты не прошли.**\n\n';
+            }
+            
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            const botComment = comments.data.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('Результаты автоматического тестирования')
+            );
+            
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: comment
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: comment
+              });
+            }
