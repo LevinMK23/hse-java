@@ -48,12 +48,7 @@ jobs:
           # Просто копируем, без проверок if
           cp -r hidden-tests/expressions/src/test/java/hse/java/* main-repo/expressions/src/test/java/hse/java/
           echo "✅ Tests copied"
-          else
-            echo "⚠️ Tests directory not found in private repo structure (expected hidden-tests/expressions/src/test/java/hse/java)"
-            echo "Listing hidden-tests structure:"
-            ls -R hidden-tests
-            exit 1
-          fi
+
           
           # Удаляем приватный репозиторий
           rm -rf hidden-tests
