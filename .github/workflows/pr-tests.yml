@@ -37,13 +37,9 @@ jobs:
       
       - name: Copy test files
         run: |
-          echo "📂 Listing source directory:"
-          ls -R hidden-tests
-          
           echo "🚀 Copying tests..."
           cp -r hidden-tests/expressions/src/test/java/hse/java/* main-repo/expressions/src/test/java/hse/java/
           echo "✅ Tests copied"
-          
           rm -rf hidden-tests
       
       - name: Run Maven tests
