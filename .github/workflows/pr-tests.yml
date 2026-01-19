@@ -39,14 +39,14 @@ jobs:
         run: |
           echo "Copying tests..."
           # Создаем директорию для тестов если она не существует
-          mkdir -p main-repo/expressions/src/test/java
+          mkdir -p main-repo/expressions/src/test/java/hse/java
           
-          # Копируем содержимое папки expressions/src/test/java из приватного репозитория
-          if [ -d "hidden-tests/expressions/src/test/java" ]; then
-            cp -r hidden-tests/expressions/src/test/java/* main-repo/expressions/src/test/java/
+          # Копируем содержимое папки expressions/src/test/java/hse/java из приватного репозитория
+          if [ -d "hidden-tests/expressions/src/test/java/hse/java" ]; then
+            cp -r hidden-tests/expressions/src/test/java/hse/java/* main-repo/expressions/src/test/java/hse/java/
             echo "✅ Tests copied successfully"
           else
-            echo "⚠️ Tests directory not found in private repo structure (expected hidden-tests/expressions/src/test/java)"
+            echo "⚠️ Tests directory not found in private repo structure (expected hidden-tests/expressions/src/test/java/hse/java)"
             echo "Listing hidden-tests structure:"
             ls -R hidden-tests
             exit 1
