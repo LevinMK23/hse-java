@@ -8,7 +8,6 @@ on:
 jobs:
   run-hidden-tests:
     runs-on: ubuntu-latest
-    environment: VALUES
     permissions:
       contents: read
       pull-requests: write
@@ -27,7 +26,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      
+
       - name: Checkout private tests repository
         uses: actions/checkout@v4
         with:
@@ -39,16 +38,22 @@ jobs:
       - name: Copy test files
         run: |
           echo "Copying tests..."
+          # Создаем директорию для тестов если она не существует
           mkdir -p main-repo/expressions/src/test/java
           
-          if [ -d "hidden-tests/src/test/java" ]; then
-            cp -r hidden-tests/src/test/java/* main-repo/expressions/src/test/java/
+          # Копируем содержимое папки expressions/src/test/java из приватного репозитория
+          if [ -d "hidden-tests/expressions/src/test/java" ]; then
+            cp -r hidden-tests/expressions/src/test/java/* main-repo/expressions/src/test/java/
             echo "✅ Tests copied successfully"
           else
-            echo "⚠️ Tests directory not found in private repo structure"
+            echo "⚠️ Tests directory not found in private repo structure (expected hidden-tests/expressions/src/test/java)"
+            echo "Listing hidden-tests structure:"
             ls -R hidden-tests
             exit 1
           fi
+          
+          # Удаляем приватный репозиторий
+          rm -rf hidden-tests
       
       - name: Run Maven tests
         id: test
