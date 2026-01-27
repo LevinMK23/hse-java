@@ -1,9 +1,12 @@
 .idea
 .DS_Store
+.mvn
 
 *.class
+target/*    
 expressions/.vscode
 expressions/app/*
-expressions/target/*
+target/*
 
 presentations/*
+out/*

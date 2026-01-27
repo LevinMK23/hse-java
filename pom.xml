@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>hse.java</groupId>
-    <artifactId>expressions</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>hse-java</artifactId>
+    <version>1</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -22,6 +22,13 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Jackson для чтения JSON в тестах -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.17.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -45,7 +52,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>hse.java.lectures.lecture1.HelloWorld</mainClass>
+                            <mainClass>hse.java.lectures.lecture1.Game</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -55,7 +62,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.version}</version>
             </plugin>
-            <!-- Плагин для создания Mac приложения из JAR (запускается вручную: mvn exec:exec@jpackage) -->
         </plugins>
     </build>
 
