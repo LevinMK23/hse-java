@@ -1,10 +1,10 @@
 package hse.java.practice.task1;
 
 public enum CubeColor {
-    GREEN,
-    RED,
-    BLUE,
     WHITE,
     YELLOW,
+    GREEN,
+    BLUE,
+    RED,
     ORANGE
 }
