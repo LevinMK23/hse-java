@@ -12,7 +12,7 @@ public class RubiksCube implements Cube {
      * грани разместить по ордеру в енуме цветов
      * грань 0 -> цвет 0
      * грань 1 -> цвет 1
-     * и тд
+     * и тд 2
      */
     public RubiksCube() {
         state = new int[49];
