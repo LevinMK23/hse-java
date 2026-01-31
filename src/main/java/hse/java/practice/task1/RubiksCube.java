@@ -63,11 +63,11 @@ public class RubiksCube implements Cube {
                 RotationPermutations.R_CW : RotationPermutations.R_CCW);
     }
 
-    @Override
-    public void front(RotateDirection direction) {
-        applyCycles(direction == RotateDirection.CLOCKWISE ?
-                RotationPermutations.F_CW : RotationPermutations.F_CCW);
-    }
+//    @Override
+//    public void front(RotateDirection direction) {
+//        applyCycles(direction == RotateDirection.CLOCKWISE ?
+//                RotationPermutations.F_CW : RotationPermutations.F_CCW);
+//    }
 
     @Override
     public void back(RotateDirection direction) {
