@@ -1,5 +1,8 @@
 package hse.java.practice.task1;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RotationPermutations {
     static final int[][] U_CW = {
             {33, 35, 40, 38},
@@ -74,4 +77,16 @@ public class RotationPermutations {
         }
         return reversed;
     }
+
+    /**
+     * Эта штука нужна, так как в кубике рубика на вики грани расположены по-другому и я не сильно хочу разбираться в том, где какие перестановки
+     */
+    static final Map<Integer, Integer> fromWikiToHw = new HashMap<>() {{
+        put(0, 2);
+        put(1, 4);
+        put(2, 3);
+        put(3, 5);
+        put(4, 0);
+        put(5, 1);
+    }};
 }

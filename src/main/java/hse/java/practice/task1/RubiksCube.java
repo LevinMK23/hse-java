@@ -63,11 +63,11 @@ public class RubiksCube implements Cube {
                 RotationPermutations.R_CW : RotationPermutations.R_CCW);
     }
 
-//    @Override
-//    public void front(RotateDirection direction) {
-//        applyCycles(direction == RotateDirection.CLOCKWISE ?
-//                RotationPermutations.F_CW : RotationPermutations.F_CCW);
-//    }
+    @Override
+    public void front(RotateDirection direction) {
+        applyCycles(direction == RotateDirection.CLOCKWISE ?
+                RotationPermutations.F_CW : RotationPermutations.F_CCW);
+    }
 
     @Override
     public void back(RotateDirection direction) {
@@ -78,22 +78,24 @@ public class RubiksCube implements Cube {
 
     public Edge[] getEdges() {
         CubeColor[] colors = CubeColor.values();
+
         for (int i = 0; i < EDGES_COUNT; i++) {
             CubeColor[][] parts = new CubeColor[3][3];
             for (int x = 0; x < 3; x++) {
                 for (int y = 0; y < 3; y++) {
                     int pos = x + y * 3 + 1;
                     if (pos == 5) {
-                        parts[x][y] = colors[i];
+                        parts[y][x] = colors[RotationPermutations.fromWikiToHw.get(i)];
                         continue;
                     }
                     if (pos > 5) {
                         pos--;
                     }
-                    parts[x][y] = colors[(state[pos + i * 8]-1)/8];
+                    int colorId = RotationPermutations.fromWikiToHw.get((state[i*8+pos] - 1) / 8);
+                    parts[y][x] = colors[colorId];
                 }
             }
-            edges[i].setParts(parts);
+            edges[RotationPermutations.fromWikiToHw.get(i)].setParts(parts);
         }
         return edges;
     }
