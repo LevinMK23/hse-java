@@ -1,7 +1,7 @@
 package hse.java.exprtree;
 
-public interface Expression {
+public sealed interface Expression permits Operation, Const {
     String toString();
-    int get_
+//    int getPriority();
     int eval();
 }
