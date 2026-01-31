@@ -54,7 +54,7 @@ public class RotationPermutations {
 
     static final int[][] F_CCW = reverseCycles(F_CW);
 
-    static final int[][] B_СCW = {
+    static final int[][] B_CCW = {
             {25, 27, 32, 30},
             {26, 29, 31, 28},
             {19, 33, 6, 48},
@@ -62,7 +62,7 @@ public class RotationPermutations {
             {24, 35, 1, 46}
     };
 
-    static final int[][] B_CW = reverseCycles(B_СCW);
+    static final int[][] B_CW = reverseCycles(B_CCW);
 
     private static int[][] reverseCycles(int[][] cycles) {
         int[][] reversed = new int[cycles.length][];
