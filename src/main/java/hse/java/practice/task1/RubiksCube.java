@@ -28,7 +28,7 @@ public class RubiksCube implements Cube{
 
     @Override
     public void up(RotateDirection direction) {
-        edges[0].rotateFace(direction);
+        System.out.println("LOL");
     }
 
     @Override
