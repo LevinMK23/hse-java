@@ -33,20 +33,20 @@ public class RubiksCube implements Cube{
 
     @Override
     public void down(RotateDirection direction) {
-
+        System.out.println("LOL");
     }
 
     @Override
     public void left(RotateDirection direction) {
-
+        System.out.println("LOL");
     }
 
     @Override
     public void right(RotateDirection direction) {
-
+        System.out.println("LOL");
     }
 
-    //TODO:
+    
     @Override
     public void front(RotateDirection direction) {
 
@@ -62,13 +62,13 @@ public class RubiksCube implements Cube{
 
     @Override
     public void back(RotateDirection direction) {
-
+        System.out.println("LOL");
     }
 
     public Edge[] getEdges() {
         return edges;
     }
-    //TODO:
+    
     public void rotateFrontClockwise(){
         edges[4].rotateFace(RotateDirection.CLOCKWISE);
 
