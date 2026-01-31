@@ -62,7 +62,7 @@ public class RubiksCube implements Cube{
 
     @Override
     public void back(RotateDirection direction) {
-        System.out.println("LOL");
+        System.out.println("KEK");
     }
 
     public Edge[] getEdges() {
