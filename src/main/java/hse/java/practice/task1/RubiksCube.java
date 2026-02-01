@@ -54,13 +54,20 @@ public class RubiksCube implements  Cube {
         return parts;
     }
 
+    private CubeColor[] reverse(CubeColor[] arr) {
+        CubeColor[] result = new CubeColor[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            result[i] = arr[arr.length - 1 - i];
+        }
+        return result;
+    }
+
 
 
 
     @Override
     public void up(RotateDirection direction) {
 
-        CubeColor[][] parts = turn(direction , EdgePosition.UP);
 
         CubeColor[] leftColorEdge = Arrays.copyOf(edges[EdgePosition.LEFT.getEdgeNumber()].getPartsLine(0) ,edges[EdgePosition.LEFT.getEdgeNumber()].getPartsLine(0).length );   // red
         CubeColor[] rightColorEdge = Arrays.copyOf(edges[EdgePosition.RIGHT.getEdgeNumber()].getPartsLine(0),edges[EdgePosition.RIGHT.getEdgeNumber()].getPartsLine(0).length );  //orange
@@ -84,12 +91,12 @@ public class RubiksCube implements  Cube {
 
         }
 
+        CubeColor[][] parts = turn(direction , EdgePosition.UP);
         edges[EdgePosition.UP.getEdgeNumber()].setParts(parts);
     }
 
     @Override
     public void down(RotateDirection direction) {
-        CubeColor[][] parts = turn(direction , EdgePosition.DOWN) ;
 
         CubeColor[] leftColorEdge = Arrays.copyOf(edges[EdgePosition.LEFT.getEdgeNumber()].getPartsLine(2),edges[EdgePosition.LEFT.getEdgeNumber()].getPartsLine(2).length );   // red
         CubeColor[] rightColorEdge = Arrays.copyOf(edges[EdgePosition.RIGHT.getEdgeNumber()].getPartsLine(2) ,edges[EdgePosition.RIGHT.getEdgeNumber()].getPartsLine(2).length );  //orange
@@ -114,12 +121,12 @@ public class RubiksCube implements  Cube {
 
         }
 
+        CubeColor[][] parts = turn(direction , EdgePosition.DOWN) ;
         edges[EdgePosition.DOWN.getEdgeNumber()].setParts(parts);
     }
 
     @Override
     public void left(RotateDirection direction) {
-        CubeColor[][] parts = turn(direction , EdgePosition.LEFT) ;
 
         CubeColor[] upColorEdge = Arrays.copyOf(edges[EdgePosition.UP.getEdgeNumber()].getPartsRow(0),edges[EdgePosition.UP.getEdgeNumber()].getPartsRow(0).length );   // red
         CubeColor[] downColorEdge = Arrays.copyOf(edges[EdgePosition.DOWN.getEdgeNumber()].getPartsRow(0),edges[EdgePosition.DOWN.getEdgeNumber()].getPartsRow(0).length );   // red
@@ -145,21 +152,18 @@ public class RubiksCube implements  Cube {
 
         }
 
+        CubeColor[][] parts = turn(direction , EdgePosition.LEFT) ;
         edges[EdgePosition.LEFT.getEdgeNumber()].setParts(parts);;
 
     }
 
     @Override
     public void right(RotateDirection direction) {
-        CubeColor[][] parts = turn(direction , EdgePosition.RIGHT) ;
-        edges[EdgePosition.RIGHT.getEdgeNumber()].setParts(parts);;
 
         CubeColor[] upColorEdge = Arrays.copyOf(edges[EdgePosition.UP.getEdgeNumber()].getPartsRow(2),edges[EdgePosition.UP.getEdgeNumber()].getPartsRow(2).length );   // red
         CubeColor[] downColorEdge = Arrays.copyOf(edges[EdgePosition.DOWN.getEdgeNumber()].getPartsRow(2),edges[EdgePosition.DOWN.getEdgeNumber()].getPartsRow(2).length );   // red
         CubeColor[] frontColorEdge = Arrays.copyOf(edges[EdgePosition.FRONT.getEdgeNumber()].getPartsRow(2),edges[EdgePosition.FRONT.getEdgeNumber()].getPartsRow(2).length );   // red
         CubeColor[] backColorEdge = Arrays.copyOf(edges[EdgePosition.BACK.getEdgeNumber()].getPartsRow(2),edges[EdgePosition.BACK.getEdgeNumber()].getPartsRow(2).length );   // red
-
-
 
         switch (direction) { // TODO : можно вынести
             case COUNTERCLOCKWISE :
@@ -176,18 +180,16 @@ public class RubiksCube implements  Cube {
                 edges[ EdgePosition.DOWN.getEdgeNumber() ].setPartsRow(backColorEdge,2);
                 edges[ EdgePosition.FRONT.getEdgeNumber() ].setPartsRow(downColorEdge,2);
                 break ;
-
-
-
         }
 
+        CubeColor[][] parts = turn(direction , EdgePosition.RIGHT) ;
+        edges[EdgePosition.RIGHT.getEdgeNumber()].setParts(parts);;
 
 
     }
 
     @Override
     public void front(RotateDirection direction) {
-        CubeColor[][] parts = turn(direction , EdgePosition.FRONT) ;
 
         CubeColor[] upColorEdge = Arrays.copyOf(edges[EdgePosition.UP.getEdgeNumber()].getPartsLine(2),edges[EdgePosition.UP.getEdgeNumber()].getPartsLine(2).length );   // red
         CubeColor[] downColorEdge = Arrays.copyOf(edges[EdgePosition.DOWN.getEdgeNumber()].getPartsLine(0),edges[EdgePosition.DOWN.getEdgeNumber()].getPartsLine(0).length );   // red
@@ -212,14 +214,13 @@ public class RubiksCube implements  Cube {
 
         }
 
+        CubeColor[][] parts = turn(direction , EdgePosition.FRONT) ;
         edges[EdgePosition.FRONT.getEdgeNumber()].setParts(parts);;
 
     }
 
     @Override
     public void back(RotateDirection direction) {
-        CubeColor[][] parts = turn(direction , EdgePosition.BACK) ;
-        edges[EdgePosition.BACK.getEdgeNumber()].setParts(parts);;
 
         CubeColor[] upColorEdge = Arrays.copyOf(edges[EdgePosition.UP.getEdgeNumber()].getPartsLine(0),edges[EdgePosition.UP.getEdgeNumber()].getPartsLine(0).length );   // red
         CubeColor[] downColorEdge = Arrays.copyOf(edges[EdgePosition.DOWN.getEdgeNumber()].getPartsLine(2),edges[EdgePosition.DOWN.getEdgeNumber()].getPartsLine(2).length );   // red
@@ -244,10 +245,9 @@ public class RubiksCube implements  Cube {
 
         }
 
-
-
+        CubeColor[][] parts = turn(direction , EdgePosition.BACK) ;
+        edges[EdgePosition.BACK.getEdgeNumber()].setParts(parts);;
     }
-
 
 
     public Edge[] getEdges() {
@@ -282,25 +282,25 @@ public class RubiksCube implements  Cube {
                 {CubeColor.RED , CubeColor.BLUE , CubeColor.ORANGE}
         };
 //        rubiksCube.edges[0] = new Edge(test);
-        rubiksCube.up(RotateDirection.COUNTERCLOCKWISE);
-        rubiksCube.up(RotateDirection.CLOCKWISE);
-
-        rubiksCube.down(RotateDirection.CLOCKWISE);
-        rubiksCube.down(RotateDirection.COUNTERCLOCKWISE);
-
-        rubiksCube.right(RotateDirection.COUNTERCLOCKWISE);
-        rubiksCube.right(RotateDirection.CLOCKWISE);
-
-        rubiksCube.left(RotateDirection.COUNTERCLOCKWISE);
-        rubiksCube.left(RotateDirection.CLOCKWISE);
-
-
-        rubiksCube.front(RotateDirection.COUNTERCLOCKWISE);
-        rubiksCube.front(RotateDirection.CLOCKWISE);
-
-
+//        rubiksCube.up(RotateDirection.CLOCKWISE);
+//        rubiksCube.up(RotateDirection.COUNTERCLOCKWISE);
+//
+//        rubiksCube.down(RotateDirection.CLOCKWISE);
+//        rubiksCube.down(RotateDirection.COUNTERCLOCKWISE);
+//
+//        rubiksCube.right(RotateDirection.COUNTERCLOCKWISE);
+//        rubiksCube.right(RotateDirection.CLOCKWISE);
+//
+//        rubiksCube.left(RotateDirection.COUNTERCLOCKWISE);
+//        rubiksCube.left(RotateDirection.CLOCKWISE);
+//
+//
+//        rubiksCube.front(RotateDirection.COUNTERCLOCKWISE);
+//        rubiksCube.front(RotateDirection.CLOCKWISE);
+//
+//
         rubiksCube.back(RotateDirection.COUNTERCLOCKWISE);
-        rubiksCube.back(RotateDirection.CLOCKWISE);
+//        rubiksCube.back(RotateDirection.CLOCKWISE);
 
 
 
