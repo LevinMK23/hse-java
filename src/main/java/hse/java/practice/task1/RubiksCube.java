@@ -108,9 +108,40 @@ public class RubiksCube implements Cube{
 
     @Override
     public void right(RotateDirection direction) {
-        System.out.println("LOL");
+        switch (direction){
+            case CLOCKWISE:
+                rotateRightClockwise();
+                break;
+            case COUNTERCLOCKWISE:
+                rotateRightCounterClockwise();
+                break;
+        }
     }
 
+    public void rotateRightClockwise(){
+        edges[3].rotateFace(RotateDirection.CLOCKWISE);
+
+        CubeColor[] upToBack = edges[0].getCol(2);
+
+        CubeColor[] frontToUp = edges[4].getCol(2);
+        edges[0].setCol(2,frontToUp);
+
+        CubeColor[] downToFront = edges[1].getCol(2);
+        edges[4].setCol(2, downToFront);
+
+        CubeColor[] backToDown = edges[5].getCol(0);
+        backToDown = reverseArr(backToDown);
+        edges[1].setCol(2, backToDown);
+
+        upToBack = reverseArr(upToBack);
+        edges[5].setCol(0, upToBack);
+    }
+
+    public void rotateRightCounterClockwise(){
+        rotateRightClockwise();
+        rotateRightClockwise();
+        rotateRightClockwise();
+    }
     
     @Override
     public void front(RotateDirection direction) {
@@ -138,7 +169,6 @@ public class RubiksCube implements Cube{
     }
 
     public void rotateBackClockwise(){
-
     }
 
     public void rotateBackCounterClockwise(){
