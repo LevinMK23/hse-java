@@ -2,7 +2,6 @@ package hse.java.practice.task1;
 
 
 import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * Необходимо реализовать интерфейс Cube
@@ -27,59 +26,6 @@ public class RubiksCube implements Cube {
             edges[i] = new Edge(colors[i]);
         }
     }
-
-    private int[] getAdjacentFaces(EdgePosition pos) {
-        return switch (pos) {
-            case UP -> new int[]{4, 2, 5, 3};
-            case DOWN -> new int[]{4, 3, 5, 2};
-            case LEFT -> new int[]{0, 4, 1, 5};
-            case RIGHT -> new int[]{0, 5, 1, 4};
-            case FRONT -> new int[]{0, 3, 1, 2};
-            case BACK -> new int[]{0, 2, 1, 3};
-        };
-    }
-
-    private void readRing(CubeColor[] ring, EdgePosition pos) {
-        int p = 0;
-        int[] adj = getAdjacentFaces(pos);
-        for (int i = 0; i < 3; i++, p++) {
-            ring[p] = edges[adj[0]].getParts()[i][2];
-        }
-        for (int i = 0; i < 3; i++, p++) {
-            ring[p] = edges[adj[1]].getParts()[i][0];
-        }
-        for (int i = 0; i < 3; i++, p++) {
-            ring[p] = edges[adj[2]].getParts()[i][0];
-        }
-        for (int i = 0; i < 3; i++, p++) {
-            ring[p] = edges[adj[3]].getParts()[i][2];
-        }
-    }
-
-    private void rotateRing(CubeColor[] ring, RotateDirection direction) {
-        switch (direction) {
-            case CLOCKWISE -> Collections.rotate(Arrays.asList(ring), 3);
-            case COUNTERCLOCKWISE -> Collections.rotate(Arrays.asList(ring), -3);
-        }
-    }
-
-    private void writeRing(CubeColor[] ring, EdgePosition pos) {
-        int p = 0;
-        int[] adj = getAdjacentFaces(pos);
-        for (int i = 0; i < 3; i++, p++) {
-            edges[adj[0]].getParts()[i][2] = ring[p];
-        }
-        for (int i = 0; i < 3; i++, p++) {
-            edges[adj[1]].getParts()[i][0] = ring[p];
-        }
-        for (int i = 0; i < 3; i++, p++) {
-            edges[adj[2]].getParts()[i][0] = ring[p];
-        }
-        for (int i = 0; i < 3; i++, p++) {
-            edges[adj[3]].getParts()[i][2] = ring[p];
-        }
-    }
-
     private void rotateUpRing(RotateDirection direction) {
         int n;
         if (direction == RotateDirection.CLOCKWISE) {
