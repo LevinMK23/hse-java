@@ -62,22 +62,22 @@ public class RubiksCube implements Cube {
     public void right(RotateDirection direction) {
         var e4 = edges[4].getCol(2);
         var e0 = edges[0].getCol(2);
-        var e5 = edges[5].getCol(2);
+        var e5 = edges[5].getCol(0);
         var e1 = edges[1].getCol(2);
         if (direction == RotateDirection.CLOCKWISE) {
             edges[3].rotateClockwise();
-            edges[1].setCol(2 , e5);
+            edges[1].setCol(2 , rev(e5));
             edges[4].setCol(2 , e1);
             edges[0].setCol(2 , e4);
-            edges[5].setCol(2 , e0);
+            edges[5].setCol(0 , rev(e0));
         } else {
             edges[3].rotateClockwise();
             edges[3].rotateClockwise();
             edges[3].rotateClockwise();
             edges[1].setCol(2 , e4);
             edges[4].setCol(2 , e0);
-            edges[0].setCol(2 , e5);
-            edges[5].setCol(2 , e1);
+            edges[0].setCol(2 , rev(e5));
+            edges[5].setCol(0 , rev(e1));
         }
     }
 
