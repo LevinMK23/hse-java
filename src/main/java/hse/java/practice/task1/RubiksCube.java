@@ -55,8 +55,10 @@ public class RubiksCube {
 
     public void front(RotateDirection direction) {
         RotateItself(direction,4);
+
+        CubeColor[] up_color = edges[0].getParts()[2].clone();
+
         if (direction == RotateDirection.CLOCKWISE) {
-            CubeColor[] up_color = edges[0].getParts()[2].clone();
             for (int i = 0; i < 3; i++) {
                 edges[0].getParts()[2][i] = edges[2].getParts()[2 - i][2];
                 edges[2].getParts()[2 - i][2] = edges[1].getParts()[0][2 - i];
@@ -65,7 +67,6 @@ public class RubiksCube {
             }
         }
         else if (direction == RotateDirection.COUNTERCLOCKWISE) {
-            CubeColor[] up_color = edges[0].getParts()[2].clone();
             for (int i = 0; i < 3; i++) {
                 edges[0].getParts()[2][i] = edges[3].getParts()[i][0];
                 edges[3].getParts()[i][0] = edges[1].getParts()[0][2-i];
@@ -77,8 +78,10 @@ public class RubiksCube {
 
     public void back(RotateDirection direction) {
         RotateItself(direction,5);
+
+        CubeColor[] up_color = edges[0].getParts()[0].clone();
+
         if (direction == RotateDirection.CLOCKWISE) {
-            CubeColor[] up_color = edges[0].getParts()[0].clone();
             for (int i = 0; i < 3; i++) {
                 edges[0].getParts()[0][i] = edges[3].getParts()[i][2];
                 edges[3].getParts()[i][2] = edges[1].getParts()[2][2-i];
@@ -87,7 +90,6 @@ public class RubiksCube {
             }
         }
         else if (direction == RotateDirection.COUNTERCLOCKWISE) {
-            CubeColor[] up_color = edges[0].getParts()[0].clone()  ;
             for (int i = 0; i < 3; i++) {
                 edges[0].getParts()[0][i] = edges[2].getParts()[2-i][0];
                 edges[2].getParts()[2-i][0] = edges[1].getParts()[2][2-i];
@@ -99,8 +101,10 @@ public class RubiksCube {
 
     public void up(RotateDirection direction) {
         RotateItself(direction,0);
+
+        CubeColor[] front_color = edges[4].getParts()[0].clone();
+
         if (direction == RotateDirection.CLOCKWISE) {
-            CubeColor[] front_color = edges[4].getParts()[0].clone();
             for (int i = 0; i < 3; i++) {
                 edges[4].getParts()[0][i] = edges[3].getParts()[0][i];
                 edges[3].getParts()[0][i] = edges[5].getParts()[0][i];
@@ -109,7 +113,6 @@ public class RubiksCube {
             }
         }
         else if (direction == RotateDirection.COUNTERCLOCKWISE) {
-            CubeColor[] front_color = edges[4].getParts()[0].clone()  ;
             for (int i = 0; i < 3; i++) {
                 edges[4].getParts()[0][i] = edges[2].getParts()[0][i];
                 edges[2].getParts()[0][i] = edges[5].getParts()[0][i];
@@ -121,8 +124,10 @@ public class RubiksCube {
 
     public void down(RotateDirection direction) {
         RotateItself(direction,1);
+
+        CubeColor[] front_color = edges[4].getParts()[2].clone();
+
         if (direction == RotateDirection.CLOCKWISE) {
-            CubeColor[] front_color = edges[4].getParts()[2].clone();
             for (int i = 0; i < 3; i++) {
                 edges[4].getParts()[2][i] = edges[2].getParts()[2][i];
                 edges[2].getParts()[2][i] = edges[5].getParts()[2][i];
@@ -131,7 +136,6 @@ public class RubiksCube {
             }
         }
         else if (direction == RotateDirection.COUNTERCLOCKWISE) {
-            CubeColor[] front_color = edges[4].getParts()[2].clone()  ;
             for (int i = 0; i < 3; i++) {
                 edges[4].getParts()[2][i] = edges[3].getParts()[2][i];
                 edges[3].getParts()[2][i] = edges[5].getParts()[2][i];
@@ -143,11 +147,13 @@ public class RubiksCube {
 
     public void left(RotateDirection direction) {
         RotateItself(direction,2);
+
+        CubeColor[] front_color = new CubeColor[3];
+        for (int i = 0; i < 3; i++) {
+            front_color[i] = edges[4].getParts()[i][0];
+        }
+
         if (direction == RotateDirection.CLOCKWISE) {
-            CubeColor[] front_color = new CubeColor[3];
-            for (int i = 0; i < 3; i++) {
-                front_color[i] = edges[4].getParts()[i][0];
-            }
             for (int i = 0; i < 3; i++) {
                 edges[4].getParts()[i][0] = edges[0].getParts()[i][0];
                 edges[0].getParts()[i][0] = edges[5].getParts()[2-i][2];
@@ -156,10 +162,6 @@ public class RubiksCube {
             }
         }
         else if (direction == RotateDirection.COUNTERCLOCKWISE) {
-            CubeColor[] front_color = new CubeColor[3];
-            for (int i = 0; i < 3; i++) {
-                front_color[i] = edges[4].getParts()[i][0];
-            }
             for (int i = 0; i < 3; i++) {
                 edges[4].getParts()[i][0] = edges[1].getParts()[i][0];
                 edges[1].getParts()[i][0] = edges[5].getParts()[2-i][2];
@@ -171,11 +173,13 @@ public class RubiksCube {
 
     public void right(RotateDirection direction) {
         RotateItself(direction,3);
+
+        CubeColor[] front_color = new CubeColor[3];
+        for (int i = 0; i < 3; i++) {
+            front_color[i] = edges[4].getParts()[i][2];
+        }
+
         if (direction == RotateDirection.CLOCKWISE) {
-            CubeColor[] front_color = new CubeColor[3];
-            for (int i = 0; i < 3; i++) {
-                front_color[i] = edges[4].getParts()[i][2];
-            }
             for (int i = 0; i < 3; i++) {
                 edges[4].getParts()[i][2] = edges[1].getParts()[i][2];
                 edges[1].getParts()[i][2] = edges[5].getParts()[2-i][0];
@@ -184,10 +188,6 @@ public class RubiksCube {
             }
         }
         else if (direction == RotateDirection.COUNTERCLOCKWISE) {
-            CubeColor[] front_color = new CubeColor[3];
-            for (int i = 0; i < 3; i++) {
-                front_color[i] = edges[4].getParts()[i][2];
-            }
             for (int i = 0; i < 3; i++) {
                 edges[4].getParts()[i][2] = edges[0].getParts()[i][2];
                 edges[0].getParts()[i][2] = edges[5].getParts()[2-i][0];
