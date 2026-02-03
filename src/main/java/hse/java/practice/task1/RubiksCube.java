@@ -37,24 +37,24 @@ public class RubiksCube implements Cube {
 
     @Override
     public void front(RotateDirection direction) {
-        var left_col = edges[2].getCol(2);
-        var up_row = edges[0].getRow(2);
-        var right_col = edges[3].getCol(0);
-        var down_row = edges[1].getRow(0);
+        var e0 = edges[0].getRow(2);
+        var e1 = edges[1].getRow(0);
+        var e2 = edges[2].getCol(2);
+        var e3 = edges[3].getCol(0);
         if (direction == RotateDirection.CLOCKWISE) {
             edges[4].rotateClockwise();
-            edges[0].setRow(2 ,rev(left_col));
-            edges[3].setCol(0 ,up_row);
-            edges[1].setRow(0 ,rev(right_col));
-            edges[2].setCol(2 ,down_row);
+            edges[0].setRow(2 , rev(e2));
+            edges[1].setRow(0 , rev(e3));
+            edges[2].setCol(2 , e1);
+            edges[3].setCol(0 , e0);
         } else {
             edges[4].rotateClockwise();
             edges[4].rotateClockwise();
             edges[4].rotateClockwise();
-            edges[0].setRow(2 ,right_col);
-            edges[2].setCol(2 ,rev(up_row));
-            edges[1].setRow(0 ,left_col);
-            edges[3].setCol(0 ,rev(down_row));
+            edges[0].setRow(2 , e3);
+            edges[1].setRow(0 , e2);
+            edges[2].setCol(2 , rev(e0));
+            edges[3].setCol(0 , rev(e1));
         }
     }
 
