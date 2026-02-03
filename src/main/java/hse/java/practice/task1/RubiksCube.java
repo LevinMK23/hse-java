@@ -66,18 +66,18 @@ public class RubiksCube implements Cube {
         var e1 = edges[1].getCol(2);
         if (direction == RotateDirection.CLOCKWISE) {
             edges[3].rotateClockwise();
-            edges[1].setCol(2 , e5);
+            edges[1].setCol(2 , rev(e5));
             edges[4].setCol(2 , e1);
             edges[0].setCol(2 , e4);
-            edges[5].setCol(2 , e0);
+            edges[5].setCol(2 , rev(e0));
         } else {
             edges[3].rotateClockwise();
             edges[3].rotateClockwise();
             edges[3].rotateClockwise();
             edges[1].setCol(2 , e4);
             edges[4].setCol(2 , e0);
-            edges[0].setCol(2 , e5);
-            edges[5].setCol(2 , e1);
+            edges[0].setCol(2 , rev(e5));
+            edges[5].setCol(2 , rev(e1));
         }
     }
 
@@ -91,17 +91,17 @@ public class RubiksCube implements Cube {
             edges[2].rotateClockwise();
             edges[1].setCol(0 , e4);
             edges[4].setCol(0 , e0);
-            edges[0].setCol(0 , e5);
-            edges[5].setCol(0 , e1);
+            edges[0].setCol(0 , rev(e5));
+            edges[5].setCol(0 , rev(e1));
         } else {
             edges[2].rotateClockwise();
             edges[2].rotateClockwise();
             edges[2].rotateClockwise();
 
-            edges[1].setCol(0 , e5);
+            edges[1].setCol(0 , rev(e5));
             edges[4].setCol(0 , e1);
             edges[0].setCol(0 , e4);
-            edges[5].setCol(0 , e0);
+            edges[5].setCol(0 , rev(e0));
         }
     }
 
@@ -110,13 +110,13 @@ public class RubiksCube implements Cube {
         var e2 = edges[2].getRow(0);
         var e4 = edges[4].getRow(0);
         var e3 = edges[3].getRow(0);
-        var e5 = edges[5].getRow(2);
+        var e5 = edges[5].getRow(0);
         if (direction == RotateDirection.CLOCKWISE) {
             edges[0].rotateClockwise();
             edges[3].setRow(0 , rev(e5));
             edges[4].setRow(0 , e3);
             edges[2].setRow(0 , e4);
-            edges[5].setRow(2 , rev(e2));
+            edges[5].setRow(0 , rev(e2));
         } else {
             edges[0].rotateClockwise();
             edges[0].rotateClockwise();
@@ -125,7 +125,7 @@ public class RubiksCube implements Cube {
             edges[3].setRow(0 , e4);
             edges[4].setRow(0 , e2);
             edges[2].setRow(0 , rev(e5));
-            edges[5].setRow(2 , rev(e3));
+            edges[5].setRow(0 , rev(e3));
         }
     }
 
@@ -134,12 +134,12 @@ public class RubiksCube implements Cube {
         var e2 = edges[2].getRow(2);
         var e4 = edges[4].getRow(2);
         var e3 = edges[3].getRow(2);
-        var e5 = edges[5].getRow(0);
+        var e5 = edges[5].getRow(2);
         if (direction == RotateDirection.CLOCKWISE) {
             edges[1].rotateClockwise();
             edges[4].setRow(2 , e2);
             edges[3].setRow(2 , e4);
-            edges[5].setRow(0 , rev(e3));
+            edges[5].setRow(2 , rev(e3));
             edges[2].setRow(2 , rev(e5));
         } else {
             edges[1].rotateClockwise();
@@ -148,7 +148,7 @@ public class RubiksCube implements Cube {
 
             edges[4].setRow(2 , e3);
             edges[3].setRow(2 , rev(e5));
-            edges[5].setRow(0 , rev(e2));
+            edges[5].setRow(2 , rev(e2));
             edges[2].setRow(2 , e4);
         }
     }
@@ -183,5 +183,15 @@ public class RubiksCube implements Cube {
     @Override
     public String toString() {
         return Arrays.toString(edges);
+    }
+
+
+    public void debug() {
+        for (int i = 0; i < edges.length; i++) {
+            System.out.println(i);
+            for (int j = 0; j < edges[i].getParts().length; j++) {
+                System.out.println(Arrays.toString(edges[i].getParts()[j]));
+            }
+        }
     }
 }

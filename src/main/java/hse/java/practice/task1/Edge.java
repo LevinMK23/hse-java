@@ -65,6 +65,6 @@ public class Edge {
         for (int i = 0; i < 3; i++) {
             col[i] = parts[i][num];
         }
-        return col.clone();
+        return col;
     }
 }
