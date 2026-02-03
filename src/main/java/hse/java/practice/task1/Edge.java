@@ -47,7 +47,7 @@ public class Edge {
     }
 
     public void setRow(int num, CubeColor[] row) {
-        parts[num] = row;
+        parts[num] = row.clone();
     }
 
     public void setCol(int num, CubeColor[] col) {
