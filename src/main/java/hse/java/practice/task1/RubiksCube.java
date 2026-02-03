@@ -112,9 +112,9 @@ public class RubiksCube {
             CubeColor[] front_color = edges[4].getParts()[0].clone()  ;
             for (int i = 0; i < 3; i++) {
                 edges[4].getParts()[0][i] = edges[2].getParts()[0][i];
-                edges[2].getParts()[0][i] = edges[5].getParts()[0][2-i];
-                edges[5].getParts()[0][2-i] = edges[3].getParts()[0][2-i];
-                edges[3].getParts()[0][2-i] = front_color[2-i];
+                edges[2].getParts()[0][i] = edges[5].getParts()[0][i];
+                edges[5].getParts()[0][i] = edges[3].getParts()[0][i];
+                edges[3].getParts()[0][i] = front_color[i];
             }
         }
     }
@@ -124,19 +124,19 @@ public class RubiksCube {
         if (direction == RotateDirection.CLOCKWISE) {
             CubeColor[] front_color = edges[4].getParts()[2].clone();
             for (int i = 0; i < 3; i++) {
-                edges[4].getParts()[2][i] = edges[3].getParts()[2][i];
-                edges[3].getParts()[2][i] = edges[5].getParts()[2][i];
-                edges[5].getParts()[2][i] = edges[2].getParts()[2][i];
-                edges[2].getParts()[2][i] = front_color[i];
+                edges[4].getParts()[2][i] = edges[2].getParts()[2][i];
+                edges[2].getParts()[2][i] = edges[5].getParts()[2][i];
+                edges[5].getParts()[2][i] = edges[3].getParts()[2][i];
+                edges[3].getParts()[2][i] = front_color[i];
             }
         }
         else if (direction == RotateDirection.COUNTERCLOCKWISE) {
             CubeColor[] front_color = edges[4].getParts()[2].clone()  ;
             for (int i = 0; i < 3; i++) {
-                edges[4].getParts()[2][i] = edges[2].getParts()[2][i];
-                edges[2].getParts()[2][i] = edges[5].getParts()[2][2-i];
-                edges[5].getParts()[2][2-i] = edges[3].getParts()[2][2-i];
-                edges[3].getParts()[2][2-i] = front_color[2-i];
+                edges[4].getParts()[2][i] = edges[3].getParts()[2][i];
+                edges[2].getParts()[2][i] = edges[5].getParts()[2][i];
+                edges[5].getParts()[2][i] = edges[3].getParts()[2][i];
+                edges[3].getParts()[2][i] = front_color[i];
             }
         }
     }
