@@ -85,14 +85,14 @@ public class RubiksCube implements Cube {
     public void left(RotateDirection direction) {
         var e4 = edges[4].getCol(0);
         var e0 = edges[0].getCol(0);
-        var e5 = edges[5].getCol(0);
+        var e5 = edges[5].getCol(2);
         var e1 = edges[1].getCol(0);
         if (direction == RotateDirection.CLOCKWISE) {
             edges[2].rotateClockwise();
             edges[1].setCol(0 , e4);
             edges[4].setCol(0 , e0);
             edges[0].setCol(0 , rev(e5));
-            edges[5].setCol(0 , rev(e1));
+            edges[5].setCol(2 , rev(e1));
         } else {
             edges[2].rotateClockwise();
             edges[2].rotateClockwise();
@@ -101,7 +101,7 @@ public class RubiksCube implements Cube {
             edges[1].setCol(0 , rev(e5));
             edges[4].setCol(0 , e1);
             edges[0].setCol(0 , e4);
-            edges[5].setCol(0 , rev(e0));
+            edges[5].setCol(2 , rev(e0));
         }
     }
 
