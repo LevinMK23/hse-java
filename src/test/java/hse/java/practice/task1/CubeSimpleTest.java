@@ -28,6 +28,7 @@ public class CubeSimpleTest {
         }
     }
 
+
     @Test
     void frontClockwise() {
         RubiksCube cube = new RubiksCube();
