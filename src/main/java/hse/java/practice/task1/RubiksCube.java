@@ -43,271 +43,95 @@ public class RubiksCube {
         }
         return edgesClone;
     }
-
-    public void front(RotateDirection direction) {
+    // Представим грань curr перед собой. Тогда up/right/down/left это номера граней,
+    // находящихся в соответствующей стороне от curr
+    public void rotateClockwise(int curr, int up, int right, int down, int left) {
         Edge[] edgesCopy = deepCloneEdges(); // Пусть копия будет хранить копию оригинала, а обновлять будем
                                              // сразу оригинал, беря значения из копии
-        // Для передней грани
-        CubeColor[][] edgeFrontOriginal = edges[EdgePosition.FRONT.ordinal()].getParts();
-        CubeColor[][] edgeFrontCopy = edgesCopy[EdgePosition.FRONT.ordinal()].getParts();
 
-        // Для смежных граней
-        CubeColor[][] edgeUpOriginal = edges[EdgePosition.UP.ordinal()].getParts();
-        CubeColor[][] edgeRightOriginal = edges[EdgePosition.RIGHT.ordinal()].getParts();
-        CubeColor[][] edgeDownOriginal = edges[EdgePosition.DOWN.ordinal()].getParts();
-        CubeColor[][] edgeLeftOriginal = edges[EdgePosition.LEFT.ordinal()].getParts();
-        CubeColor[][] edgeUpCopy = edgesCopy[EdgePosition.UP.ordinal()].getParts();
-        CubeColor[][] edgeRightCopy = edgesCopy[EdgePosition.RIGHT.ordinal()].getParts();
-        CubeColor[][] edgeDownCopy = edgesCopy[EdgePosition.DOWN.ordinal()].getParts();
-        CubeColor[][] edgeLeftCopy = edgesCopy[EdgePosition.LEFT.ordinal()].getParts();
+        CubeColor[][] edgeFrontOriginal = edges[curr].getParts(); // Front, потому что мы curr представляем перед нами
+        CubeColor[][] edgeFrontCopy = edgesCopy[curr].getParts();
 
+        CubeColor[][] edgeUpOriginal = edges[up].getParts();
+        CubeColor[][] edgeUpCopy = edgesCopy[up].getParts();
+        CubeColor[][] edgeRightOriginal = edges[right].getParts();
+        CubeColor[][] edgeRightCopy = edgesCopy[right].getParts();
+        CubeColor[][] edgeDownOriginal = edges[down].getParts();
+        CubeColor[][] edgeDownCopy = edgesCopy[down].getParts();
+        CubeColor[][] edgeLeftOriginal = edges[left].getParts();
+        CubeColor[][] edgeLeftCopy = edgesCopy[left].getParts();
+
+        for (int i = 0; i < 3; i++) {
+            // Меняем переднюю грань
+            edgeFrontOriginal[0][i] = edgeFrontCopy[2-i][0];
+            edgeFrontOriginal[i][2] = edgeFrontCopy[0][i];
+            edgeFrontOriginal[2][i] = edgeFrontCopy[2-i][2];
+            edgeFrontOriginal[i][0] = edgeFrontCopy[2][i];
+            // Меняем смежные грани
+            edgeUpOriginal[2][i] = edgeLeftCopy[2-i][2];
+            edgeRightOriginal[i][0] = edgeUpCopy[2][i];
+            edgeDownOriginal[0][i] = edgeRightCopy[2-i][0];
+            edgeLeftOriginal[i][2] = edgeDownCopy[0][i];
+        }
+
+    }
+
+    public void front(RotateDirection direction) {
         if (direction == RotateDirection.CLOCKWISE) {
-            for (int i = 0; i < 3; i++) {
-                // Меняем переднюю грань
-                edgeFrontOriginal[0][i] = edgeFrontCopy[2-i][0];
-                edgeFrontOriginal[i][2] = edgeFrontCopy[0][i];
-                edgeFrontOriginal[2][i] = edgeFrontCopy[2-i][2];
-                edgeFrontOriginal[i][0] = edgeFrontCopy[2][i];
-                // Меняем смежные грани
-                edgeUpOriginal[2][i] = edgeLeftCopy[2-i][2];
-                edgeRightOriginal[i][0] = edgeUpCopy[2][i];
-                edgeDownOriginal[0][i] = edgeRightCopy[2-i][0];
-                edgeLeftOriginal[i][2] = edgeDownCopy[0][i];
-            }
+            rotateClockwise(4, 0, 3, 1, 2); // заполняем относительно того, какие грани по бокам
         } else {
-            for (int j = 0; j < 3; j++) {
-                for (int i = 0; i < 3; i++) {
-                    // Меняем переднюю грань
-                    edgeFrontOriginal[0][i] = edgeFrontCopy[2 - i][0];
-                    edgeFrontOriginal[i][2] = edgeFrontCopy[0][i];
-                    edgeFrontOriginal[2][i] = edgeFrontCopy[2 - i][2];
-                    edgeFrontOriginal[i][0] = edgeFrontCopy[2][i];
-                    // Меняем смежные грани
-                    edgeUpOriginal[2][i] = edgeLeftCopy[2 - i][2];
-                    edgeRightOriginal[i][0] = edgeUpCopy[2][i];
-                    edgeDownOriginal[0][i] = edgeRightCopy[2 - i][0];
-                    edgeLeftOriginal[i][2] = edgeDownCopy[0][i];
-                }
+            for (int i = 0; i < 3; i++) {
+                rotateClockwise(4, 0, 3, 1, 2);
             }
         }
     }
 
     public void back(RotateDirection direction) {
-        Edge[] edgesCopy = deepCloneEdges();
-
-        CubeColor[][] edgeBackOriginal = edges[EdgePosition.BACK.ordinal()].getParts();
-        CubeColor[][] edgeBackCopy = edgesCopy[EdgePosition.BACK.ordinal()].getParts();
-
-        CubeColor[][] edgeUpOriginal = edges[EdgePosition.UP.ordinal()].getParts();
-        CubeColor[][] edgeRightOriginal = edges[EdgePosition.RIGHT.ordinal()].getParts();
-        CubeColor[][] edgeDownOriginal = edges[EdgePosition.DOWN.ordinal()].getParts();
-        CubeColor[][] edgeLeftOriginal = edges[EdgePosition.LEFT.ordinal()].getParts();
-        CubeColor[][] edgeUpCopy = edgesCopy[EdgePosition.UP.ordinal()].getParts();
-        CubeColor[][] edgeRightCopy = edgesCopy[EdgePosition.RIGHT.ordinal()].getParts();
-        CubeColor[][] edgeDownCopy = edgesCopy[EdgePosition.DOWN.ordinal()].getParts();
-        CubeColor[][] edgeLeftCopy = edgesCopy[EdgePosition.LEFT.ordinal()].getParts();
-
         if (direction == RotateDirection.CLOCKWISE) {
-            for (int i = 0; i < 3; i++) {
-                edgeBackOriginal[0][i] = edgeBackCopy[2-i][0];
-                edgeBackOriginal[i][2] = edgeBackCopy[0][i];
-                edgeBackOriginal[2][i] = edgeBackCopy[2-i][2];
-                edgeBackOriginal[i][0] = edgeBackCopy[2][i];
-
-                edgeUpOriginal[0][i] = edgeRightCopy[i][2];
-                edgeRightOriginal[i][2] = edgeDownCopy[2][2-i];
-                edgeDownOriginal[2][i] = edgeLeftCopy[i][0];
-                edgeLeftOriginal[i][0] = edgeUpCopy[0][2-i];
-            }
+            rotateClockwise(5, 0, 2, 1, 3);
         } else {
-            for (int j = 0; j < 3; j++) {
-                for (int i = 0; i < 3; i++) {
-                    edgeBackOriginal[0][i] = edgeBackCopy[2-i][0];
-                    edgeBackOriginal[i][2] = edgeBackCopy[0][i];
-                    edgeBackOriginal[2][i] = edgeBackCopy[2-i][2];
-                    edgeBackOriginal[i][0] = edgeBackCopy[2][i];
-
-                    edgeUpOriginal[0][i] = edgeRightCopy[i][2];
-                    edgeRightOriginal[i][2] = edgeDownCopy[2][2-i];
-                    edgeDownOriginal[2][i] = edgeLeftCopy[i][0];
-                    edgeLeftOriginal[i][0] = edgeUpCopy[0][2-i];
-                }
+            for (int i = 0; i < 3; i++) {
+                rotateClockwise(5, 0, 2, 1, 3);
             }
         }
     }
 
     public void up(RotateDirection direction) {
-        Edge[] edgesCopy = deepCloneEdges();
-
-        CubeColor[][] edgeUpOriginal = edges[EdgePosition.UP.ordinal()].getParts();
-        CubeColor[][] edgeUpCopy = edgesCopy[EdgePosition.UP.ordinal()].getParts();
-
-        CubeColor[][] edgeFrontOriginal = edges[EdgePosition.FRONT.ordinal()].getParts();
-        CubeColor[][] edgeBackOriginal = edges[EdgePosition.BACK.ordinal()].getParts();
-        CubeColor[][] edgeRightOriginal = edges[EdgePosition.RIGHT.ordinal()].getParts();
-        CubeColor[][] edgeLeftOriginal = edges[EdgePosition.LEFT.ordinal()].getParts();
-        CubeColor[][] edgeFrontCopy = edgesCopy[EdgePosition.FRONT.ordinal()].getParts();
-        CubeColor[][] edgeBackCopy = edgesCopy[EdgePosition.BACK.ordinal()].getParts();
-        CubeColor[][] edgeRightCopy = edgesCopy[EdgePosition.RIGHT.ordinal()].getParts();
-        CubeColor[][] edgeLeftCopy = edgesCopy[EdgePosition.LEFT.ordinal()].getParts();
-
         if (direction == RotateDirection.CLOCKWISE) {
-            for (int i = 0; i < 3; i++) {
-                edgeUpOriginal[0][i] = edgeUpCopy[2-i][0];
-                edgeUpOriginal[i][2] = edgeUpCopy[0][i];
-                edgeUpOriginal[2][i] = edgeUpCopy[2-i][2];
-                edgeUpOriginal[i][0] = edgeUpCopy[2][i];
-
-                edgeBackOriginal[0][i] = edgeLeftCopy[0][i];
-                edgeLeftOriginal[0][i] = edgeFrontCopy[0][i];
-                edgeFrontOriginal[0][i] = edgeRightCopy[0][i];
-                edgeRightOriginal[0][i] = edgeBackCopy[0][i];
-            }
+            rotateClockwise(0, 5, 3, 4, 2);
         } else {
-            for (int j = 0; j < 3; j++) {
-                for (int i = 0; i < 3; i++) {
-                    edgeUpOriginal[0][i] = edgeUpCopy[2-i][0];
-                    edgeUpOriginal[i][2] = edgeUpCopy[0][i];
-                    edgeUpOriginal[2][i] = edgeUpCopy[2-i][2];
-                    edgeUpOriginal[i][0] = edgeUpCopy[2][i];
-
-                    edgeBackOriginal[0][i] = edgeLeftCopy[0][i];
-                    edgeLeftOriginal[0][i] = edgeFrontCopy[0][i];
-                    edgeFrontOriginal[0][i] = edgeRightCopy[0][i];
-                    edgeRightOriginal[0][i] = edgeBackCopy[0][i];
-                }
+            for (int i = 0; i < 3; i++) {
+                rotateClockwise(0, 5, 3, 4, 2);
             }
         }
     }
 
     public void down(RotateDirection direction) {
-        Edge[] edgesCopy = deepCloneEdges();
-
-        CubeColor[][] edgeDownOriginal = edges[EdgePosition.DOWN.ordinal()].getParts();
-        CubeColor[][] edgeDownCopy = edgesCopy[EdgePosition.DOWN.ordinal()].getParts();
-
-        CubeColor[][] edgeFrontOriginal = edges[EdgePosition.FRONT.ordinal()].getParts();
-        CubeColor[][] edgeBackOriginal = edges[EdgePosition.BACK.ordinal()].getParts();
-        CubeColor[][] edgeRightOriginal = edges[EdgePosition.RIGHT.ordinal()].getParts();
-        CubeColor[][] edgeLeftOriginal = edges[EdgePosition.LEFT.ordinal()].getParts();
-        CubeColor[][] edgeFrontCopy = edgesCopy[EdgePosition.FRONT.ordinal()].getParts();
-        CubeColor[][] edgeBackCopy = edgesCopy[EdgePosition.BACK.ordinal()].getParts();
-        CubeColor[][] edgeRightCopy = edgesCopy[EdgePosition.RIGHT.ordinal()].getParts();
-        CubeColor[][] edgeLeftCopy = edgesCopy[EdgePosition.LEFT.ordinal()].getParts();
-
-        if (direction == RotateDirection.COUNTERCLOCKWISE) {
-            for (int i = 0; i < 3; i++) {
-                edgeDownOriginal[0][i] = edgeDownCopy[2-i][0];
-                edgeDownOriginal[i][2] = edgeDownCopy[0][i];
-                edgeDownOriginal[2][i] = edgeDownCopy[2-i][2];
-                edgeDownOriginal[i][0] = edgeDownCopy[2][i];
-
-                edgeBackOriginal[2][i] = edgeRightCopy[2][i];
-                edgeLeftOriginal[2][i] = edgeBackCopy[2][i];
-                edgeFrontOriginal[2][i] = edgeLeftCopy[2][i];
-                edgeRightOriginal[2][i] = edgeFrontCopy[2][i];
-            }
+        if (direction == RotateDirection.CLOCKWISE) {
+            rotateClockwise(1, 4, 3, 5, 2);
         } else {
-            for (int j = 0; j < 3; j++) {
-                for (int i = 0; i < 3; i++) {
-                    edgeDownOriginal[0][i] = edgeDownCopy[2-i][0];
-                    edgeDownOriginal[i][2] = edgeDownCopy[0][i];
-                    edgeDownOriginal[2][i] = edgeDownCopy[2-i][2];
-                    edgeDownOriginal[i][0] = edgeDownCopy[2][i];
-
-                    edgeBackOriginal[2][i] = edgeRightCopy[2][i];
-                    edgeLeftOriginal[2][i] = edgeBackCopy[2][i];
-                    edgeFrontOriginal[2][i] = edgeLeftCopy[2][i];
-                    edgeRightOriginal[2][i] = edgeFrontCopy[2][i];
-                }
+            for (int i = 0; i < 3; i++) {
+                rotateClockwise(1, 4, 3, 5, 2);
             }
         }
     }
 
     public void right(RotateDirection direction) {
-        Edge[] edgesCopy = deepCloneEdges();
-
-        CubeColor[][] edgeRightOriginal = edges[EdgePosition.RIGHT.ordinal()].getParts();
-        CubeColor[][] edgeRightCopy = edgesCopy[EdgePosition.RIGHT.ordinal()].getParts();
-
-        CubeColor[][] edgeFrontOriginal = edges[EdgePosition.FRONT.ordinal()].getParts();
-        CubeColor[][] edgeBackOriginal = edges[EdgePosition.BACK.ordinal()].getParts();
-        CubeColor[][] edgeDownOriginal = edges[EdgePosition.DOWN.ordinal()].getParts();
-        CubeColor[][] edgeUpOriginal = edges[EdgePosition.UP.ordinal()].getParts();
-        CubeColor[][] edgeFrontCopy = edgesCopy[EdgePosition.FRONT.ordinal()].getParts();
-        CubeColor[][] edgeBackCopy = edgesCopy[EdgePosition.BACK.ordinal()].getParts();
-        CubeColor[][] edgeDownCopy = edgesCopy[EdgePosition.DOWN.ordinal()].getParts();
-        CubeColor[][] edgeUpCopy = edgesCopy[EdgePosition.UP.ordinal()].getParts();
-
         if (direction == RotateDirection.CLOCKWISE) {
-            for (int i = 0; i < 3; i++) {
-                edgeRightOriginal[0][i] = edgeRightCopy[2-i][0];
-                edgeRightOriginal[i][2] = edgeRightCopy[0][i];
-                edgeRightOriginal[2][i] = edgeRightCopy[2-i][2];
-                edgeRightOriginal[i][0] = edgeRightCopy[2][i];
-
-                edgeUpOriginal[i][2] = edgeFrontCopy[i][2];
-                edgeFrontOriginal[i][2] = edgeDownCopy[i][2];
-                edgeDownOriginal[i][2] = edgeBackCopy[2-i][0];
-                edgeBackOriginal[i][0] = edgeUpCopy[2-i][2];
-            }
+            rotateClockwise(3, 0, 5, 1, 4);
         } else {
-            for (int j = 0; j < 3; j++) {
-                for (int i = 0; i < 3; i++) {
-                    edgeRightOriginal[0][i] = edgeRightCopy[2 - i][0];
-                    edgeRightOriginal[i][2] = edgeRightCopy[0][i];
-                    edgeRightOriginal[2][i] = edgeRightCopy[2 - i][2];
-                    edgeRightOriginal[i][0] = edgeRightCopy[2][i];
-
-                    edgeUpOriginal[i][2] = edgeFrontCopy[i][2];
-                    edgeFrontOriginal[i][2] = edgeDownCopy[i][2];
-                    edgeDownOriginal[i][2] = edgeBackCopy[2 - i][0];
-                    edgeBackOriginal[i][0] = edgeUpCopy[2 - i][2];
-                }
+            for (int i = 0; i < 3; i++) {
+                rotateClockwise(3, 0, 5, 1, 4);
             }
         }
     }
 
     public void left(RotateDirection direction) {
-        Edge[] edgesCopy = deepCloneEdges();
-
-        CubeColor[][] edgeLeftOriginal = edges[EdgePosition.LEFT.ordinal()].getParts();
-        CubeColor[][] edgeLeftCopy = edgesCopy[EdgePosition.LEFT.ordinal()].getParts();
-
-        CubeColor[][] edgeFrontOriginal = edges[EdgePosition.FRONT.ordinal()].getParts();
-        CubeColor[][] edgeBackOriginal = edges[EdgePosition.BACK.ordinal()].getParts();
-        CubeColor[][] edgeDownOriginal = edges[EdgePosition.DOWN.ordinal()].getParts();
-        CubeColor[][] edgeUpOriginal = edges[EdgePosition.UP.ordinal()].getParts();
-        CubeColor[][] edgeFrontCopy = edgesCopy[EdgePosition.FRONT.ordinal()].getParts();
-        CubeColor[][] edgeBackCopy = edgesCopy[EdgePosition.BACK.ordinal()].getParts();
-        CubeColor[][] edgeDownCopy = edgesCopy[EdgePosition.DOWN.ordinal()].getParts();
-        CubeColor[][] edgeUpCopy = edgesCopy[EdgePosition.UP.ordinal()].getParts();
-
         if (direction == RotateDirection.CLOCKWISE) {
-            for (int i = 0; i < 3; i++) {
-                edgeLeftOriginal[0][i] = edgeLeftCopy[2-i][0];
-                edgeLeftOriginal[i][2] = edgeLeftCopy[0][i];
-                edgeLeftOriginal[2][i] = edgeLeftCopy[2-i][2];
-                edgeLeftOriginal[i][0] = edgeLeftCopy[2][i];
-
-                edgeUpOriginal[i][0] = edgeBackCopy[2-i][2];
-                edgeFrontOriginal[i][0] = edgeUpCopy[i][0];
-                edgeDownOriginal[i][0] = edgeFrontCopy[i][0];
-                edgeBackOriginal[i][2] = edgeDownCopy[2-i][0];
-            }
+            rotateClockwise(2, 0, 4, 1, 5);
         } else {
-            for (int j = 0; j < 3; j++) {
-                for (int i = 0; i < 3; i++) {
-                    edgeLeftOriginal[0][i] = edgeLeftCopy[2-i][0];
-                    edgeLeftOriginal[i][2] = edgeLeftCopy[0][i];
-                    edgeLeftOriginal[2][i] = edgeLeftCopy[2-i][2];
-                    edgeLeftOriginal[i][0] = edgeLeftCopy[2][i];
-
-                    edgeUpOriginal[i][0] = edgeBackCopy[2-i][2];
-                    edgeFrontOriginal[i][0] = edgeUpCopy[i][0];
-                    edgeDownOriginal[i][0] = edgeFrontCopy[i][0];
-                    edgeBackOriginal[i][2] = edgeDownCopy[2-i][0];
-                }
+            for (int i = 0; i < 3; i++) {
+                rotateClockwise(2, 0, 4, 1, 5);
             }
         }
     }
