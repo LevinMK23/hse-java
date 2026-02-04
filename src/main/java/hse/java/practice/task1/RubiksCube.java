@@ -26,8 +26,16 @@ public class RubiksCube {
         }
     }
 
+    private CubeColor[][] clone2d(CubeColor[][] original){
+        CubeColor[][] copy = new CubeColor[3][3];
+        for (int i = 0; i < 3; i++) {
+            System.arraycopy(original[i], 0, copy[i], 0, 3);
+        }
+        return copy;
+    }
+
     private void rotateSideClockWise(int side){
-        CubeColor[][] edgeClone = edges[side].getParts().clone();
+        CubeColor[][] edgeClone = clone2d(edges[side].getParts());
         edges[side].getParts()[0][0]=edgeClone[2][0];
         edges[side].getParts()[0][1]=edgeClone[1][0];
         edges[side].getParts()[0][2]=edgeClone[0][0];
@@ -45,10 +53,10 @@ public class RubiksCube {
     }
 
     public void front(RotateDirection direction) {
-        CubeColor[][] edge2Clone = edges[2].getParts().clone();
-        CubeColor[][] edge0Clone = edges[0].getParts().clone();
-        CubeColor[][] edge3Clone = edges[3].getParts().clone();
-        CubeColor[][] edge1Clone = edges[1].getParts().clone();
+        CubeColor[][] edge2Clone = clone2d(edges[2].getParts());
+        CubeColor[][] edge0Clone = clone2d(edges[0].getParts());
+        CubeColor[][] edge3Clone = clone2d(edges[3].getParts());
+        CubeColor[][] edge1Clone = clone2d(edges[1].getParts());
         if (direction==RotateDirection.CLOCKWISE){
             rotateSideClockWise(4);
             for (int i = 0; i < 3; i++) {
@@ -70,10 +78,10 @@ public class RubiksCube {
     }
 
     void up(RotateDirection direction){
-        CubeColor[][] edge2Clone = edges[2].getParts().clone();
-        CubeColor[][] edge4Clone = edges[4].getParts().clone();
-        CubeColor[][] edge3Clone = edges[3].getParts().clone();
-        CubeColor[][] edge5Clone = edges[5].getParts().clone();
+        CubeColor[][] edge2Clone = clone2d(edges[2].getParts());
+        CubeColor[][] edge4Clone = clone2d(edges[4].getParts());
+        CubeColor[][] edge3Clone = clone2d(edges[3].getParts());
+        CubeColor[][] edge5Clone = clone2d(edges[5].getParts());
         if (direction==RotateDirection.CLOCKWISE){
             rotateSideClockWise(0);
             for (int i = 0; i < 3; i++) {
@@ -95,10 +103,10 @@ public class RubiksCube {
     }
 
     void down(RotateDirection direction){
-        CubeColor[][] edge2Clone = edges[2].getParts().clone();
-        CubeColor[][] edge4Clone = edges[4].getParts().clone();
-        CubeColor[][] edge3Clone = edges[3].getParts().clone();
-        CubeColor[][] edge5Clone = edges[5].getParts().clone();
+        CubeColor[][] edge2Clone = clone2d(edges[2].getParts());
+        CubeColor[][] edge4Clone = clone2d(edges[4].getParts());
+        CubeColor[][] edge3Clone = clone2d(edges[3].getParts());
+        CubeColor[][] edge5Clone = clone2d(edges[5].getParts());
         if (direction==RotateDirection.CLOCKWISE){
             rotateSideClockWise(1);
             for (int i = 0; i < 3; i++) {
@@ -120,10 +128,10 @@ public class RubiksCube {
     }
 
     void left(RotateDirection direction){
-        CubeColor[][] edge0Clone = edges[0].getParts().clone();
-        CubeColor[][] edge4Clone = edges[4].getParts().clone();
-        CubeColor[][] edge1Clone = edges[1].getParts().clone();
-        CubeColor[][] edge5Clone = edges[5].getParts().clone();
+        CubeColor[][] edge0Clone = clone2d(edges[0].getParts());
+        CubeColor[][] edge4Clone = clone2d(edges[4].getParts());
+        CubeColor[][] edge1Clone = clone2d(edges[1].getParts());
+        CubeColor[][] edge5Clone = clone2d(edges[5].getParts());
         if (direction==RotateDirection.CLOCKWISE){
             rotateSideClockWise(2);
             for (int i = 0; i < 3; i++) {
@@ -145,10 +153,10 @@ public class RubiksCube {
     }
 
     void right(RotateDirection direction){
-        CubeColor[][] edge0Clone = edges[0].getParts().clone();
-        CubeColor[][] edge4Clone = edges[4].getParts().clone();
-        CubeColor[][] edge1Clone = edges[1].getParts().clone();
-        CubeColor[][] edge5Clone = edges[5].getParts().clone();
+        CubeColor[][] edge0Clone = clone2d(edges[0].getParts());
+        CubeColor[][] edge4Clone = clone2d(edges[4].getParts());
+        CubeColor[][] edge1Clone = clone2d(edges[1].getParts());
+        CubeColor[][] edge5Clone = clone2d(edges[5].getParts());
         if (direction==RotateDirection.CLOCKWISE){
             rotateSideClockWise(3);
             for (int i = 0; i < 3; i++) {
@@ -170,10 +178,10 @@ public class RubiksCube {
     }
 
     void back(RotateDirection direction){
-        CubeColor[][] edge2Clone = edges[2].getParts().clone();
-        CubeColor[][] edge0Clone = edges[0].getParts().clone();
-        CubeColor[][] edge3Clone = edges[3].getParts().clone();
-        CubeColor[][] edge1Clone = edges[1].getParts().clone();
+        CubeColor[][] edge2Clone = clone2d(edges[2].getParts());
+        CubeColor[][] edge0Clone = clone2d(edges[0].getParts());
+        CubeColor[][] edge3Clone = clone2d(edges[3].getParts());
+        CubeColor[][] edge1Clone = clone2d(edges[1].getParts());
         if (direction==RotateDirection.CLOCKWISE){
             rotateSideClockWise(5);
             for (int i = 0; i < 3; i++) {
