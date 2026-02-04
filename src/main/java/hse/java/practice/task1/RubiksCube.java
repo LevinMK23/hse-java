@@ -203,6 +203,10 @@ public class RubiksCube implements Cube {
         return result;
     }
 
+    public Edge[] getEdges() {
+        return edges;
+    }
+
     @Override
     public String toString() {
         return Arrays.toString(edges);
