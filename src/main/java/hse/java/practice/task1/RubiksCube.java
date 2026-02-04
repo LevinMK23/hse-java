@@ -107,7 +107,7 @@ public class RubiksCube {
         CubeColor[][] edgeDownCopy = edgesCopy[EdgePosition.DOWN.ordinal()].getParts();
         CubeColor[][] edgeLeftCopy = edgesCopy[EdgePosition.LEFT.ordinal()].getParts();
 
-        if (direction == RotateDirection.CLOCKWISE) { // возможно тут ошибка !
+        if (direction == RotateDirection.CLOCKWISE) {
             for (int i = 0; i < 3; i++) {
                 edgeBackOriginal[0][i] = edgeBackCopy[2-i][0];
                 edgeBackOriginal[i][2] = edgeBackCopy[0][i];
@@ -115,8 +115,8 @@ public class RubiksCube {
                 edgeBackOriginal[i][0] = edgeBackCopy[2][i];
 
                 edgeUpOriginal[0][i] = edgeRightCopy[i][2];
-                edgeRightOriginal[i][2] = edgeDownCopy[0][2-i];
-                edgeDownOriginal[0][i] = edgeLeftCopy[i][0];
+                edgeRightOriginal[i][2] = edgeDownCopy[2][2-i];
+                edgeDownOriginal[2][i] = edgeLeftCopy[i][0];
                 edgeLeftOriginal[i][0] = edgeUpCopy[0][2-i];
             }
         } else {
