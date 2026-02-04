@@ -47,15 +47,15 @@ public class RubiksCube implements Cube {
         CubeColor[] line4 = getCol(EdgePosition.RIGHT, 2);
 
         if (direction == RotateDirection.CLOCKWISE) {
-            setRow(EdgePosition.UP, 0, line2);
-            setCol(EdgePosition.LEFT, 0, reverse(line3));
-            setRow(EdgePosition.DOWN, 2, line4);
-            setCol(EdgePosition.RIGHT, 2, reverse(line1));
-        } else {
             setRow(EdgePosition.UP, 0, reverse(line4));
             setCol(EdgePosition.LEFT, 0, line1);
             setRow(EdgePosition.DOWN, 2, reverse(line2));
             setCol(EdgePosition.RIGHT, 2, line3);
+        } else {
+            setRow(EdgePosition.UP, 0, line2);
+            setCol(EdgePosition.LEFT, 0, reverse(line3));
+            setRow(EdgePosition.DOWN, 2, line4);
+            setCol(EdgePosition.RIGHT, 2, reverse(line1));
         }
     }
 
