@@ -51,7 +51,7 @@ public class RubiksCube implements Cube{
         Edge[] edges_copy = CopyArray();
         rotateFace(edges[4], edges_copy[4], direction);
         switch (direction) {
-            case RotateDirection.CLOCKWISE:
+            case CLOCKWISE:
                 for (int i = 0; i < 3; i++) {
                     edges[0].getParts()[2][i] = edges_copy[2].getParts()[i][2];
                     edges[1].getParts()[0][i] = edges_copy[3].getParts()[i][0];
@@ -60,7 +60,7 @@ public class RubiksCube implements Cube{
                 }
                 break;
 
-            case RotateDirection.COUNTERCLOCKWISE:
+            case COUNTERCLOCKWISE:
                 for (int i = 0; i < 3; i++) {
                     edges[2].getParts()[i][2] = edges_copy[0].getParts()[2][i];
                     edges[3].getParts()[i][0] = edges_copy[1].getParts()[0][i];
