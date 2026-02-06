@@ -31,6 +31,7 @@ public class Edge {
         this.parts = parts;
     }
 
+
     @Override
     public String toString() {
         return Arrays.deepToString(parts);
