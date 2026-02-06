@@ -7,8 +7,6 @@ import java.util.Arrays;
  * При повороте передней грани, меняются верх низ право и лево
  */
 public class RubiksCube implements Cube {
-
-
     private static final int EDGES_COUNT = 6;
     private static final int CUBE_DIMENSION = 3;
     private static final int CHANGEABLE = 48;
@@ -16,9 +14,6 @@ public class RubiksCube implements Cube {
 
     private final Edge[] edges = new Edge[EDGES_COUNT];
     private final int[] perm = new int[CHANGEABLE + 1];
-
-
-    private CubeColor
 
     /**
      * Создать валидный собранный кубик
@@ -69,7 +64,7 @@ public class RubiksCube implements Cube {
 
     private void turn(RotateDirection direction, int[][] matrix_of_perm) {
         for (int[] row : matrix_of_perm) {
-            if (direction.CLOCKWISE) {
+            if (direction == RotateDirection.CLOCKWISE) {
                 direct_rotate(row);
             }
             else {
@@ -83,7 +78,7 @@ public class RubiksCube implements Cube {
         for (int i = 0; i < row.length; i++) {
             int current = perm[row[i]];
             perm[row[i]] = last;
-            last = cur;
+            last = current;
         }
     }
 
@@ -168,6 +163,7 @@ public class RubiksCube implements Cube {
                 }
             }
         }
+        return result;
     }
 
     private int get_idx(int k, int j) {
