@@ -34,7 +34,6 @@ public class RubiksCube implements Cube {
             }
         }
         return copy;
-
     }
 
     public void front(RotateDirection direction) {
