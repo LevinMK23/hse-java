@@ -198,7 +198,7 @@ public class RubiksCube implements Cube{
         for (int i = 0; i < 6; i++) {
             CubeColor[][] parts =  new CubeColor[3][3];
             for (int j = 0; j < 3; j++) {
-                parts[j] = Arrays.copyOf(edges[i].getParts()[j], 3);
+                 parts[j] = Arrays.copyOf(edges[i].getParts()[j], 3);
             }
             edges_copy[i] =  new Edge(parts);
         }
