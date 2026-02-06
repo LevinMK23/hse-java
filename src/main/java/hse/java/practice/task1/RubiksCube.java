@@ -27,33 +27,214 @@ public class RubiksCube implements Cube {
     }
 
     @Override
-    public void up(RotateDirection direction) {
-
+    public void front(RotateDirection direction) {
+        if (direction == RotateDirection.COUNTERCLOCKWISE) {
+            front(RotateDirection.CLOCKWISE);
+            front(RotateDirection.CLOCKWISE);
+            front(RotateDirection.CLOCKWISE);
+            return;
+        }
+        
+        rotateEdge(edges[4]);
+        
+        CubeColor[] temp = new CubeColor[3];
+        for (int i = 0; i < 3; i++) {
+            temp[i] = edges[0].getParts()[2][i];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[0].getParts()[2][i] = edges[2].getParts()[i][2];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[2].getParts()[i][2] = edges[1].getParts()[0][2 - i];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[1].getParts()[0][i] = edges[3].getParts()[i][0];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[3].getParts()[i][0] = temp[2 - i];
+        }
     }
-
+    
+    @Override
+    public void up(RotateDirection direction) {
+        if (direction == RotateDirection.COUNTERCLOCKWISE) {
+            up(RotateDirection.CLOCKWISE);
+            up(RotateDirection.CLOCKWISE);
+            up(RotateDirection.CLOCKWISE);
+            return;
+        }
+        
+        rotateEdge(edges[0]);
+        
+        CubeColor[] temp = new CubeColor[3];
+        for (int i = 0; i < 3; i++) {
+            temp[i] = edges[4].getParts()[0][i];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[4].getParts()[0][i] = edges[3].getParts()[0][i];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[3].getParts()[0][i] = edges[5].getParts()[0][i];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[5].getParts()[0][i] = edges[2].getParts()[0][i];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[2].getParts()[0][i] = temp[i];
+        }
+    }
+    
     @Override
     public void down(RotateDirection direction) {
-
+        if (direction == RotateDirection.COUNTERCLOCKWISE) {
+            down(RotateDirection.CLOCKWISE);
+            down(RotateDirection.CLOCKWISE);
+            down(RotateDirection.CLOCKWISE);
+            return;
+        }
+        
+        rotateEdge(edges[1]);
+        
+        CubeColor[] temp = new CubeColor[3];
+        for (int i = 0; i < 3; i++) {
+            temp[i] = edges[4].getParts()[2][i];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[4].getParts()[2][i] = edges[2].getParts()[2][i];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[2].getParts()[2][i] = edges[5].getParts()[2][i];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[5].getParts()[2][i] = edges[3].getParts()[2][i];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[3].getParts()[2][i] = temp[i];
+        }
     }
-
+    
     @Override
     public void left(RotateDirection direction) {
-
+        if (direction == RotateDirection.COUNTERCLOCKWISE) {
+            left(RotateDirection.CLOCKWISE);
+            left(RotateDirection.CLOCKWISE);
+            left(RotateDirection.CLOCKWISE);
+            return;
+        }
+        
+        rotateEdge(edges[2]);
+        
+        CubeColor[] temp = new CubeColor[3];
+        for (int i = 0; i < 3; i++) {
+            temp[i] = edges[0].getParts()[i][0];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[0].getParts()[i][0] = edges[5].getParts()[2 - i][2];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[5].getParts()[i][2] = edges[1].getParts()[2 - i][0];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[1].getParts()[i][0] = edges[4].getParts()[i][0];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[4].getParts()[i][0] = temp[i];
+        }
     }
-
+    
     @Override
     public void right(RotateDirection direction) {
-
+        if (direction == RotateDirection.COUNTERCLOCKWISE) {
+            right(RotateDirection.CLOCKWISE);
+            right(RotateDirection.CLOCKWISE);
+            right(RotateDirection.CLOCKWISE);
+            return;
+        }
+        
+        rotateEdge(edges[3]);
+        
+        CubeColor[] temp = new CubeColor[3];
+        for (int i = 0; i < 3; i++) {
+            temp[i] = edges[0].getParts()[i][2];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[0].getParts()[i][2] = edges[4].getParts()[i][2];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[4].getParts()[i][2] = edges[1].getParts()[i][2];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[1].getParts()[i][2] = edges[5].getParts()[2 - i][0];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[5].getParts()[i][0] = temp[2 - i];
+        }
     }
-
-    @Override
-    public void front(RotateDirection direction) {
-
-    }
-
+    
     @Override
     public void back(RotateDirection direction) {
-
+        if (direction == RotateDirection.COUNTERCLOCKWISE) {
+            back(RotateDirection.CLOCKWISE);
+            back(RotateDirection.CLOCKWISE);
+            back(RotateDirection.CLOCKWISE);
+            return;
+        }
+        
+        rotateEdge(edges[5]);
+        
+        CubeColor[] temp = new CubeColor[3];
+        for (int i = 0; i < 3; i++) {
+            temp[i] = edges[0].getParts()[0][i];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[0].getParts()[0][i] = edges[3].getParts()[i][2];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[3].getParts()[i][2] = edges[1].getParts()[2][2 - i];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[1].getParts()[2][i] = edges[2].getParts()[i][0];
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            edges[2].getParts()[i][0] = temp[2 - i];
+        }
+    }
+    
+    private void rotateEdge(Edge edge) {
+        CubeColor[][] parts = edge.getParts();
+        CubeColor[][] rotated = new CubeColor[3][3];
+        
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                rotated[j][2 - i] = parts[i][j];
+            }
+        }
+        
+        edge.setParts(rotated);
     }
 
     public Edge[] getEdges() {
