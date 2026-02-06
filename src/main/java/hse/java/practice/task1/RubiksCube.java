@@ -28,22 +28,106 @@ public class RubiksCube implements Cube{
 
     @Override
     public void up(RotateDirection direction) {
-        System.out.println("1, 2, 3");
+        Edge[] edges_copy = CopyArray();
+        rotateFace(edges[0], edges_copy[0], direction);
+
+        switch (direction) {
+            case CLOCKWISE:
+                for (int i = 0; i < 3; i++) {
+                    edges[2].getParts()[0][i] = edges_copy[4].getParts()[0][i];
+                    edges[5].getParts()[0][i] = edges_copy[2].getParts()[0][i];
+                    edges[3].getParts()[0][i] = edges_copy[5].getParts()[0][i];
+                    edges[4].getParts()[0][i] = edges_copy[3].getParts()[0][i];
+                }
+                break;
+
+            case COUNTERCLOCKWISE:
+                for (int i = 0; i < 3; i++) {
+                    edges[4].getParts()[0][i] = edges_copy[2].getParts()[0][i];
+                    edges[2].getParts()[0][i] = edges_copy[5].getParts()[0][i];
+                    edges[5].getParts()[0][i] = edges_copy[3].getParts()[0][i];
+                    edges[3].getParts()[0][i] = edges_copy[4].getParts()[0][i];
+                }
+                break;
+        }
     }
 
     @Override
     public void down(RotateDirection direction) {
+        Edge[] edges_copy = CopyArray();
+        rotateFace(edges[1], edges_copy[1], direction);
 
+        switch (direction) {
+            case CLOCKWISE:
+                for (int i = 0; i < 3; i++) {
+                    edges[4].getParts()[2][i] = edges_copy[2].getParts()[2][i];
+                    edges[3].getParts()[2][i] = edges_copy[4].getParts()[2][i];
+                    edges[5].getParts()[2][i] = edges_copy[3].getParts()[2][i];
+                    edges[2].getParts()[2][i] = edges_copy[5].getParts()[2][i];
+                }
+                break;
+
+            case COUNTERCLOCKWISE:
+                for (int i = 0; i < 3; i++) {
+                    edges[2].getParts()[2][i] = edges_copy[4].getParts()[2][i];
+                    edges[4].getParts()[2][i] = edges_copy[3].getParts()[2][i];
+                    edges[3].getParts()[2][i] = edges_copy[5].getParts()[2][i];
+                    edges[5].getParts()[2][i] = edges_copy[2].getParts()[2][i];
+                }
+                break;
+        }
     }
 
     @Override
     public void left(RotateDirection direction) {
+        Edge[] edges_copy = CopyArray();
+        rotateFace(edges[2], edges_copy[2], direction);
 
+        switch (direction) {
+            case CLOCKWISE:
+                for (int i = 0; i < 3; i++) {
+                    edges[4].getParts()[i][0] = edges_copy[0].getParts()[i][0];
+                    edges[1].getParts()[i][0] = edges_copy[4].getParts()[i][0];
+                    edges[5].getParts()[2 - i][2] = edges_copy[1].getParts()[i][0];
+                    edges[0].getParts()[i][0] = edges_copy[5].getParts()[2 - i][2];
+                }
+                break;
+
+            case COUNTERCLOCKWISE:
+                for (int i = 0; i < 3; i++) {
+                    edges[0].getParts()[i][0] = edges_copy[4].getParts()[i][0];
+                    edges[4].getParts()[i][0] = edges_copy[1].getParts()[i][0];
+                    edges[1].getParts()[i][0] = edges_copy[5].getParts()[2 - i][2];
+                    edges[5].getParts()[2 - i][2] = edges_copy[0].getParts()[i][0];
+                }
+                break;
+        }
     }
 
     @Override
     public void right(RotateDirection direction) {
+        Edge[] edges_copy = CopyArray();
+        rotateFace(edges[3], edges_copy[3], direction);
 
+        switch (direction) {
+            case CLOCKWISE:
+                for (int i = 0; i < 3; i++) {
+                    edges[5].getParts()[2 - i][0] = edges_copy[0].getParts()[i][2];
+                    edges[1].getParts()[i][2] = edges_copy[5].getParts()[2 - i][0];
+                    edges[4].getParts()[i][2] = edges_copy[1].getParts()[i][2];
+                    edges[0].getParts()[i][2] = edges_copy[4].getParts()[i][2];
+                }
+                break;
+
+            case COUNTERCLOCKWISE:
+                for (int i = 0; i < 3; i++) {
+                    edges[0].getParts()[i][2] = edges_copy[5].getParts()[2 - i][0];
+                    edges[5].getParts()[2 - i][0] = edges_copy[1].getParts()[i][2];
+                    edges[1].getParts()[i][2] = edges_copy[4].getParts()[i][2];
+                    edges[4].getParts()[i][2] = edges_copy[0].getParts()[i][2];
+                }
+                break;
+        }
     }
 
     @Override
@@ -67,12 +151,34 @@ public class RubiksCube implements Cube{
                     edges[1].getParts()[0][i] = edges_copy[2].getParts()[i][2];
                     edges[0].getParts()[2][i] = edges_copy[3].getParts()[i][0];
                 }
+                break;
         }
     }
 
     @Override
     public void back(RotateDirection direction) {
+        Edge[] edges_copy = CopyArray();
+        rotateFace(edges[5], edges_copy[5], direction);
 
+        switch (direction) {
+            case CLOCKWISE:
+                for (int i = 0; i < 3; i++) {
+                    edges[0].getParts()[0][i] = edges_copy[3].getParts()[i][2];
+                    edges[2].getParts()[2 - i][0] = edges_copy[0].getParts()[0][i];
+                    edges[1].getParts()[2][i] = edges_copy[2].getParts()[i][0];
+                    edges[3].getParts()[2 - i][2] = edges_copy[1].getParts()[2][i];
+                }
+                break;
+
+            case COUNTERCLOCKWISE:
+                for (int i = 0; i < 3; i++) {
+                    edges[3].getParts()[i][2] = edges_copy[0].getParts()[0][i];
+                    edges[0].getParts()[0][i] = edges_copy[2].getParts()[2 - i][0];
+                    edges[2].getParts()[i][0] = edges_copy[1].getParts()[2][i];
+                    edges[1].getParts()[2][i] = edges_copy[3].getParts()[2 - i][2];
+                }
+                break;
+        }
     }
 
     public void rotateFace(Edge Orig, Edge Copy, RotateDirection direction) {
