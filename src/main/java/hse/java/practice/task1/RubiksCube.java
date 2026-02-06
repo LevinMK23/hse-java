@@ -267,24 +267,4 @@ public class RubiksCube implements Cube {
         return Arrays.toString(edges);
     }
 
-    /**
-     * Это я писал для тестов.
-     * Думаю, что не пригодится в тестирующей системе.
-     */
-
-    // @Override
-    // public boolean equals(Object o) {
-    // if (this == o)
-    // return true;
-    // if (o == null || getClass() != o.getClass())
-    // return false;
-    // RubiksCube that = (RubiksCube) o;
-    // return Arrays.equals(edges, that.edges);
-    // }
-
-    // @Override
-    // public int hashCode() {
-    // return Arrays.hashCode(edges);
-    // }
-
 }
