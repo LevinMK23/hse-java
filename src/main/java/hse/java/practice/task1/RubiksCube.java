@@ -6,7 +6,7 @@ import java.util.Arrays;
  * Необходимо реализовать интерфейс Cube
  * При повороте передней грани, меняются верх низ право и лево
  */
-public class RubiksCube {
+public class RubiksCube implements Cube {
 
     private static final int EDGES_COUNT = 6;
 
