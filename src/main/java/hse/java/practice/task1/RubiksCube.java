@@ -181,6 +181,7 @@ public class RubiksCube implements Cube {
         rotateWithTransfers(EdgePosition.FRONT, transfers, direction);
     }
 
+
     @Override
     public void back(RotateDirection direction) {
         FaceConnection[] transfers = {
