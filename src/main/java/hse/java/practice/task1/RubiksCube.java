@@ -3,7 +3,6 @@ package hse.java.practice.task1;
 import java.util.Arrays;
 
 public class RubiksCube implements Cube {
-
     private static final int EDGES_COUNT = 6;
     private final Edge[] edges = new Edge[EDGES_COUNT];
 
