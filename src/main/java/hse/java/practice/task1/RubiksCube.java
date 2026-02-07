@@ -64,7 +64,9 @@ public class RubiksCube implements Cube {
 
     @Override
     public void up(RotateDirection direction) {
-        swap(EdgePosition.FRONT.ordinal(), EdgePosition.UP.ordinal());
+        RotateEdge(RotateDirection.CLOCKWISE, edges[EdgePosition.BACK.ordinal()].getParts());
+        RotateEdge(RotateDirection.CLOCKWISE, edges[EdgePosition.BACK.ordinal()].getParts());
+        swap(EdgePosition.UP.ordinal(), EdgePosition.FRONT.ordinal());
         swap(EdgePosition.UP.ordinal(), EdgePosition.DOWN.ordinal());
         swap(EdgePosition.UP.ordinal(), EdgePosition.BACK.ordinal());
         RotateEdge(RotateDirection.CLOCKWISE, edges[EdgePosition.LEFT.ordinal()].getParts());
@@ -74,12 +76,16 @@ public class RubiksCube implements Cube {
         RotateEdge(RotateDirection.COUNTERCLOCKWISE, edges[EdgePosition.LEFT.ordinal()].getParts());
         swap(EdgePosition.UP.ordinal(), EdgePosition.BACK.ordinal());
         swap(EdgePosition.UP.ordinal(), EdgePosition.DOWN.ordinal());
-        swap(EdgePosition.FRONT.ordinal(), EdgePosition.UP.ordinal());
+        swap(EdgePosition.UP.ordinal(), EdgePosition.FRONT.ordinal());
+        RotateEdge(RotateDirection.CLOCKWISE, edges[EdgePosition.BACK.ordinal()].getParts());
+        RotateEdge(RotateDirection.CLOCKWISE, edges[EdgePosition.BACK.ordinal()].getParts());
     }
 
 
     @Override
     public void down(RotateDirection direction) {
+        RotateEdge(RotateDirection.CLOCKWISE, edges[EdgePosition.BACK.ordinal()].getParts());
+        RotateEdge(RotateDirection.CLOCKWISE, edges[EdgePosition.BACK.ordinal()].getParts());
         swap(EdgePosition.DOWN.ordinal(), EdgePosition.FRONT.ordinal());
         swap(EdgePosition.DOWN.ordinal(), EdgePosition.UP.ordinal());
         swap(EdgePosition.DOWN.ordinal(), EdgePosition.BACK.ordinal());
@@ -91,6 +97,8 @@ public class RubiksCube implements Cube {
         swap(EdgePosition.DOWN.ordinal(), EdgePosition.BACK.ordinal());
         swap(EdgePosition.DOWN.ordinal(), EdgePosition.UP.ordinal());
         swap(EdgePosition.DOWN.ordinal(), EdgePosition.FRONT.ordinal());
+        RotateEdge(RotateDirection.CLOCKWISE, edges[EdgePosition.BACK.ordinal()].getParts());
+        RotateEdge(RotateDirection.CLOCKWISE, edges[EdgePosition.BACK.ordinal()].getParts());
     }
 
     @Override
@@ -179,3 +187,7 @@ public class RubiksCube implements Cube {
         return Arrays.toString(edges);
     }
 }
+
+//[[[GREEN, GREEN, GREEN], [GREEN, GREEN, GREEN], [GREEN, GREEN, GREEN]], [[RED, RED, RED], [RED, RED, RED], [RED, RED, RED]], [[BLUE, BLUE, BLUE], [BLUE, BLUE, BLUE], [BLUE, BLUE, BLUE]], [[WHITE, WHITE, WHITE], [WHITE, WHITE, WHITE], [WHITE, WHITE, WHITE]], [[YELLOW, YELLOW, YELLOW], [YELLOW, YELLOW, YELLOW], [YELLOW, YELLOW, YELLOW]], [[ORANGE, ORANGE, ORANGE], [ORANGE, ORANGE, ORANGE], [ORANGE, ORANGE, ORANGE]]]
+//[[[GREEN, GREEN, GREEN], [GREEN, GREEN, GREEN], [GREEN, GREEN, GREEN]], [[RED, RED, RED], [RED, RED, RED], [RED, RED, RED]], [[YELLOW, YELLOW, YELLOW], [BLUE, BLUE, BLUE], [BLUE, BLUE, BLUE]], [[ORANGE, ORANGE, ORANGE], [WHITE, WHITE, WHITE], [WHITE, WHITE, WHITE]], [[WHITE, WHITE, WHITE], [YELLOW, YELLOW, YELLOW], [YELLOW, YELLOW, YELLOW]], [[BLUE, BLUE, BLUE], [ORANGE, ORANGE, ORANGE], [ORANGE, ORANGE, ORANGE]]]
+//[[[GREEN, GREEN, GREEN], [GREEN, GREEN, GREEN], [GREEN, GREEN, GREEN]], [[RED, RED, RED], [RED, RED, RED], [RED, RED, RED]], [[WHITE, WHITE, WHITE], [BLUE, BLUE, BLUE], [BLUE, BLUE, BLUE]], [[BLUE, BLUE, BLUE], [WHITE, WHITE, WHITE], [WHITE, WHITE, WHITE]], [[ORANGE, ORANGE, ORANGE], [YELLOW, YELLOW, YELLOW], [YELLOW, YELLOW, YELLOW]], [[YELLOW, YELLOW, YELLOW], [ORANGE, ORANGE, ORANGE], [ORANGE, ORANGE, ORANGE]]]
