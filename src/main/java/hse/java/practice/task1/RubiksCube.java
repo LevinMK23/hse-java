@@ -32,6 +32,7 @@ public class RubiksCube implements Cube {
         edges[b] = tmp;
     }
 
+
     private void RotateEdge(RotateDirection direction, CubeColor[][] edge) {
         if (RotateDirection.CLOCKWISE == direction) {
             CubeColor tmp_cell = edge[0][0];
