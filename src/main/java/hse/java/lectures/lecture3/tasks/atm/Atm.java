@@ -26,19 +26,85 @@ public class Atm {
         }
     }
 
-    private final Map<Denomination, Integer> banknotes = new EnumMap<>(Denomination.class);
+    private Map<Denomination, Integer> banknotes = new EnumMap<>(Denomination.class);
+
+    private Denomination getDenominationByValue(int value) {
+        for (Denomination denomination : Denomination.values()) {
+            if (denomination.value() == value) {
+                return denomination;
+            }
+        }
+        throw new IllegalArgumentException("Invalid denomination value: " + value);
+    }
 
     public Atm() {
     }
 
-    public void deposit(Map<Integer, Integer> banknotes){}
+    public void deposit(Map<Integer, Integer> bills) {
+        if (bills == null) {
+            throw new InvalidDepositException("Bills map cannot be null");
+        }
+
+        for (Map.Entry<Integer, Integer> entry : bills.entrySet()) {
+            int denominationValue = entry.getKey();
+            int count = entry.getValue();
+
+            if (count <= 0) {
+                throw new InvalidDepositException("Count must be positive for denomination: " + denominationValue);
+            }
+
+            Denomination denomination;
+            try {
+                denomination = getDenominationByValue(denominationValue);
+            } catch (IllegalArgumentException e) {
+                throw new InvalidDepositException("Invalid denomination: " + denominationValue);
+            }
+
+            banknotes.put(denomination, banknotes.getOrDefault(denomination, 0) + count);
+        }
+    }
 
     public Map<Integer, Integer> withdraw(int amount) {
-        return Map.of();
+        if (amount <= 0) {
+            throw new InvalidAmountException("Amount must be positive");
+        }
+
+        if (amount > getBalance()) {
+            throw new InsufficientFundsException("Not enough funds in the ATM");
+        }
+
+        Map<Integer, Integer> result = new HashMap<>();
+        var banknoteCopy = new EnumMap<>(banknotes);
+
+
+        for (int i = Denomination.values().length - 1; i >= 0; i--) {
+            Denomination denomination = Denomination.values()[i];
+            int availableCount = banknotes.getOrDefault(denomination, 0);
+            int neededCount = amount / denomination.value();
+            int countToDispense = Math.min(availableCount, neededCount);
+
+            if (countToDispense > 0) {
+                result.put(denomination.value(), countToDispense);
+                amount -= countToDispense * denomination.value();
+                banknotes.put(denomination, availableCount - countToDispense);
+            }
+        }
+
+        if (amount != 0) {
+            banknotes = banknoteCopy;
+            throw new CannotDispenseException("Not enough funds in the ATM");
+        }
+
+        return result;
     }
 
     public int getBalance() {
-        return 0;
+        int result = 0;
+        for (Map.Entry<Denomination, Integer> entry : banknotes.entrySet()) {
+            Denomination denomination = entry.getKey();
+            int count = entry.getValue();
+            result += count * denomination.value();
+        }
+        return result;
     }
-
 }
