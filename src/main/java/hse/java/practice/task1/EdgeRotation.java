@@ -30,9 +30,9 @@ public class EdgeRotation {
     public static final int[][] RIGHT_CLOCKWISE = {
             {24, 26, 31, 29},
             {25, 28, 30, 27},
-            {2, 34, 10, 45},
-            {4, 36, 12, 43},
-            {7, 39, 15, 40}
+            {2, 45, 10, 34},
+            {4, 43, 12, 36},
+            {7, 40, 15, 39}
     };
     public static final int[][] RIGHT_COUNTERCLOCKWISE = reverseDirection(RIGHT_CLOCKWISE);
 
