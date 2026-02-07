@@ -7,5 +7,5 @@ public enum RotateDirection {
     // Против часовой стрелки
     COUNTERCLOCKWISE,
     // По часовой стрелке
-    CLOCKWISE
+    CLOCKWISE;
 }

@@ -1,9 +1,12 @@
 package hse.java;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        IntExpression expr = new Mul(
+            new Sum(new Const(1), new Const(2)),
+            new Sub(new Const(5), new Const(3))
+        );
+        System.out.println(expr.toString());
+        System.out.println(expr.eval());
     }
 }
