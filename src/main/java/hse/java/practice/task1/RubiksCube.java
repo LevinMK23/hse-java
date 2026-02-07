@@ -36,7 +36,6 @@ public class RubiksCube implements Cube {
         return copy;
     }
 
-    @Override
     public void front(RotateDirection direction) {
         CubeColor[][] parts_right = edges[3].getParts(),parts_down = edges[1].getParts(), parts_left = edges[2].getParts();
         CubeColor[][] parts_up = edges[0].getParts(), parts_front = edges[4].getParts(), parts_back = edges[5].getParts();
@@ -85,15 +84,15 @@ public class RubiksCube implements Cube {
         switch (direction) {
             case CLOCKWISE -> {
                 for (int i = 0; i < 3; i++) {
-                    parts_right[i][2] = color_down[2][2 - i];
-                    parts_down[2][i] = color_left[i][0];
-                    parts_left[i][0] = color_up[0][2 - i];
-                    parts_up[0][i] = color_right[i][2];
+                    parts_right[i][2] = color_up[0][i];
+                    parts_down[2][i] = color_right[2 - i][2];
+                    parts_left[i][0] = color_down[2][i];
+                    parts_up[0][i] = color_left[2 - i][0];
                 }
 
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
-                        parts_back[i][j] = color_back[2 - j][i];
+                        parts_back[i][j] = color_back[j][2 - i];
                     }
                 }
 
@@ -161,15 +160,15 @@ public class RubiksCube implements Cube {
         switch (direction) {
             case CLOCKWISE -> {
                 for (int i = 0; i < 3; i++) {
-                    parts_right[2][i] = color_front[2][i];
-                    parts_front[2][i] = color_left[2][i];
-                    parts_left[2][i] = color_back[2][i];
-                    parts_back[2][i] = color_right[2][i];
+                    parts_right[2][i] = color_back[2][i];
+                    parts_front[2][i] = color_right[2][i];
+                    parts_left[2][i] = color_front[2][i];
+                    parts_back[2][i] = color_left[2][i];
                 }
 
                 for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
-                        parts_down[i][j] = color_down[2 - j][i];
+                        parts_down[i][j] = color_down[j][2 - i];
                     }
                 }
 
@@ -200,10 +199,10 @@ public class RubiksCube implements Cube {
         switch (direction) {
             case CLOCKWISE -> {
                 for (int i = 0; i < 3; i++) {
-                    parts_front[i][0] = color_up[i][0];
-                    parts_up[i][0] = color_back[2 - i][2];
-                    parts_back[i][2] = color_down[2 - i][0];
-                    parts_down[i][0] = color_front[i][0];
+                    parts_front[i][0] = color_down[i][0];
+                    parts_up[i][0] = color_front[i][0];
+                    parts_back[i][2] = color_up[2 - i][0];
+                    parts_down[i][0] = color_back[2 - i][2];
 
                 }
 
@@ -231,7 +230,7 @@ public class RubiksCube implements Cube {
 
     @Override
     public void right(RotateDirection direction) {
-        CubeColor[][] parts_right = edges[3].getParts(), parts_down = edges[1].getParts(), parts_left = edges[2].getParts();
+        CubeColor[][] parts_right = edges[3].getParts(),parts_down = edges[1].getParts(), parts_left = edges[2].getParts();
         CubeColor[][] parts_up = edges[0].getParts(), parts_front = edges[4].getParts(), parts_back = edges[5].getParts();
 
         CubeColor[][] color_up = copy(parts_up), color_right = copy(parts_right), color_left = copy(parts_left);
@@ -266,6 +265,7 @@ public class RubiksCube implements Cube {
                 right(RotateDirection.CLOCKWISE);
             }
         }
+
     }
 
     public Edge[] getEdges() {
