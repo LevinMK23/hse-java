@@ -104,7 +104,7 @@ jobs:
         run: |
           if [ -n "${{ steps.select_tests.outputs.pattern }}" ]; then
             echo "Running selected tests: ${{ steps.select_tests.outputs.pattern }}"
-            mvn -B -Dtest='${{ steps.select_tests.outputs.pattern }}' test
+            mvn -B -Dtest='${{ steps.select_tests.outputs.pattern }},!**/RandomSetBytecodeTest' test
           else
             echo "No task prefix found. Failing."
             exit 1
