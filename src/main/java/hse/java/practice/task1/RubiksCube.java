@@ -47,21 +47,6 @@ public class RubiksCube implements Cube {
     public String toString() {
         return Arrays.toString(edges);
     }
-    /*
-    1 2 3        3 6 9
-    4 5 6   ->   2 5 8
-    7 8 9        1 4 7
-
-    (0, 0) -> (0, 2)
-    (0, 1) -> (1, 2)
-    (0, 2) -> (2, 2)
-    (1, 0) -> (0, 1)
-    (1, 1) -> (1, 1)
-    (1, 2) -> (2, 1)
-    (2, 0) -> (0, 0)
-    (2, 1) -> (1, 0)
-    (2, 2) -> (2, 0)
-    */
 
     private CubeColor[] getColumn(Edge edge, int colIdx) {
         CubeColor[] column = new CubeColor[3];
