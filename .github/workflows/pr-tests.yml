@@ -45,7 +45,7 @@ jobs:
           find src/test/java src/test/resources -type f | sort | while read f; do echo "  $f"; done
           rm -rf hidden-tests
 
-      - name: Select test pattern from PR labels
+      - name: Select test pattern from commit message
         id: select_tests
         uses: actions/github-script@v7
         with:
@@ -70,7 +70,6 @@ jobs:
             if (msg.startsWith('randomset:')) add('**/randomSet/*Test');
             if (msg.startsWith('cube:')) add('**/CubeSimpleTest');
 
-            // If no task prefix, run all tests
             core.setOutput('pattern', patterns.length ? patterns.join(',') : '');
 
       - name: Run honors no-collections test
@@ -93,7 +92,7 @@ jobs:
               'Поздравляем! 🎉',
               '',
               'Вы решили сложную версию: решение прошло проверку «без коллекций».'
-            ].join('\\n');
+            ].join('\n');
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -107,7 +106,8 @@ jobs:
             echo "Running selected tests: ${{ steps.select_tests.outputs.pattern }}"
             mvn -B -Dtest='${{ steps.select_tests.outputs.pattern }}' test
           else
-            echo "No task prefix found. Skipping tests."
+            echo "No task prefix found. Failing."
+            exit 1
           fi
 
       - name: Comment on PR when no task prefix
@@ -124,8 +124,8 @@ jobs:
               'Тесты не запускались.',
               '',
               'Укажите задачу в начале сообщения коммита:',
-              '`atm: ...`, `html: ...`, `randomset: ...`'
-            ].join('\\n');
+              'atm: ..., html: ..., randomset: ...'
+            ].join('\n');
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
