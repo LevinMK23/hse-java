@@ -30,7 +30,7 @@ public class RubiksCube implements Cube {
 
     private void applyCycle(int[] cycle) {
         CubeColor temp = getSticker(cycle[cycle.length - 1]);
-        for (int i = cycle.length - 2; i > 0; i--) {
+        for (int i = cycle.length - 1; i > 0; i--) {
             setSticker(cycle[i], getSticker(cycle[i - 1]));
         }
         setSticker(cycle[0], temp);

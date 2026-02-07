@@ -4,6 +4,7 @@ package hse.java.practice.task1;
  * Рассматриваем кубик Рубика как подгруппу симметрической группы S48,
  * которая действует на 48 стикерах (по 8 стикеров на каждой из 6 граней, центры неподвижны).
  * Поворот грани = это перестановка, которая циклически меняет 4 стикера на грани и 12 стикеров на соседних гранях.
+ * НА ВИКИ ПОДРОБНЕЕ.
  */
 public class EdgeRotation {
     private static final int STICKERS_ON_EDGE = 8;
@@ -71,8 +72,9 @@ public class EdgeRotation {
         for (int i = 0; i < rotation.length; i++) {
             var row = rotation[i];
             var reversedRow = new int[row.length];
-            for (int j = 0; j < row.length; j++) {
-                reversedRow[j] = row[(j + 3) % row.length];
+            reversedRow[0] = row[0];
+            for (int j = 1; j < row.length; j++) {
+                reversedRow[j] = row[row.length - j];
             }
             result[i] = reversedRow;
         }
@@ -98,6 +100,18 @@ public class EdgeRotation {
      */
     public static PartsIndex stickerIndexToPartsIndex(int stickerIndex) {
         int stickerIndexOnEdge = stickerIndex % STICKERS_ON_EDGE;
-        return new PartsIndex(stickerIndexOnEdge / 3, stickerIndex % 3);
+        int row;
+        int column;
+        if (stickerIndexOnEdge < 3) {
+            row = 0;
+            column = stickerIndexOnEdge;
+        } else if (stickerIndexOnEdge < 5) {
+            row = 1;
+            column = (stickerIndexOnEdge == 3) ? 0 : 2;
+        } else {
+            row = 2;
+            column = stickerIndexOnEdge - 5;
+        }
+        return new PartsIndex(row, column);
     }
 }
