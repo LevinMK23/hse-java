@@ -161,12 +161,12 @@ public class RubiksCube implements Cube {
             reverse(upColumn);
             edges[EdgePosition.BACK.ordinal()].setColumn(0, upColumn);
         } else {
-            edges[EdgePosition.UP.ordinal()].setColumn(2, frontColumn);
-            edges[EdgePosition.FRONT.ordinal()].setColumn(2, downColumn);
             reverse(backColumn);
-            edges[EdgePosition.DOWN.ordinal()].setColumn(2, backColumn);
-            reverse(upColumn);
-            edges[EdgePosition.BACK.ordinal()].setColumn(0, upColumn);
+            edges[EdgePosition.UP.ordinal()].setColumn(2, backColumn);
+            edges[EdgePosition.FRONT.ordinal()].setColumn(2, upColumn);
+            edges[EdgePosition.DOWN.ordinal()].setColumn(2, frontColumn);
+            reverse(downColumn);
+            edges[EdgePosition.BACK.ordinal()].setColumn(0, downColumn);
         }
     }
 
