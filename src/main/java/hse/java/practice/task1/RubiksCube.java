@@ -72,10 +72,6 @@ public class RubiksCube implements Cube {
         return copy;
     }
 
-    // clockwise left: 4 <- 0 <- 5 <- 1
-    // counter left: 4 <- 1 <- 5 <- 0
-    // clockwise right = counter left
-    // counter right = clockwise right
     private void rotateSideEdges(RotateDirection direction, int primary_col) {
         int side_col = primary_col ^ 2;
 
@@ -221,13 +217,13 @@ public class RubiksCube implements Cube {
     public void front(RotateDirection direction) {
         rotateEdge(edges[4], direction);
 
-        rotateSidesFrontBack(direction, 2);
+        rotateSidesFrontBack(direction, 0);
     }
 
     @Override
     public void back(RotateDirection direction) {
         rotateEdge(edges[5], direction);
 
-        rotateSidesFrontBack(direction, 0);
+        rotateSidesFrontBack(direction, 2);
     }
 }
