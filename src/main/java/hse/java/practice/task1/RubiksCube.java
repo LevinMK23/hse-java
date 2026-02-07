@@ -42,31 +42,36 @@ public class RubiksCube implements Cube {
             this.rotateEdgeClockwise(0);
             CubeColor[] temp = new CubeColor[3];
             CubeColor[][] p2 = edges[2].getParts();
-            CubeColor[][] p3= edges[3].getParts();
+            CubeColor[][] p3 = edges[3].getParts();
             CubeColor[][] p4 = edges[4].getParts();
             CubeColor[][] p5 = edges[5].getParts();
+
             for (int j = 0; j < 3; j++) {
-                temp[j] = p2[0][j];
+                temp[j] = p4[0][j];
             }
-            for (int j = 0; j < 3; j++) {
-                p2[0][j] = p4[0][j];
-            }
+
             for (int j = 0; j < 3; j++) {
                 p4[0][j] = p3[0][j];
             }
+
             for (int j = 0; j < 3; j++) {
                 p3[0][j] = p5[0][j];
             }
+
             for (int j = 0; j < 3; j++) {
-                p5[0][j] = temp[j];
+                p5[0][j] = p2[0][j];
             }
+
+            for (int j = 0; j < 3; j++) {
+                p2[0][j] = temp[j];
+            }
+
             edges[2].setParts(p2);
             edges[3].setParts(p3);
             edges[4].setParts(p4);
             edges[5].setParts(p5);
         }
     }
-
     @Override
     public void down(RotateDirection direction) {
         int k = 1;
@@ -82,19 +87,23 @@ public class RubiksCube implements Cube {
             CubeColor[][] p5 = edges[5].getParts();
 
             for (int j = 0; j < 3; j++) {
-                temp[j] = p2[2][j];
+                temp[j] = p4[2][j];
             }
+
             for (int j = 0; j < 3; j++) {
-                p2[2][j] = p4[2][j];
+                p4[2][j] = p2[2][j];
             }
+
             for (int j = 0; j < 3; j++) {
-                p4[2][j] = p3[2][j];
+                p2[2][j] = p5[2][j];
             }
+
             for (int j = 0; j < 3; j++) {
-                p3[2][j] = p5[2][j];
+                p5[2][j] = p3[2][j];
             }
+
             for (int j = 0; j < 3; j++) {
-                p5[2][j] = temp[j];
+                p3[2][j] = temp[j];
             }
 
             edges[2].setParts(p2);
@@ -121,17 +130,21 @@ public class RubiksCube implements Cube {
             for (int j = 0; j < 3; j++) {
                 temp[j] = p0[j][0];
             }
+
             for (int j = 0; j < 3; j++) {
-                p0[j][0] = p4[j][0];
+                p0[j][0] = p5[2-j][2];
             }
+
             for (int j = 0; j < 3; j++) {
-                p4[j][0] = p1[j][0];
+                p5[j][2] = p1[2-j][0];
             }
+
             for (int j = 0; j < 3; j++) {
-                p1[j][0] = p5[2-j][2];
+                p1[j][0] = p4[j][0];
             }
+
             for (int j = 0; j < 3; j++) {
-                p5[2-j][2] = temp[j];
+                p4[j][0] = temp[j];
             }
 
             edges[0].setParts(p0);
@@ -158,17 +171,21 @@ public class RubiksCube implements Cube {
             for (int j = 0; j < 3; j++) {
                 temp[j] = p0[j][2];
             }
+
             for (int j = 0; j < 3; j++) {
-                p0[j][2] = p5[2-j][0];
+                p0[j][2] = p4[j][2];
             }
+
             for (int j = 0; j < 3; j++) {
-                p5[2-j][0] = p1[j][2];
+                p4[j][2] = p1[j][2];
             }
+
             for (int j = 0; j < 3; j++) {
-                p1[j][2] = p4[j][2];
+                p1[j][2] = p5[2-j][0];
             }
+
             for (int j = 0; j < 3; j++) {
-                p4[j][2] = temp[j];
+                p5[j][0] = temp[2-j];
             }
 
             edges[0].setParts(p0);
@@ -195,17 +212,21 @@ public class RubiksCube implements Cube {
             for (int j = 0; j < 3; j++) {
                 temp[j] = p0[2][j];
             }
+
             for (int j = 0; j < 3; j++) {
-                p0[2][j] = p2[2-j][2];
+                p0[2][j] = p2[j][2];
             }
+
             for (int j = 0; j < 3; j++) {
-                p2[2-j][2] = p1[0][2-j];
+                p2[j][2] = p1[0][2-j];
             }
+
             for (int j = 0; j < 3; j++) {
-                p1[0][2-j] = p3[j][0];
+                p1[0][j] = p3[j][0];
             }
+
             for (int j = 0; j < 3; j++) {
-                p3[j][0] = temp[j];
+                p3[j][0] = temp[2-j];
             }
 
             edges[0].setParts(p0);
@@ -232,17 +253,21 @@ public class RubiksCube implements Cube {
             for (int j = 0; j < 3; j++) {
                 temp[j] = p0[0][j];
             }
+
             for (int j = 0; j < 3; j++) {
                 p0[0][j] = p3[j][2];
             }
+
             for (int j = 0; j < 3; j++) {
                 p3[j][2] = p1[2][2-j];
             }
+
             for (int j = 0; j < 3; j++) {
-                p1[2][2-j] = p2[2-j][0];
+                p1[2][j] = p2[j][0];
             }
+
             for (int j = 0; j < 3; j++) {
-                p2[2-j][0] = temp[j];
+                p2[j][0] = temp[2-j];
             }
 
             edges[0].setParts(p0);
