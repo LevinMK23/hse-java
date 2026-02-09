@@ -151,7 +151,6 @@ public class HtmlDocument {
             validateStack(parsed_tag);
 
             pos = end + 1;
-
         }
 
         if (!stack.isEmpty()) {
