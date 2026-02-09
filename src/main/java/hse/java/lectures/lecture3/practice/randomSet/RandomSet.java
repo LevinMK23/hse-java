@@ -46,8 +46,6 @@ public class RandomSet<T extends Number> {
         } else {
             states[index] = -1;
             size--;
-
-
             Integer index_in_indexes = map_indexes[index];
             indexes[index_in_indexes] = indexes[size];
             map_indexes[indexes[size]] = index_in_indexes;
