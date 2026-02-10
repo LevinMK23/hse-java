@@ -1,0 +1,91 @@
+[
+  {
+    "name": "large-deposit-and-withdraw",
+    "deposits": [
+      {"50": 20, "100": 10, "500": 4, "1000": 3, "5000": 1}
+    ],
+    "withdraw": 7650,
+    "expect": {
+      "dispense": {"5000": 1, "1000": 2, "500": 1, "100": 1, "50": 1},
+      "balance": 4350
+    }
+  },
+  {
+    "name": "multiple-deposits-then-withdraw",
+    "deposits": [
+      {"100": 10, "1000": 2},
+      {"500": 6, "50": 10}
+    ],
+    "withdraw": 3450,
+    "expect": {
+      "dispense": {"1000": 2, "500": 2, "100": 4, "50": 1},
+      "balance": 3050
+    }
+  },
+  {
+    "name": "cannot-dispense-because-of-denoms",
+    "deposits": [
+      {"100": 1, "500": 1}
+    ],
+    "withdraw": 450,
+    "expect": {
+      "exception": "CannotDispenseException",
+      "balance": 600
+    }
+  },
+  {
+    "name": "insufficient-funds",
+    "deposits": [
+      {"100": 5}
+    ],
+    "withdraw": 600,
+    "expect": {
+      "exception": "InsufficientFundsException",
+      "balance": 500
+    }
+  },
+  {
+    "name": "invalid-amount",
+    "deposits": [
+      {"100": 5}
+    ],
+    "withdraw": 0,
+    "expect": {
+      "exception": "InvalidAmountException",
+      "balance": 500
+    }
+  },
+  {
+    "name": "withdraw-all",
+    "deposits": [
+      {"50": 2, "500": 1, "1000": 1}
+    ],
+    "withdraw": 1600,
+    "expect": {
+      "dispense": {"1000": 1, "500": 1, "50": 2},
+      "balance": 0
+    }
+  },
+  {
+    "name": "greedy-uses-available-not-over",
+    "deposits": [
+      {"5000": 1, "1000": 1, "500": 2, "100": 5, "50": 10}
+    ],
+    "withdraw": 7350,
+    "expect": {
+      "dispense": {"5000": 1, "1000": 1, "500": 2, "100": 3, "50": 1},
+      "balance": 650
+    }
+  },
+  {
+    "name": "large-counts",
+    "deposits": [
+      {"50": 100, "100": 100, "500": 100, "1000": 50, "5000": 10}
+    ],
+    "withdraw": 123450,
+    "expect": {
+      "dispense": {"5000": 10, "1000": 50, "500": 46, "100": 4, "50": 1},
+      "balance": 41550
+    }
+  }
+]

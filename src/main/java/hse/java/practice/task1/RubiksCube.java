@@ -180,7 +180,6 @@ public class RubiksCube implements Cube {
     public void down(RotateDirection direction) {
         edges[1].rotate(direction);
         rotateDownRing(direction);
-
     }
 
     @Override
