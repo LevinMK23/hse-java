@@ -1,4 +1,5 @@
 package hse.java.lectures.lecture3.practice.randomSet;
+
 import java.util.Random;
 
 public class RandomSet<T> {
