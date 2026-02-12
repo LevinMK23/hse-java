@@ -7,9 +7,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.TreeMap;
+import java.util.Arrays;
 
 public class Atm {
-    private enum Denomination {
+    public enum Denomination {
         D50(50),
         D100(100),
         D500(500),
@@ -25,6 +26,13 @@ public class Atm {
         int value() {
             return value;
         }
+
+        public static Denomination fromInt(int value) {
+            return Arrays.stream(values())
+                    .filter(v -> v.value == value)
+                    .findFirst()
+                    .orElse(null);
+        }
     }
 
     private final Map<Denomination, Integer> banknotes = new EnumMap<>(Denomination.class);
@@ -38,21 +46,26 @@ public class Atm {
         balance = 0;
     }
 
-    public void deposit(Map<Integer, Integer> banknotes){
-        for (Map.Entry<Integer, Integer> entry : banknotes.entrySet()) {
-            Integer key = entry.getKey();
-            Integer value = entry.getValue();
-            if (value > 0 && banknotes.containsKey(key)) {
-                banknotes.put(key, banknotes.getOrDefault(key, 0) + value);
-                balance += key * value;
+    public void deposit(Map<Denomination, Integer> depositBanknotes){
+        if (depositBanknotes == null) {
+            throw new InvalidDepositException("Карта банкнот не может быть null");
+        }
+
+        for (Map.Entry<Denomination, Integer> entry : depositBanknotes.entrySet()) {
+            Denomination denom = entry.getKey();
+            Integer count = entry.getValue();
+
+            if (count > 0 && banknotes.containsKey(denom)) {
+                banknotes.put(denom, banknotes.getOrDefault(denom, 0) + count);
+                balance += denom.value() * count;
             }
             else {
-                throw new InvalidAmountException("Передано отрицательное количество купюр или они недопустимого номинала!");
+                throw new InvalidDepositException("Передано отрицательное количество купюр или они недопустимого номинала!");
             }
         }
     }
 
-    public Map<Integer, Integer> withdraw(int amount) {
+    public Map<Denomination, Integer> withdraw(int amount) {
         if (amount <= 0) {
             throw new InvalidAmountException("Нельзя выдать неположительное количество денег!");
         } else if (amount > balance) {
@@ -65,15 +78,11 @@ public class Atm {
                     Denomination.D100,
                     Denomination.D50
             };
+
             Map<Denomination, Integer> banknotesCopy = new EnumMap<>(banknotes);
             int balanceCopy = balance;
 
-            Map<Integer, Integer> dispenceMap = new TreeMap<>();
-            dispenceMap.put(5000, 0);
-            dispenceMap.put(1000, 0);
-            dispenceMap.put(500, 0);
-            dispenceMap.put(100, 0);
-            dispenceMap.put(50, 0);
+            Map<Denomination, Integer> dispenceMap = new TreeMap<>();
 
             for (Denomination denom : denoms) {
                 int nominal = denom.value();
@@ -82,8 +91,9 @@ public class Atm {
                     int available = banknotes.get(denom);
 
                     while (available > 0 && nominal <= amount) {
-                        dispenceMap.put(nominal, dispenceMap.getOrDefault(nominal, 0) + 1);
+                        dispenceMap.put(denom, dispenceMap.getOrDefault(denom, 0) + 1);
                         amount -= nominal;
+                        balance -= nominal;
                         available--;
 
                         banknotes.put(denom, available);
@@ -92,7 +102,6 @@ public class Atm {
             }
 
             if (amount == 0) {
-                balance -= amount;
                 return dispenceMap;
             }
             else {
@@ -108,4 +117,5 @@ public class Atm {
     public int getBalance() {
         return balance;
     }
+
 }
