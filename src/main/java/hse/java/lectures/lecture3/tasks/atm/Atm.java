@@ -28,8 +28,7 @@ public class Atm {
         }
 
         public static Denomination fromInt(int value) {
-            return Arrays.stream(values())
-                    .filter(v -> v.value == value)
+            return Arrays.stream(values()).filter(v -> v.value == value)
                     .findFirst()
                     .orElse(null);
         }
