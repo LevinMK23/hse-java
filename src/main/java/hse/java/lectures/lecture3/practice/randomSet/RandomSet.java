@@ -111,25 +111,27 @@ public class RandomSet<T> {
         }
         
         int removeElementIdx = tableIdx[slot];
+        int next = (slot + 1) & (tableCap - 1);
+        while (tableKeys[next] != null) {
+            Object k = tableKeys[next];
+            int home = mixHash(k);
+            int distHomeToNext = (next - home + tableCap) % tableCap;
+            int distPosToNext = (next - slot + tableCap) % tableCap;
+            if (distPosToNext <= distHomeToNext) {
+                tableKeys[slot] = tableKeys[next];
+                tableIdx[slot] = tableIdx[next];
+                slot = next;
+            }
+            next = (next + 1) & (tableCap - 1);
+        }
         tableKeys[slot] = null;
         tableIdx[slot] = -1;
         --tableSize;
-        int curr = (slot + 1) & (tableCap - 1);
-        while (tableKeys[curr] != null) {
-            Object reKey = tableKeys[curr];
-            int reIdx = tableIdx[curr];
-            tableKeys[curr] = null;
-            tableIdx[curr] = -1;
-            --tableSize;
-            insertKey((T) reKey, reIdx);
-            curr = (curr + 1) & (tableCap - 1);
-        }
 
         int lastIdx = size - 1;
         if (removeElementIdx != lastIdx) {
             T move = (T) elements[lastIdx];
             elements[removeElementIdx] = move;
-
             int moveSlot = findSlot(move);
             if (0 <= moveSlot) {
                 tableIdx[moveSlot] = removeElementIdx;
