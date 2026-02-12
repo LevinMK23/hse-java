@@ -6,6 +6,8 @@ public class RandomSet<T extends Comparable<T>> {
     Node root;
     El[] vals;
     int size;
+    private Random rand = new Random();
+
 
     public RandomSet() {
         vals = (El[]) java.lang.reflect.Array.newInstance(El.class, 8);
@@ -19,6 +21,7 @@ public class RandomSet<T extends Comparable<T>> {
         Node p;
         Node l;
         Node r;
+        int pr;
 
         Node(T value, int ind) {
             this.value = value;
@@ -26,7 +29,34 @@ public class RandomSet<T extends Comparable<T>> {
             this.p = null;
             this.l = null;
             this.r = null;
+            this.pr = rand.nextInt();
         }
+    }
+
+    private Node rotateRight(Node v) {
+        Node u = v.l;
+        v.l = u.r;
+        if (u.r != null) {
+            u.r.p = v;
+        }
+        u.r = v;
+        u.p = v.p;
+        v.p = u;
+
+        return u;
+    }
+
+    private Node rotateLeft(Node v) {
+        Node u = v.r;
+        v.r = u.l;
+        if (u.l != null) {
+            u.l.p = v;
+        }
+        u.l = v;
+        u.p = v.p;
+        v.p = u;
+
+        return u;
     }
 
     private class El {
@@ -55,12 +85,20 @@ public class RandomSet<T extends Comparable<T>> {
             Pair l = insert(v.l, value, ind);
             v.l = l.node;
             v.l.p = v;
+
+            if (v.l.pr > v.pr) {
+                v = rotateRight(v);
+            }
             return new Pair(v, l.flag);
         }
         else if (value.compareTo(v.value) > 0) {
             Pair r = insert(v.r, value, ind);
             v.r = r.node;
             v.r.p = v;
+
+            if (v.r.pr > v.pr) {
+                v = rotateLeft(v);
+            }
             return new Pair(v, r.flag);
         }
 
@@ -180,7 +218,6 @@ public class RandomSet<T extends Comparable<T>> {
         if (size == 0) {
             throw new EmptySetException("попытка получить случайный элемент из пустого множества.");
         }
-        Random rand = new Random();
         return vals[rand.nextInt(size)].val;
     }
 
