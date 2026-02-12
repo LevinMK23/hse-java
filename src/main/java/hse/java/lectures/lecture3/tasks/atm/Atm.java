@@ -117,5 +117,4 @@ public class Atm {
     public int getBalance() {
         return balance;
     }
-
 }
