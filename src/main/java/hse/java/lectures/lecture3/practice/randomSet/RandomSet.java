@@ -15,25 +15,44 @@ public class RandomSet<T> {
 
     private final Random random = new Random();
 
-    private static final int TABLE_SIZE = 500_000;
-
-    private final Node<T>[] table;
+    private Node<T>[] table;
     private Object[] values;
-    private int size;
+    private int size = 0;
+    private int capacity = 4;
+    private double loadFactor = 0.5;
 
     public RandomSet() {
-        table = new Node[TABLE_SIZE];
-        values = new Object[4];
-        size = 0;
+        table = new Node[capacity];
+        values = new Object[2];
     }
 
     private int hash(T key) {
-        return key.hashCode() % TABLE_SIZE;
+        return key.hashCode() % capacity();
+    }
+
+    private void rehash() {
+        Node<T>[] oldTable = table;
+        int oldCapacity = capacity;
+
+        capacity *= 2;
+        table = new Node[capacity];
+        
+        for (int i = 0; i < oldCapacity; i++) {
+            Node<T> node = oldTable[i];
+            if (node != null) {
+                T key = node.key;
+                int idx = key.hashCode() % capacity;
+                while (table[idx] != null) {
+                    idx = (idx + 1) % capacity;
+                }
+                table[idx] = new Node<>(key, node.index);
+            }
+        }
     }
 
     private int index(T key) {
         int index = hash(key);
-        for (int t = 0; t < TABLE_SIZE; t++) {
+        for (int t = 0; t < capacity(); t++) {
             Node<T> entry = table[index];
             if (entry == null) {
                 return -1;
@@ -41,7 +60,7 @@ public class RandomSet<T> {
             if (entry.key.equals(key)) {
                 return index;
             }
-            index = (index + 1) % TABLE_SIZE;
+            index = (index + 1) % capacity();
         }
         return -1;
     }
@@ -56,16 +75,17 @@ public class RandomSet<T> {
     }
 
     public boolean insert(T value) {
-        if (size == TABLE_SIZE) {
-            return false;
+        if (size >= capacity() * loadFactor) {
+            rehash();
         }
+
         if (index(value) != -1) {
             return false;
         }
 
         int i = hash(value);
         while (table[i] != null) {
-            i = (i + 1) % TABLE_SIZE;
+            i = (i + 1) % capacity();
         }
 
         updateElements();
@@ -107,5 +127,13 @@ public class RandomSet<T> {
         }
         int index = random.nextInt(size);
         return (T) values[index];
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public int capacity() {
+        return capacity;
     }
 }
