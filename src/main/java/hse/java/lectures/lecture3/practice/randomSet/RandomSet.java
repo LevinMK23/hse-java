@@ -37,7 +37,10 @@ public class RandomSet<T extends Comparable<T>> {
         if (currentNode == null) {
             return null;
         }
-        if (currentNode.getValue().equals(value)) {
+
+        int compareResult = currentNode.getValue().compareTo(value);
+
+        if (compareResult == 0) {
             if (currentNode.getLeft() == null) {
                 return currentNode.getRight();
             }
@@ -47,7 +50,7 @@ public class RandomSet<T extends Comparable<T>> {
             Node<T> minNode = findMin(currentNode.getRight());
             currentNode.setValue(minNode.getValue());
             currentNode.setRight(recursiveDelete(currentNode.getRight(), minNode.getValue()));
-        } else if (currentNode.getValue().hashCode() > value.hashCode()) {
+        } else if (compareResult > 0) {
             currentNode.setLeft(recursiveDelete(currentNode.getLeft(), value));
         } else {
             currentNode.setRight(recursiveDelete(currentNode.getRight(), value));
@@ -85,11 +88,10 @@ public class RandomSet<T extends Comparable<T>> {
     }
 
     public boolean insert(T value) {
-        var result = recursiveInsert(root, value);
-        if (result == null) {
+        if (contains(value)) {
             return false;
         }
-        root = result;
+        root = recursiveInsert(root, value);
         return true;
     }
 
