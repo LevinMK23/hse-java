@@ -2,7 +2,7 @@ package hse.java.lectures.lecture3.practice.randomSet;
 
 import java.util.Random;
 
-public class RandomSet<T> {
+public class RandomSet<T extends Comparable<T>> {
     private Node<T> root;
     private final Random random = new Random();
 
@@ -10,11 +10,14 @@ public class RandomSet<T> {
         if (currentNode == null) {
             return new Node<>(value);
         }
-        if (currentNode.getValue().equals(value)) {
+
+        int compareResult = currentNode.getValue().compareTo(value);
+
+        if (compareResult == 0) {
             return null;
         }
 
-        if (currentNode.getValue().hashCode() >= value.hashCode()) {
+        if (compareResult > 0) {
             currentNode.setLeft(recursiveInsert(currentNode.getLeft(), value));
         } else  {
             currentNode.setRight(recursiveInsert(currentNode.getRight(), value));
