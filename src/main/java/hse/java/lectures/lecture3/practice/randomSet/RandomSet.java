@@ -81,9 +81,6 @@ public class RandomSet<T> {
     }
 
     public boolean insert(T value) {
-        if (root == null) {
-            throw new EmptySetException("Set is empty");
-        }
         var result = recursiveInsert(root, value);
         if (result == null) {
             return false;
