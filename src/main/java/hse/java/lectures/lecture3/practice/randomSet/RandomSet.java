@@ -1,5 +1,4 @@
 package hse.java.lectures.lecture3.practice.randomSet;
-import java.util.Arrays;
 import java.util.Random;
 
 public class RandomSet<T extends Comparable<T>> {
@@ -26,9 +25,20 @@ public class RandomSet<T extends Comparable<T>> {
     Node[] nodes = new Node[8];
     int[] numberNodeForValue = new int[8];
     private void resize(){
-        values = Arrays.copyOf(values,capacity*2);
-        nodes = Arrays.copyOf(nodes,capacity*2);
-        numberNodeForValue = Arrays.copyOf(numberNodeForValue,capacity*2);
+
+        @SuppressWarnings("unchecked")
+        T[] newValues = (T[]) new Comparable[capacity*2];
+        for (int i = 0; i < amountOfInts; i++) newValues[i] = values[i];
+        values = newValues;
+
+        Node[] newNodes = new Node[capacity*2];
+        for (int i = 0; i < amountOfNodes; i++) newNodes[i] = nodes[i];
+        nodes=newNodes;
+
+        int[] newNumberNodeForValue = new int[capacity*2];
+        for (int i = 0; i < numberNodeForValue.length; i++) newNumberNodeForValue[i] = numberNodeForValue[i];
+        numberNodeForValue = newNumberNodeForValue;
+
         capacity = capacity * 2;
     }
     private int merge(int a, int b){
