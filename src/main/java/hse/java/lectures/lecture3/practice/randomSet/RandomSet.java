@@ -7,6 +7,7 @@ public class RandomSet<T extends Comparable<T>> {
         root = new Node<>();
     }
 
+
     private boolean isEmpty() {
         return root.right == null;
     }
