@@ -6,59 +6,6 @@ public class RandomSet<T extends Comparable<T>> {
     private Node<T> root;
     private final Random random = new Random();
 
-    private Node<T> recursiveInsert(Node<T> currentNode, T value) {
-        if (currentNode == null) {
-            return new Node<>(value);
-        }
-
-        int compareResult = currentNode.getValue().compareTo(value);
-
-        if (compareResult == 0) {
-            return currentNode;
-        }
-
-        if (compareResult > 0) {
-            currentNode.setLeft(recursiveInsert(currentNode.getLeft(), value));
-        } else {
-            currentNode.setRight(recursiveInsert(currentNode.getRight(), value));
-        }
-        currentNode.recalculateSize();
-        return currentNode;
-    }
-
-    private Node<T> findMin(Node<T> node) {
-        while (node.getLeft() != null) {
-            node = node.getLeft();
-        }
-        return node;
-    }
-
-    private Node<T> recursiveDelete(Node<T> currentNode, T value) {
-        if (currentNode == null) {
-            return null;
-        }
-
-        int compareResult = currentNode.getValue().compareTo(value);
-
-        if (compareResult == 0) {
-            if (currentNode.getLeft() == null) {
-                return currentNode.getRight();
-            }
-            if (currentNode.getRight() == null) {
-                return currentNode.getLeft();
-            }
-            Node<T> minNode = findMin(currentNode.getRight());
-            currentNode.setValue(minNode.getValue());
-            currentNode.setRight(recursiveDelete(currentNode.getRight(), minNode.getValue()));
-        } else if (compareResult > 0) {
-            currentNode.setLeft(recursiveDelete(currentNode.getLeft(), value));
-        } else {
-            currentNode.setRight(recursiveDelete(currentNode.getRight(), value));
-        }
-        currentNode.recalculateSize();
-        return currentNode;
-    }
-
     private boolean find(Node<T> node, T value) {
         if (node == null) {
             return false;
@@ -71,6 +18,44 @@ public class RandomSet<T extends Comparable<T>> {
             return find(node.getLeft(), value);
         }
         return find(node.getRight(), value);
+    }
+
+    private Pair<Node<T>> split(Node<T> currentNode, T value) {
+        if (currentNode == null) {
+            return new Pair<>(null, null);
+        }
+        int compareResult = currentNode.getValue().compareTo(value);
+        if (compareResult == 0) {
+            return new Pair<>(currentNode.getLeft(), currentNode.getRight());
+        } else if (compareResult < 0) {
+            var splitResult = split(currentNode.getRight(), value);
+            currentNode.setRight(splitResult.left());
+            currentNode.recalculateSize();
+            return new Pair<>(currentNode, splitResult.right());
+        } else {
+            var splitResult = split(currentNode.getLeft(), value);
+            currentNode.setLeft(splitResult.right());
+            currentNode.recalculateSize();
+            return new Pair<>(splitResult.left(), currentNode);
+        }
+    }
+
+    private Node<T> merge(Node<T> leftNode, Node<T> rightNode) {
+        if (leftNode == null) {
+            return rightNode;
+        }
+        if (rightNode == null) {
+            return leftNode;
+        }
+        if (random.nextInt(leftNode.getSize() + rightNode.getSize()) < leftNode.getSize()) {
+            leftNode.setRight(merge(leftNode.getRight(), rightNode));
+            leftNode.recalculateSize();
+            return leftNode;
+        } else {
+            rightNode.setLeft(merge(leftNode, rightNode.getLeft()));
+            rightNode.recalculateSize();
+            return rightNode;
+        }
     }
 
     private Node<T> getRandomNode(Node<T> currentNode) {
@@ -95,7 +80,8 @@ public class RandomSet<T extends Comparable<T>> {
         if (contains(value)) {
             return false;
         }
-        root = recursiveInsert(root, value);
+        var splitResult = split(root, value);
+        root = merge(merge(splitResult.left(), new Node<>(value)), splitResult.right());
         return true;
     }
 
@@ -103,7 +89,8 @@ public class RandomSet<T extends Comparable<T>> {
         if (!contains(value)) {
             return false;
         }
-        root = recursiveDelete(root, value);
+        var splitResult = split(root, value);
+        root = merge(splitResult.left(), splitResult.right());
         return true;
     }
 
