@@ -14,12 +14,12 @@ public class RandomSet<T extends Comparable<T>> {
         int compareResult = currentNode.getValue().compareTo(value);
 
         if (compareResult == 0) {
-            return null;
+            return currentNode;
         }
 
         if (compareResult > 0) {
             currentNode.setLeft(recursiveInsert(currentNode.getLeft(), value));
-        } else  {
+        } else {
             currentNode.setRight(recursiveInsert(currentNode.getRight(), value));
         }
         currentNode.recalculateSize();
@@ -63,10 +63,14 @@ public class RandomSet<T extends Comparable<T>> {
         if (node == null) {
             return false;
         }
-        if (node.getValue().equals(value)) {
+        int compareResult = node.getValue().compareTo(value);
+        if (compareResult == 0) {
             return true;
         }
-        return find(node.getLeft(), value) || find(node.getRight(), value);
+        if (compareResult > 0) {
+            return find(node.getLeft(), value);
+        }
+        return find(node.getRight(), value);
     }
 
     private Node<T> getRandomNode(Node<T> currentNode) {
