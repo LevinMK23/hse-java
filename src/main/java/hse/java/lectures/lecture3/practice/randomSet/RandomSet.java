@@ -13,7 +13,8 @@ public class RandomSet<T> {
         if (currentNode.getValue().equals(value)) {
             return null;
         }
-        if (currentNode.getValue().hashCode() > value.hashCode()) {
+
+        if (currentNode.getValue().hashCode() >= value.hashCode()) {
             currentNode.setLeft(recursiveInsert(currentNode.getLeft(), value));
         } else  {
             currentNode.setRight(recursiveInsert(currentNode.getRight(), value));
@@ -90,9 +91,6 @@ public class RandomSet<T> {
     }
 
     public boolean remove(T value) {
-        if (root == null) {
-            throw new EmptySetException("Set is empty");
-        }
         if (!contains(value)) {
             return false;
         }
