@@ -101,9 +101,6 @@ public class RandomSet<T> {
     }
 
     public boolean contains(T value) {
-        if (root == null) {
-            throw new EmptySetException("Set is empty");
-        }
         return find(root, value);
     }
 
