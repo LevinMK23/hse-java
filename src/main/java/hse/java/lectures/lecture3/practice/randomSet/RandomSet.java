@@ -6,7 +6,7 @@ public class RandomSet<T extends Comparable<T>> {
     RandomSet() {
         root = new Node<>();
     }
-    
+
     private boolean isEmpty() {
         return root.right == null;
     }
@@ -15,6 +15,7 @@ public class RandomSet<T extends Comparable<T>> {
         if (this.isEmpty()) {
             return null;
         }
+        
         Node<T> current = root.right;
         while(current != null) {
             int cmp = current.value.compareTo(value);
