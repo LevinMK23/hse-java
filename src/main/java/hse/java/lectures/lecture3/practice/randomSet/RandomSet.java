@@ -2,8 +2,6 @@ package hse.java.lectures.lecture3.practice.randomSet;
 import java.util.Arrays;
 import java.util.Random;
 
-import static java.util.Collections.swap;
-
 public class RandomSet<T extends Comparable<T>> {
 
     static Random rand=new Random();
