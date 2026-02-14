@@ -12,6 +12,8 @@ public class MyHashTable<K, V> {
         }
     }
 
+    // Simple comment for commit
+
     private Object[] data;
     private int size;
     private int countDeleted;
