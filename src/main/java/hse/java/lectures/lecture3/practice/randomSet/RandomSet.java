@@ -1,5 +1,7 @@
 package hse.java.lectures.lecture3.practice.randomSet;
 
+import static java.lang.Math.max;
+
 public class RandomSet<T extends Comparable<T>> {
     Node<T> root;
 
@@ -12,10 +14,6 @@ public class RandomSet<T extends Comparable<T>> {
     }
 
     private Node<T> find(T value) {
-        if (this.isEmpty()) {
-            return null;
-        }
-        
         Node<T> current = root.right;
         while(current != null) {
             int cmp = current.value.compareTo(value);
@@ -33,44 +31,88 @@ public class RandomSet<T extends Comparable<T>> {
     }
 
     private Node<T> next(Node<T> node) {
-        // next вызывается тогда, когда 2 ребенка есть
-        Node<T> current = node.right;
-        while(current.left != null) {
-            current = current.left;
+        if (node.right != null) {
+            node = node.right;
+            while (node.left != null) {
+                node = node.left;
+            }
+            return node;
         }
-        return current;
+        else {
+            while (node.parent != null && node.parent.right == node) {
+                node = node.parent;
+            }
+            return node.parent;
+        }
+    }
+
+    private void update(Node<T> v) {
+        if (v.right != null && v.left != null) {
+            v.height = max(v.right.height, v.left.height) + 1;
+        }
+        else if (v.right != null) {
+            v.height = v.right.height + 1;
+        }
+        else {
+            v.height = v.left.height + 1;
+        }
+    }
+
+    private Node<T> add(Node<T> v, T value, Node<T> parent) {
+        if (v == null) {
+            return new Node<>(value, parent, 1);
+        }
+        int cmp = v.value.compareTo(value);
+        if (cmp > 0) {
+            v.left = add(v.left, value, v);
+        }
+        else {
+            v.right = add(v.right, value, v);
+        }
+        update(v);
+        return v;
+    }
+
+    private Node<T> del(Node<T> v, T value) {
+        if (v == null) {
+            return v;
+        }
+        int cmp = v.value.compareTo(value);
+        if(cmp > 0) {
+            v.left = del(v.left, value);
+        }
+        else if (cmp < 0) {
+            v.right = del(v.right, value);
+        }
+        else if (v.left != null && v.right != null) {
+            Node<T> nextNode = next(v);
+            v.value = nextNode.value;
+            v.right = del(v.right, v.value);
+        }
+        else {
+            if (v.left != null) {
+                v = v.left;
+            }
+            else if (v.right != null) {
+                v = v.right;
+            }
+            else {
+                v = null;
+            }
+        }
+        return v;
     }
 
     public boolean insert(T value) {
         if (this.isEmpty()) {
             // первая инициализация
             root.right = new Node<>(value, root, 1);
-            root.value = value;
             return true;
         }
-        Node<T> current = root.right;
         if (this.contains(value)) {
             return false;
         }
-        Node<T> parent = current;
-        while (current != null) {
-            parent = current;
-            int cmp = current.value.compareTo(value);
-            if (cmp > 0) {
-                current = current.left;
-            }
-            else if (cmp < 0) {
-                current = current.right;
-            }
-        }
-        current = new Node<>(value, parent, parent.height + 1);
-        int cmp = parent.value.compareTo(value);
-        if (cmp > 0) {
-            parent.left = current;
-        }
-        else if (cmp < 0) {
-            parent.right = current;
-        }
+        add(root.right, value, root);
         return true;
     }
 
@@ -79,45 +121,11 @@ public class RandomSet<T extends Comparable<T>> {
     }
 
     public boolean remove(T value) {
-        if (this.isEmpty()) {
-            return false;
+        if (this.contains(value)) {
+            del(root.right, value);
+            return true;
         }
-        Node<T> current = this.find(value);
-        if (current == null) {
-            return false;
-        }
-        else if (current.left == null && current.right == null) { // нет детей
-            if (this.isLeftChildForParent(current)) {
-                current.parent.left = null;
-            }
-            else {
-                current.parent.right = null;
-            }
-        }
-        else if (current.left != null && current.right != null) { // оба ребенка на месте
-            Node<T> nextNode = next(current);
-            current.value = nextNode.value;
-            nextNode.parent.left = null; // удалили next(current)
-        }
-        else {
-            if (current.left != null) {
-                if (this.isLeftChildForParent(current)) {
-                    current.parent.left = current.left;
-                }
-                else {
-                    current.parent.right = current.left;
-                }
-            }
-            else {
-                if (this.isLeftChildForParent(current)) {
-                    current.parent.left = current.right;
-                }
-                else {
-                    current.parent.right = current.right;
-                }
-            }
-        }
-        return true;
+        return false;
     }
 
     public boolean contains(T value) {
