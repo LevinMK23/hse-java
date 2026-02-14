@@ -35,7 +35,6 @@ class AtmTest {
         assertEquals(3500, atm.getBalance());
     }
 
-    
     @Test
     void depositRejectsNullMap() {
         Atm atm = new Atm();

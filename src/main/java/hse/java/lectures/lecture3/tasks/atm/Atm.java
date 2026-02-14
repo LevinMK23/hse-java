@@ -30,16 +30,66 @@ public class Atm {
     private final Map<Denomination, Integer> banknotes = new EnumMap<>(Denomination.class);
 
     public Atm() {
+        for(Denomination val : banknotes.keySet()) {
+            banknotes.put(val, 0);
+        }
     }
 
-    public void deposit(Map<Denomination, Integer> banknotes){}
+    public void deposit(Map<Denomination, Integer> banknotes_) {
+        if (banknotes_ == null) {
+            throw new InvalidDepositException("There is no money");
+        }
+        if (banknotes_.isEmpty()) {
+            throw new InvalidDepositException("There is no money");
+        }
+        for (Map.Entry<Denomination, Integer> entry : banknotes_.entrySet()) {
+            int oldValue = banknotes.getOrDefault(entry.getKey(), 0);
+            int amountOfNominal = entry.getValue();
+            if (amountOfNominal <= 0) {
+                throw new InvalidDepositException("Negative amount of " + entry.getKey().toString());
+            }
+            banknotes.put(entry.getKey(), oldValue + amountOfNominal);
+        }
+    }
 
     public Map<Denomination, Integer> withdraw(int amount) {
-        return Map.of();
+        Map<Denomination, Integer> mapka = new EnumMap<>(Denomination.class);
+        if (amount <= 0) {
+            throw new InvalidAmountException("Amount is non positive");
+        }
+        if (amount > getBalance()) {
+            throw new InsufficientFundsException("Amount > atm balance");
+        }
+        for(int val : new int[]{5000, 1000, 500, 100, 50}) {
+            Denomination denom = Denomination.fromInt(val);
+            Integer count = banknotes.get(denom);
+            if (count == null || count == 0) {
+                continue;
+            }
+
+            while (amount >= val && count > 0) {
+                int used = mapka.getOrDefault(denom, 0);
+                mapka.put(denom, used + 1);
+                amount -= val;
+                count--;
+            }
+        }
+        if (amount > 0) {
+            throw new CannotDispenseException("Can`t dispense");
+        }
+        for(Map.Entry<Denomination, Integer> entry : mapka.entrySet()) {
+            int oldValue = banknotes.get(entry.getKey());
+            banknotes.put(entry.getKey(), oldValue - entry.getValue());
+        }
+        return mapka;
     }
 
     public int getBalance() {
-        return 0;
+        int sum = 0;
+        for(Map.Entry<Denomination, Integer> entry : banknotes.entrySet()) {
+            sum += entry.getKey().value() * entry.getValue();
+        }
+        return sum;
     }
 
 }
