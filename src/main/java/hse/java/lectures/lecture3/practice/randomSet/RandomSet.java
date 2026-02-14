@@ -1,6 +1,7 @@
 package hse.java.lectures.lecture3.practice.randomSet;
 
 import static java.lang.Math.max;
+import java.util.Random;
 
 public class RandomSet<T extends Comparable<T>> {
     Node<T> root;
@@ -10,11 +11,14 @@ public class RandomSet<T extends Comparable<T>> {
     }
 
     private boolean isEmpty() {
-        return root.right == null;
+        return root.value == null;
     }
 
     private Node<T> find(T value) {
-        Node<T> current = root.right;
+        if (this.isEmpty()) {
+            return null;
+        }
+        Node<T> current = root;
         while(current != null) {
             int cmp = current.value.compareTo(value);
             if (cmp == 0) {
@@ -31,19 +35,10 @@ public class RandomSet<T extends Comparable<T>> {
     }
 
     private Node<T> next(Node<T> node) {
-        if (node.right != null) {
-            node = node.right;
-            while (node.left != null) {
-                node = node.left;
-            }
-            return node;
+        if (node.left != null) {
+            return next(node.left);
         }
-        else {
-            while (node.parent != null && node.parent.right == node) {
-                node = node.parent;
-            }
-            return node.parent;
-        }
+        return node;
     }
 
     private void update(Node<T> v) {
@@ -53,24 +48,84 @@ public class RandomSet<T extends Comparable<T>> {
         else if (v.right != null) {
             v.height = v.right.height + 1;
         }
-        else {
+        else if (v.left != null ){
             v.height = v.left.height + 1;
         }
     }
 
-    private Node<T> add(Node<T> v, T value, Node<T> parent) {
+    private Node<T> rotateRight(Node<T> p) {
+        Node<T> q = p.left;
+        p.left = q.right;
+        q.right = p;
+        update(p);
+        update(q);
+        return q;
+    }
+
+    private Node<T> rotateLeft(Node<T> p) {
+        Node<T> q = p.right;
+        p.right = q.left;
+        q.left = p;
+        update(p);
+        update(q);
+        return q;
+    }
+
+    private int getHeight(Node<T> p) {
+        if(p != null) {
+            return p.height;
+        }
+        return 0;
+    }
+
+    private int getBalanceFactor(Node<T> p){
+        return getHeight(p.right) - getHeight(p.left);
+    }
+
+    private Node<T> rebalance(Node<T> p) {
+        if (p == null) {
+            return p;
+        }
+        update(p);
+        if (getBalanceFactor(p) == 2) {
+            if (getBalanceFactor(p.right) < 0) {
+                p.right = rotateRight(p.right);
+            }
+            return rotateLeft(p);
+        }
+        if (getBalanceFactor(p) == -2) {
+            if(getBalanceFactor(p.left) > 0) {
+                p.left = rotateLeft(p.left);
+            }
+            return rotateRight(p);
+        }
+        return p;
+    }
+
+    private Node<T> add(Node<T> v, T value) {
         if (v == null) {
-            return new Node<>(value, parent, 1);
+            return new Node<>(value, 1);
         }
         int cmp = v.value.compareTo(value);
         if (cmp > 0) {
-            v.left = add(v.left, value, v);
+            v.left = add(v.left, value);
         }
         else {
-            v.right = add(v.right, value, v);
+            v.right = add(v.right, value);
         }
-        update(v);
-        return v;
+        return rebalance(v);
+    }
+
+    public boolean insert(T value) {
+        if (this.isEmpty()) {
+            root = new Node<>(value, 1);
+            return true;
+        }
+        if (this.contains(value)) {
+            return false;
+        }
+        add(root, value);
+        return true;
     }
 
     private Node<T> del(Node<T> v, T value) {
@@ -78,51 +133,39 @@ public class RandomSet<T extends Comparable<T>> {
             return v;
         }
         int cmp = v.value.compareTo(value);
-        if(cmp > 0) {
+        if (cmp > 0) {
             v.left = del(v.left, value);
+            update(v);
         }
         else if (cmp < 0) {
             v.right = del(v.right, value);
-        }
-        else if (v.left != null && v.right != null) {
-            Node<T> nextNode = next(v);
-            v.value = nextNode.value;
-            v.right = del(v.right, v.value);
+            update(v);
         }
         else {
-            if (v.left != null) {
+            if (v.right == null) {
                 v = v.left;
+
             }
-            else if (v.right != null) {
+            else if (v.left == null) {
                 v = v.right;
             }
             else {
-                v = null;
+                Node<T> temp = next(v.right);
+                v.value = temp.value;
+                v.right = del(v.right, v.value);
             }
         }
-        return v;
-    }
-
-    public boolean insert(T value) {
-        if (this.isEmpty()) {
-            // первая инициализация
-            root.right = new Node<>(value, root, 1);
-            return true;
+        if (v == null) {
+            return v;
         }
-        if (this.contains(value)) {
-            return false;
+        else {
+            return rebalance(v);
         }
-        add(root.right, value, root);
-        return true;
-    }
-
-    private boolean isLeftChildForParent(Node<T> node) {
-        return node.parent.left == node;
     }
 
     public boolean remove(T value) {
         if (this.contains(value)) {
-            del(root.right, value);
+            root = del(root, value);
             return true;
         }
         return false;
@@ -136,7 +179,29 @@ public class RandomSet<T extends Comparable<T>> {
         if (this.isEmpty()) {
             throw new EmptySetException("Empty set");
         }
-        return root.right.value;
+        Random randomNum = new Random();
+        int depth = randomNum.nextInt(getHeight(root));
+        Node<T> current = root;
+        for(int i = 0; i < depth; i++) {
+            int direction = randomNum.nextInt(2);
+            if (direction == 0) {
+                if (current.left != null) {
+                    current = current.left;
+                }
+                else {
+                    break;
+                }
+            }
+            else {
+                if (current.right != null) {
+                    current = current.right;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        return current.value;
     }
 
 }
