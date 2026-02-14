@@ -14,6 +14,8 @@ class MyHashTable<K, V> {
         }
     }
 
+    // this for simple commit
+
     private Entry[] data;
     private int size;
     private int countDeleted;
