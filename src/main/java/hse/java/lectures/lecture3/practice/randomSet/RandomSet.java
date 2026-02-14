@@ -42,6 +42,8 @@ public class RandomSet<T extends Comparable<T>> {
     }
 
     private void update(Node<T> v) {
+        if (v == null) return;
+        
         if (v.right != null && v.left != null) {
             v.height = max(v.right.height, v.left.height) + 1;
         }
@@ -51,6 +53,13 @@ public class RandomSet<T extends Comparable<T>> {
         else if (v.left != null ){
             v.height = v.left.height + 1;
         }
+        else {
+            v.height = 1;
+        }
+
+        int leftSize = (v.left != null) ? v.left.size : 0;
+        int rightSize = (v.right != null) ? v.right.size : 0;
+        v.size = leftSize + rightSize + 1;
     }
 
     private Node<T> rotateRight(Node<T> p) {
@@ -78,29 +87,41 @@ public class RandomSet<T extends Comparable<T>> {
         return 0;
     }
 
+    private int getSize(Node<T> p) {
+        if (p != null) {
+            return p.size;
+        }
+        return 0;
+    }
+
     private int getBalanceFactor(Node<T> p){
         return getHeight(p.right) - getHeight(p.left);
     }
 
     private Node<T> rebalance(Node<T> p) {
-        if (p == null) {
-            return p;
-        }
         update(p);
-        if (getBalanceFactor(p) == 2) {
+        int balance = getBalanceFactor(p);
+        if (balance > 1) {
             if (getBalanceFactor(p.right) < 0) {
                 p.right = rotateRight(p.right);
+                return rotateLeft(p);
             }
-            return rotateLeft(p);
+            else {
+                return rotateLeft(p);
+            }
         }
-        if (getBalanceFactor(p) == -2) {
-            if(getBalanceFactor(p.left) > 0) {
+        if(balance < -1) {
+            if (getBalanceFactor(p.left) > 0) {
                 p.left = rotateLeft(p.left);
+                return rotateRight(p);
             }
-            return rotateRight(p);
+            else {
+                return rotateRight(p);
+            }
         }
         return p;
     }
+
 
     private Node<T> add(Node<T> v, T value) {
         if (v == null) {
@@ -124,7 +145,7 @@ public class RandomSet<T extends Comparable<T>> {
         if (this.contains(value)) {
             return false;
         }
-        add(root, value);
+        root = add(root, value);
         return true;
     }
 
@@ -179,29 +200,27 @@ public class RandomSet<T extends Comparable<T>> {
         if (this.isEmpty()) {
             throw new EmptySetException("Empty set");
         }
-        Random randomNum = new Random();
-        int depth = randomNum.nextInt(getHeight(root));
-        Node<T> current = root;
-        for(int i = 0; i < depth; i++) {
-            int direction = randomNum.nextInt(2);
-            if (direction == 0) {
-                if (current.left != null) {
-                    current = current.left;
-                }
-                else {
-                    break;
-                }
-            }
-            else {
-                if (current.right != null) {
-                    current = current.right;
-                }
-                else {
-                    break;
-                }
-            }
+        return getRandomNode(root, new Random()).value;
+    }
+
+    private Node<T> getRandomNode(Node<T> node, Random random) {
+        if (node == null) {
+            return null;
         }
-        return current.value;
+        
+        int leftSize = getSize(node.left);
+        int rightSize = getSize(node.right);
+        int totalSize = leftSize + rightSize + 1;
+        
+        int randomIndex = random.nextInt(totalSize);
+        
+        if (randomIndex < leftSize) {
+            return getRandomNode(node.left, random);
+        } else if (randomIndex == leftSize) {
+            return node;
+        } else {
+            return getRandomNode(node.right, random);
+        }
     }
 
 }
