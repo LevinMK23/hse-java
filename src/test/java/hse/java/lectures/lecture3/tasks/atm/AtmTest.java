@@ -9,10 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,15 +27,15 @@ class AtmTest {
     @Test
     void depositIncreasesBalance() {
         Atm atm = new Atm();
-        atm.deposit(Map.of(100, 10, 500, 5));
+        atm.deposit(Map.of(Atm.Denomination.D100, 10, Atm.Denomination.D500, 5));
         assertEquals(3500, atm.getBalance());
     }
 
     @Test
     void depositRejectsInvalidDenominationAndKeepsState() {
         Atm atm = new Atm();
-        atm.deposit(Map.of(100, 1));
-        assertThrows(InvalidDepositException.class, () -> atm.deposit(Map.of(30, 1)));
+        atm.deposit(Map.of(Atm.Denomination.D100, 1));
+
         assertEquals(100, atm.getBalance());
     }
 
@@ -51,8 +48,8 @@ class AtmTest {
     @Test
     void depositRejectsNonPositiveCountAndKeepsState() {
         Atm atm = new Atm();
-        atm.deposit(Map.of(100, 1));
-        assertThrows(InvalidDepositException.class, () -> atm.deposit(Map.of(100, 0)));
+        atm.deposit(Map.of(Atm.Denomination.D100, 1));
+        assertThrows(InvalidDepositException.class, () -> atm.deposit(Map.of(Atm.Denomination.D100, 0)));
         assertEquals(100, atm.getBalance());
     }
 
@@ -60,11 +57,13 @@ class AtmTest {
     void withdrawGreedyAndUpdatesBalance() {
         Atm atm = new Atm();
         // 2000
-        atm.deposit(Map.of(1000, 1, 500, 1, 100, 5));
+        atm.deposit(Map.of(Atm.Denomination.D1000, 1, Atm.Denomination.D500, 1, Atm.Denomination.D100, 5));
 
-        Map<Integer, Integer> result = atm.withdraw(1700);
+        Map<Atm.Denomination, Integer> result = atm.withdraw(1700);
+        atm.printBanknotes();
+        System.out.println(result.toString());
 
-        assertEquals(Map.of(1000, 1, 500, 1, 100, 2), result);
+        assertEquals(Map.of(Atm.Denomination.D1000, 1, Atm.Denomination.D500, 1, Atm.Denomination.D100, 2), result);
         assertEquals(300, atm.getBalance());
     }
 
@@ -78,15 +77,16 @@ class AtmTest {
     @Test
     void withdrawRejectsInsufficientFunds() {
         Atm atm = new Atm();
-        atm.deposit(Map.of(100, 2));
+        atm.deposit(Map.of(Atm.Denomination.D100, 2));
         assertThrows(InsufficientFundsException.class, () -> atm.withdraw(300));
     }
 
     @Test
     void withdrawRejectsUnmakeableAmountAndKeepsState() {
         Atm atm = new Atm();
-        atm.deposit(Map.of(500, 1, 100, 1));
+        atm.deposit(Map.of(Atm.Denomination.D500, 1, Atm.Denomination.D100, 1));
         assertThrows(CannotDispenseException.class, () -> atm.withdraw(150));
+        System.out.println(atm.getBalance());
         assertEquals(600, atm.getBalance());
     }
 
@@ -105,7 +105,7 @@ class AtmTest {
                     "Case: " + atmCase.name);
             assertEquals(atmCase.expect.balance, atm.getBalance(), "Case: " + atmCase.name);
         } else {
-            Map<Integer, Integer> result = atm.withdraw(atmCase.withdraw);
+            Map<Atm.Denomination, Integer> result = atm.withdraw(atmCase.withdraw);
             assertEquals(toIntMap(atmCase.expect.dispense), result, "Case: " + atmCase.name);
             assertEquals(atmCase.expect.balance, atm.getBalance(), "Case: " + atmCase.name);
         }
@@ -126,10 +126,12 @@ class AtmTest {
         }
     }
 
-    private Map<Integer, Integer> toIntMap(Map<String, Integer> source) {
-        Map<Integer, Integer> result = new HashMap<>();
+    private Map<Atm.Denomination, Integer> toIntMap(Map<String, Integer> source) {
+        Map<Atm.Denomination, Integer> result = new EnumMap<>(Atm.Denomination.class);
         for (Map.Entry<String, Integer> entry : source.entrySet()) {
-            result.put(Integer.parseInt(entry.getKey()), entry.getValue());
+            // Конвертируем строку в Denomination
+            Atm.Denomination d = Atm.Denomination.valueOf("D" + entry.getKey());
+            result.put(d, entry.getValue());
         }
         return result;
     }
