@@ -4,7 +4,7 @@ public class HashMap<K ,V>{
 
     private Node<K,V>[] backets;
     private int size;
-    private static final int DEFAULT_CAPACITY = 32;
+    private static final int DEFAULT_CAPACITY = 16;
 
     public static int getDefaultCapacity() {
         return DEFAULT_CAPACITY;
@@ -79,12 +79,13 @@ public class HashMap<K ,V>{
         return false;
     }
 
-    public K get(int index) {
-//        int index = getIndex(key) ;
-        Node<K,V> node = backets[index] ;
-        while(node != null) {
-            if (node.key != null) {
-                return node.key;
+
+    public V get(K key) {
+        int index = getIndex(key);
+        Node<K, V> node = backets[index];
+        while (node != null) {
+            if (node.key.equals(key)) {
+                return node.value;
             }
             node = node.next;
         }

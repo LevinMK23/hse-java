@@ -7,22 +7,40 @@ import static hse.java.lectures.lecture3.practice.randomSet.HashMap.getDefaultCa
 
 
 public class RandomSet<T> {
-    HashMap<T , Object> hashMap ;
-    private static final Object PRESENT = new Object();
-
+    HashMap<T , Integer> hashMap ;
+    DynamicArray<T> elements;
+    private final Random random = new Random();
     RandomSet() {
         hashMap = new HashMap<>();
+        elements = new DynamicArray<>();
     }
 
 
 
 
     public boolean insert(T value) {
-        return hashMap.put(value , PRESENT) == null;
+        if (hashMap.containsKey(value)) {
+            return false;
+        }
+        elements.add(value);
+        hashMap.put(value ,elements.size() - 1) ;
+        return true;
     }
 
     public boolean remove(T value) {
-        return hashMap.remove(value) != null;
+        Integer index = hashMap.get(value);
+        if ( index == null) {
+            return  false;
+        }
+        T lastElement = elements.removeLast();
+
+        if (!value.equals(lastElement)) {
+            elements.set(index , lastElement);
+            hashMap.put(lastElement ,index);
+        }
+        hashMap.remove(value);
+        return true;
+
     }
 
     public boolean contains(T value) {
@@ -30,12 +48,11 @@ public class RandomSet<T> {
     }
 
     public T getRandom() {
-        if (hashMap.empty()) {
-            throw new EmptySetException("попытка получить случайный элемент из пустого множества.");
+        if (elements.size() == 0) {
+            throw new EmptySetException("Пустое множество");
         }
-        Random random = new Random();
-        return null ;
-
+        int randomIndex = random.nextInt(elements.size());
+        return elements.get(randomIndex);
     }
 
 
