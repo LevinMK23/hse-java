@@ -8,12 +8,11 @@ import static hse.java.lectures.lecture3.practice.randomSet.HashMap.getDefaultCa
 
 public class RandomSet<T> {
     HashMap<T , Integer> hashMap ;
-//    DynamicArray<T> elements;
-    private final Integer PRESENT =52 ;
+    DynamicArray<T> elements;
     private final Random random = new Random();
     RandomSet() {
         hashMap = new HashMap<>();
-//        elements = new DynamicArray<>();
+        elements = new DynamicArray<>();
     }
 
 
@@ -23,24 +22,22 @@ public class RandomSet<T> {
         if (hashMap.containsKey(value)) {
             return false;
         }
-//        elements.add(value);
-//        hashMap.put(value ,elements.size() - 1) ;
-        hashMap.put(value ,PRESENT) ;
+        elements.add(value);
+        hashMap.put(value ,elements.size() - 1) ;
         return true;
     }
 
     public boolean remove(T value) {
-//        Integer index = hashMap.get(value);
-        Object index = hashMap.get(value);
+        Integer index = hashMap.get(value);
         if ( index == null) {
             return  false;
         }
-//        T lastElement = elements.removeLast();
+        T lastElement = elements.removeLast();
 
-//        if (!value.equals(lastElement)) {
-//            elements.set(index , lastElement);
-//            hashMap.put(lastElement ,index);
-//        }
+        if (!value.equals(lastElement)) {
+            elements.set(index , lastElement);
+            hashMap.put(lastElement ,index);
+        }
         hashMap.remove(value);
         return true;
 
@@ -51,13 +48,12 @@ public class RandomSet<T> {
     }
 
     public T getRandom() {
-        if (hashMap.length() == 0) {
+        if (elements.size() == 0) {
             throw new EmptySetException("Пустое множество");
         }
-        int randomIndex = random.nextInt(hashMap.length());
-        return hashMap.getKeyByIndex(randomIndex).key;
+        int randomIndex = random.nextInt(elements.size());
+        return elements.get(randomIndex);
     }
-
 
 
 }
