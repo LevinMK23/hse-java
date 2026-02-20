@@ -5,6 +5,7 @@ public class HashMap<K ,V>{
     private Node<K,V>[] backets;
     private int size;
     private static final int DEFAULT_CAPACITY = 16;
+    private static final float LOAD_FACTOR = 0.75f;
 
     public static int getDefaultCapacity() {
         return DEFAULT_CAPACITY;
@@ -24,12 +25,19 @@ public class HashMap<K ,V>{
         return backets[index];
     }
 
+
     public int getIndex(K key) {
-        return Math.abs(key.hashCode()) % backets.length;
+        int hash = (key == null) ? 0 : Math.abs(key.hashCode());
+        return hash % backets.length;
     }
 
 
     public V put(K key , V value) {
+        if (size >= backets.length * LOAD_FACTOR) {
+            resize();
+        }
+
+
         int index = getIndex(key);
         Node<K,V> current = backets[index] ;
         while(current != null) {
@@ -65,6 +73,21 @@ public class HashMap<K ,V>{
             currentNode = currentNode.next;
         }
         return  null;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void resize() {
+        Node<K, V>[] oldBuckets = backets;
+        backets = new Node[oldBuckets.length * 2];
+        size = 0;
+
+        for (Node<K, V> node : oldBuckets) {
+            while (node != null) {
+                Node<K, V> next = node.next;
+                put(node.key, node.value);
+                node = next;
+            }
+        }
     }
 
     boolean containsKey(K key) {
