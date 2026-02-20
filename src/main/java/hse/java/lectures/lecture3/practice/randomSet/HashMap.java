@@ -4,7 +4,7 @@ public class HashMap<K ,V>{
 
     private Node<K,V>[] backets;
     private int size;
-    private static final int DEFAULT_CAPACITY = 16;
+    private static final int DEFAULT_CAPACITY = 32;
 
     public static int getDefaultCapacity() {
         return DEFAULT_CAPACITY;
