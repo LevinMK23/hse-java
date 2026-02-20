@@ -36,6 +36,7 @@ public class Atm {
         }
     }
 
+
     public void  printBanknotes() {
         for (Denomination i : this.banknotes.keySet()) {
             System.out.println(" nominal : "+ i + " --> count :  " + this.banknotes.get(i));
