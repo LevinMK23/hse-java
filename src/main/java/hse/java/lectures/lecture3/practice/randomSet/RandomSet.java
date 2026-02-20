@@ -7,9 +7,9 @@ import static hse.java.lectures.lecture3.practice.randomSet.HashMap.getDefaultCa
 
 
 public class RandomSet<T> {
-    HashMap<T , Object> hashMap ;
+    HashMap<T , Integer> hashMap ;
 //    DynamicArray<T> elements;
-    private final Object PRESENT = new Object();
+    private final Integer PRESENT =52 ;
     private final Random random = new Random();
     RandomSet() {
         hashMap = new HashMap<>();
