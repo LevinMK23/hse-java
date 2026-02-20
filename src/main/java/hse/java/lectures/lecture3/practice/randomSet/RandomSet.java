@@ -105,7 +105,7 @@ public class RandomSet<T extends Comparable<T>> {
 
     private Node<T> removeMin(Node<T> node) {
         if (node.left == null) {
-            return null;
+            return node.right;
         }
         node.left = removeMin(node.left);
         node.size = 1 + nodeSize(node.left) + nodeSize(node.right);
@@ -133,11 +133,7 @@ public class RandomSet<T extends Comparable<T>> {
         if (id_val != id_end) {
             randomArray[id_val] = randomArray[id_end];
             Node<T> end_node = descent(root, (T) randomArray[id_val]);
-            if (end_node != null) {
-
-                end_node.index = id_end;
-            }
-
+            end_node.index = id_end;
         }
         randomArray[id_end] = null;
 
