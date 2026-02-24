@@ -99,7 +99,7 @@ public class RandomSet<T> {
         int[] oldVals = values;
         Object[] oldKeys = keys;
         int oldCap = capacity;
-        capacity *= 2;
+        capacity = capacity * 2;
         keys = new Object[capacity];
         values = new int[capacity];
         cnt = 0;
@@ -110,5 +110,5 @@ public class RandomSet<T> {
             }
         }
     }
-    
+
 }
