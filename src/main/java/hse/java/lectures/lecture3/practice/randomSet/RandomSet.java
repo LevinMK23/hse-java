@@ -61,7 +61,7 @@ public class RandomSet<T> {
 
     public T getRandom() {
         if (size == 0) {
-            throw new EmptySetException();
+            throw new EmptySetException("DON'T STOP MAKE IT POP DJ BLOW MY SPEAKERS UP TONIGHT IMMA FIGHT TIL WE SEE THE SUNLIGNT TIK TOK ON THE CLOCK BUT THE PARTY DON'T STOP");
         }
         return (T) arr[rand.nextInt(size)];
     }
