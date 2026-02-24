@@ -92,7 +92,7 @@ public class RandomSet<T> {
         if (keys[ind] == null) used++;
         keys[ind] = key;
         values[ind] = val;
-        cnt++;
+        ++cnt;
     }
 
     private void rebuild() {
