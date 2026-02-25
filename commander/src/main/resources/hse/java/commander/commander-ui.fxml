@@ -5,10 +5,14 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="421.0" prefWidth="627.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hse.java.commander.MainController">
     <HBox prefHeight="370.0" prefWidth="627.0">
-
-        <ListView fx:id="left" prefHeight="318.0" prefWidth="311.0" />
-        <ListView fx:id="right" prefHeight="318.0" prefWidth="321.0" />
-
+        <VBox prefHeight="318.0" prefWidth="311.0">
+            <Button fx:id="leftBack" text="&lt;-" maxWidth="Infinity" />
+            <ListView fx:id="left" prefHeight="318.0" prefWidth="311.0" />
+        </VBox>
+        <VBox prefHeight="318.0" prefWidth="321.0">
+            <Button fx:id="rightBack" text="&lt;-" maxWidth="Infinity" />
+            <ListView fx:id="right" prefHeight="318.0" prefWidth="321.0" />
+        </VBox>
     </HBox>
-   <Button fx:id="move" mnemonicParsing="false" text="Move" />
+    <Button fx:id="move" mnemonicParsing="false" text="Move" />
 </VBox>
