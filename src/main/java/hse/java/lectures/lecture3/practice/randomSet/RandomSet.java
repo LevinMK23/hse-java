@@ -21,6 +21,14 @@ public class RandomSet<T>
         this.elementsSize = 0;
     }
 
+    private boolean keyEquals(T k1, T k2)
+    {
+        if (k1 == k2) return true;
+        if (k1 == null || k2 == null) return false;
+
+        return k1.equals(k2);
+    }
+
 
     private int getIndexFromMap(T key)
     {
@@ -29,7 +37,7 @@ public class RandomSet<T>
 
         while (curr != null)
         {
-            if (Objects.equals(curr.key, key)) return curr.index;
+            if (keyEquals(curr.key, key)) return curr.index;
             curr = curr.next;
         }
         return -1;
@@ -74,7 +82,7 @@ public class RandomSet<T>
 
         while (curr != null)
         {
-            if (Objects.equals(key, curr.key))
+            if (keyEquals(key, curr.key))
             {
                 curr.index = index;
                 return;
@@ -96,7 +104,7 @@ public class RandomSet<T>
 
         while (curr != null)
         {
-            if (Objects.equals(key, curr.key))
+            if (keyEquals(key, curr.key))
             {
                 if (prev == null) buckets[b] = curr.next;
                 else prev.next = curr.next;
