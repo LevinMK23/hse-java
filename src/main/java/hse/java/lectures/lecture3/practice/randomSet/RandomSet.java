@@ -13,7 +13,7 @@ public class RandomSet<T> {
         capacity = 16;
         index_to_value = (T[]) new Object[capacity];
         size = 0;
-        random = new java.util.Random();
+        random = new java.util.Random(); //да
     }
 
     public boolean insert(T _value) {
