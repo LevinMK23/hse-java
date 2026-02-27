@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <VBox fx:controller="hse.java.commander.MainController"
-        maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="421.0" prefWidth="627.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
-    <HBox prefHeight="370.0" prefWidth="627.0">
+      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="820.0"
+      spacing="8.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+    <padding>
+        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
+    </padding>
+    <HBox spacing="8.0">
+        <VBox HBox.hgrow="ALWAYS" spacing="6.0">
+            <HBox spacing="6.0">
+                <TextField fx:id="leftPathField" HBox.hgrow="ALWAYS" onAction="#openLeftPath"/>
+                <Button mnemonicParsing="false" onAction="#upLeftDirectory" text="Вверх"/>
+            </HBox>
+            <ListView fx:id="left" VBox.vgrow="ALWAYS"/>
+        </VBox>
 
-        <ListView fx:id="left" prefHeight="318.0" prefWidth="311.0" />
-        <ListView fx:id="right" prefHeight="318.0" prefWidth="321.0" />
-
+        <VBox HBox.hgrow="ALWAYS" spacing="6.0">
+            <HBox spacing="6.0">
+                <TextField fx:id="rightPathField" HBox.hgrow="ALWAYS" onAction="#openRightPath"/>
+                <Button mnemonicParsing="false" onAction="#upRightDirectory" text="Вверх"/>
+            </HBox>
+            <ListView fx:id="right" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </HBox>
+    <HBox spacing="8.0">
+        <Button mnemonicParsing="false" onAction="#refreshBoth" text="Обновить"/>
+        <Button mnemonicParsing="false" onAction="#createLeftDirectory" text="Новая папка слева"/>
+        <Button mnemonicParsing="false" onAction="#createRightDirectory" text="Новая папка справа"/>
+        <Button mnemonicParsing="false" onAction="#copyLeftToRight" text="Копировать -&gt;"/>
+        <Button mnemonicParsing="false" onAction="#copyRightToLeft" text="&lt;- Копировать"/>
+        <Button mnemonicParsing="false" onAction="#deleteLeftSelected" text="Удалить слева"/>
+        <Button mnemonicParsing="false" onAction="#deleteRightSelected" text="Удалить справа"/>
     </HBox>
 </VBox>
