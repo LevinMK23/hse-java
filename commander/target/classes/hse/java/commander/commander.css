@@ -1,0 +1,118 @@
+.root {
+    -fx-background-color: #0D1B2A;
+    -fx-font-smoothing-type: lcd;
+}
+
+.label {
+    -fx-text-fill: #E0E1DD;
+}
+
+.list-view {
+    -fx-background-color: #1B263B;
+    -fx-control-inner-background: #1B263B;
+    -fx-border-color: #415A77;
+    -fx-border-width: 1;
+
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+}
+
+.list-view .viewport {
+    -fx-background-color: #1B263B;
+    -fx-background-radius: 12;
+}
+
+.list-view .corner {
+    -fx-background-color: #1B263B;
+}
+
+.list-cell {
+    -fx-background-color: #1B263B;
+    -fx-text-fill: #E0E1DD;
+
+    -fx-border-color: #415A77;
+    -fx-border-width: 0 0 1 0;
+}
+
+.list-cell:hover {
+    -fx-background-color: #415A77;
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: #778DA9;
+    -fx-text-fill: #0D1B2A;
+}
+
+.button {
+    -fx-background-color: #1B263B;
+    -fx-text-fill: #E0E1DD;
+
+    -fx-border-color: #415A77;
+    -fx-border-width: 1;
+
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-padding: 6 12 6 12;
+}
+
+.button:hover {
+    -fx-background-color: #415A77;
+}
+
+.button:pressed {
+    -fx-background-color: #778DA9;
+    -fx-text-fill: #0D1B2A;
+}
+
+.dialog-pane {
+    -fx-background-color: #0D1B2A;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #0D1B2A;
+}
+
+.dialog-pane .content {
+    -fx-background-color: #0D1B2A;
+}
+
+.dialog-pane .label {
+    -fx-text-fill: #E0E1DD;
+}
+
+.dialog-pane .text-field {
+    -fx-background-color: #1B263B;
+    -fx-text-fill: #E0E1DD;
+    -fx-border-color: #415A77;
+    -fx-border-width: 1;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.dialog-pane .text-area {
+    -fx-control-inner-background: #1B263B;
+    -fx-text-fill: #E0E1DD;
+    -fx-border-color: #415A77;
+    -fx-border-width: 1;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+/* Scrollbars */
+.scroll-bar:vertical, .scroll-bar:horizontal {
+    -fx-background-color: #0D1B2A;
+}
+
+.scroll-bar .track {
+    -fx-background-color: #0D1B2A;
+    -fx-border-color: #415A77;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #415A77;
+    -fx-background-radius: 8;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #778DA9;
+}

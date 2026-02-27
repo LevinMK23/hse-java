@@ -3,12 +3,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="421.0" prefWidth="627.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hse.java.commander.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="421.0" prefWidth="627.0"
+      xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="hse.java.commander.MainController">
     <HBox prefHeight="370.0" prefWidth="627.0">
-
         <ListView fx:id="left" prefHeight="318.0" prefWidth="311.0" />
         <ListView fx:id="right" prefHeight="318.0" prefWidth="321.0" />
-
     </HBox>
-   <Button fx:id="move" mnemonicParsing="false" text="Move" />
+
+    <Region prefHeight="10.0"/>
+    <HBox spacing="8.0" alignment="CENTER">
+        <Button fx:id="left_to_right" mnemonicParsing="false" text="Перенести вправо" />
+        <Button fx:id="right_to_left" mnemonicParsing="false" text="Перенести влево" />
+        <Button fx:id="rename" mnemonicParsing="false" text="Переименовать" />
+        <Button fx:id="remove" mnemonicParsing="false" text="Удалить" />
+        <Button fx:id="refresh" mnemonicParsing="false" text="Обновить" />
+    </HBox>
 </VBox>
