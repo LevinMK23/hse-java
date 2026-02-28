@@ -16,6 +16,7 @@ public class RandomSet<T extends Number> {
         }
     }
 
+
     private static final int CAPACITY = 100;
     private static final int PRIME = 15_485_863;
 
