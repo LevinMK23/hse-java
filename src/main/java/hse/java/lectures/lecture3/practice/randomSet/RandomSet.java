@@ -6,7 +6,6 @@ public class RandomSet<T> {
   private DynamicArray<T> elements;
   private SimpleHashMap<T> indexMap;
   private Random random;
-
   public RandomSet() {
     elements = new DynamicArray<>();
     indexMap = new SimpleHashMap<>();
