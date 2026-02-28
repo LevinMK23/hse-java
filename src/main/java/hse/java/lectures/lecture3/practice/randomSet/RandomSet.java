@@ -82,7 +82,6 @@ public class RandomSet<T extends Number> {
                 }
             }
         }
-
         return true;
     }
 
