@@ -4,11 +4,17 @@
 <?import javafx.scene.layout.*?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="421.0" prefWidth="627.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hse.java.commander.MainController">
-    <HBox prefHeight="370.0" prefWidth="627.0">
+    <HBox prefHeight="370.0" prefWidth="800.0">
 
-        <ListView fx:id="left" prefHeight="318.0" prefWidth="311.0" />
-        <ListView fx:id="right" prefHeight="318.0" prefWidth="321.0" />
+        <ListView fx:id="left" prefHeight="318.0" prefWidth="400.0" />
+        <ListView fx:id="right" prefHeight="318.0" prefWidth="400.0" />
 
     </HBox>
-   <Button fx:id="move" mnemonicParsing="false" text="Move" />
+
+    <HBox spacing="10" style="-fx-padding: 10;">
+        <Button fx:id="move" text="Move"/>
+        <Button fx:id="delete" text="Delete"/>
+        <Button fx:id="createFolder" text="Add Folder"/>
+        <Button fx:id="createFile" text="Add File"/>
+    </HBox>
 </VBox>
