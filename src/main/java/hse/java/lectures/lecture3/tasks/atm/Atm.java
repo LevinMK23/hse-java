@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class Atm {
-    private enum Denomination {
+    public enum Denomination {
         D50(50),
         D100(100),
         D500(500),
