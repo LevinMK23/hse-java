@@ -10,5 +10,8 @@
         <ListView fx:id="right" prefHeight="318.0" prefWidth="321.0" />
 
     </HBox>
-   <Button fx:id="move" mnemonicParsing="false" text="Move" />
+   <HBox>
+       <Button fx:id="move" mnemonicParsing="false" text="Move" />
+       <Button fx:id="rename" mnemonicParsing="false" text="Rename" />
+   </HBox>
 </VBox>
