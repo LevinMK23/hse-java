@@ -12,9 +12,9 @@
 
     <ButtonBar prefHeight="52.0" prefWidth="580.0">
         <buttons>
-         <Button mnemonicParsing="false" onAction="#handleDelete" prefHeight="25.0" prefWidth="257.0" text="Delete" />
-         <Button mnemonicParsing="false" onAction="#handleCopy" text="Copy" />
-            <Button mnemonicParsing="false" onAction="#handleMove" text="Move" />
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" text="Delete" />
+            <Button fx:id="copyButton" mnemonicParsing="false" onAction="#handleCopy" text="Copy" />
+            <Button fx:id="moveButton" mnemonicParsing="false" onAction="#handleMove" text="Move" />
         </buttons>
       <padding>
          <Insets right="20.0" />
