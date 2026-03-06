@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
 public class MainController {
-
   @FXML public ListView<String> left;
 
   @FXML public ListView<String> right;
