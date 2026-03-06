@@ -1,5 +1,6 @@
 package hse.java.lectures.lecture3.practice.randomSet;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Tag("randomset")
 class RandomSetBaseTest {
 
     @Test

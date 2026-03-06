@@ -21,9 +21,8 @@ public class MainController {
 
     boolean focused = false;
 
-    Path leftDir = Path.of("C:\\Users\\basko\\Desktop\\testDirLeft");
-    Path rightDir = Path.of("C:\\Users\\basko\\Desktop\\testDirRight");
-
+    Path leftDir = null;
+    Path rightDir = null;
     AnchorPane pane = new AnchorPane();
     Label viewPathLeft = new Label("");
     Label viewPathRight = new Label("");
@@ -93,7 +92,11 @@ public class MainController {
         });
     }
 
-    public void initialize() {
+    @FXML
+    public void setInitialDirs(Path leftStart, Path rightStart) {
+        this.leftDir = leftStart;
+        this.rightDir = rightStart;
+
         updateView(left, leftDir);
         updateView(right, rightDir);
 
