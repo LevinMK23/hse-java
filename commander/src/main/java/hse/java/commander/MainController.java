@@ -62,7 +62,6 @@ public class MainController {
         delete.setOnMouseClicked(event -> delete());
 
         System.out.println(System.getProperty("user.home"));
-        left.getItems().add("Kek");
 
         left.setOnMouseClicked(event -> {
             leftAct = true;
@@ -120,6 +119,10 @@ public class MainController {
     private void open(ListView<String> part) {
         String name = part.getSelectionModel().getSelectedItem();
         Path dir = leftAct ? leftDir : rightDir;
+
+        if (name == null) {
+            return;
+        }
 
         if (name.equals("..")) {
             dir = dir.getParent();
