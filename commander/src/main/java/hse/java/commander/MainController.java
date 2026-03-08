@@ -4,9 +4,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 
 public class MainController {
 
@@ -34,6 +36,24 @@ public class MainController {
     public void setInitialDirs(Path leftStart, Path rightStart) {
         this.leftDir = leftStart;
         this.rightDir = rightStart;
+
+        refresh(left, leftDir);
+        refresh(right, rightDir);
+    }
+
+    private void refresh(ListView<String> part, Path dir) {
+        part.getItems().clear();
+
+        try {
+            if (dir.getParent() != null) {
+                part.getItems().add("..");
+            }
+
+            Files.list(dir).map(p -> p.getFileName().toString()).forEach(part.getItems()::add);
+        } catch (IOException e) {}
+
+
+        //part.getItems().addAll(dir.toFile().list());
     }
 
     public void initialize() {
@@ -49,13 +69,15 @@ public class MainController {
         left.setOnMouseClicked(event -> {
             leftAct = true;
             if (event.getClickCount() == 2) {
-                int index = left.getSelectionModel().getSelectedIndex();
-                if (index >= 0) {
-                    left.getItems().set(index, "clicked");
-                }
+                open(left);
             }
         });
-        right.setOnMouseClicked(event -> leftAct = false);
+        right.setOnMouseClicked(event -> {
+            leftAct = false;
+            if (event.getClickCount() == 2) {
+                open(right);
+            }
+        });
     }
 
 
@@ -67,6 +89,8 @@ public class MainController {
 
         try {
             Files.move(source,  target);
+            refresh(left, leftDir);
+            refresh(right, rightDir);
         } catch (IOException e) {}
     }
 
@@ -78,6 +102,8 @@ public class MainController {
 
         try {
             Files.copy(source, target);
+            refresh(left, leftDir);
+            refresh(right, rightDir);
         } catch (IOException e) {}
     }
 
@@ -88,6 +114,35 @@ public class MainController {
 
         try {
             Files.delete(source);
+            refresh(left, leftDir);
+            refresh(right, rightDir);
         } catch (IOException e) {}
+    }
+
+    private void open(ListView<String> part) {
+        String name = part.getSelectionModel().getSelectedItem();
+        Path dir = leftAct ? leftDir : rightDir;
+
+        if (name.equals("..")) {
+            dir = dir.getParent();
+        }
+        else {
+            Path fullPath = dir.resolve(name);
+            if (Files.isDirectory(fullPath)) {
+                dir = fullPath;
+            }
+            else {
+                return;
+            }
+        }
+
+        if (part == left) {
+            leftDir = dir;
+            refresh(left, leftDir);
+        }
+        else {
+            rightDir = dir;
+            refresh(right, rightDir);
+        }
     }
 }
