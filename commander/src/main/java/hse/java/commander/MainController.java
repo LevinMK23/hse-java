@@ -43,9 +43,7 @@ public class MainController {
         panel.getItems().clear();
         panel.getItems().add("...");
         for (File file : nameDir.toFile().listFiles()) {
-            if (!file.isHidden()) {
-                panel.getItems().add(file.getName());
-            }
+            panel.getItems().add(file.getName());
         }
     }
 
@@ -123,8 +121,6 @@ public class MainController {
     public void initialize() {
         leftDir = Path.of(System.getProperty("user.home"));
         rightDir = Path.of(System.getProperty("user.home"));
-        System.out.println(leftDir.toFile().getAbsoluteFile());
-        System.out.println(leftDir.toFile().getAbsolutePath());
         moveAction(leftDir, left);
         moveAction(rightDir, right);
 
