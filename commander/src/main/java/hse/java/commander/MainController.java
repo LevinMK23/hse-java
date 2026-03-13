@@ -116,6 +116,9 @@ public class MainController {
     public void setInitialDirs(Path leftStart, Path rightStart) {
         this.leftDir = leftStart;
         this.rightDir = rightStart;
+
+        moveAction(leftDir, left);
+        moveAction(rightStart, right);
     }
 
     public void initialize() {
