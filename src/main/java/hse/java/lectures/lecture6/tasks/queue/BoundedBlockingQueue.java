@@ -5,7 +5,6 @@ import java.util.LinkedList;
 public class BoundedBlockingQueue<T> {
     private final LinkedList<T> list = new LinkedList<>();
     private int capacity;
-    private final Object monitor = new Object();
 
     public BoundedBlockingQueue(int capacity) {
         if (capacity <= 0) {
@@ -19,9 +18,9 @@ public class BoundedBlockingQueue<T> {
             throw new NullPointerException("item must be non-null");
         }
 
-        synchronized (monitor) {
+        synchronized (this) {
             while (list.size() == capacity) {
-                monitor.wait();
+                this.wait();
             }
             list.push(item);
             notifyAll();
@@ -29,9 +28,9 @@ public class BoundedBlockingQueue<T> {
     }
 
     public T take() throws InterruptedException {
-        synchronized (monitor) {
+        synchronized (this) {
             while (list.isEmpty()) {
-                wait();
+                this.wait();
             }
             T item = list.pop();
             notifyAll();
@@ -40,7 +39,7 @@ public class BoundedBlockingQueue<T> {
     }
 
     public int size() {
-        synchronized (monitor) {
+        synchronized (this) {
             return list.size();
         }
     }
