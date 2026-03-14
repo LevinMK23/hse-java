@@ -15,7 +15,8 @@ public class BoundedBlockingQueue<T> {
         this.capacity = capacity;
     }
 
-    public void put(T item) throws InterruptedException {
+    public void put(T item) throws InterruptedException, IllegalArgumentException {
+        if (item == null) throw new IllegalArgumentException();
         synchronized (monitor) {
             if (size == capacity) {
 
