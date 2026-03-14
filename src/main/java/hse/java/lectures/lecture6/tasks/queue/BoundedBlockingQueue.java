@@ -16,8 +16,8 @@ public class BoundedBlockingQueue<T> {
         this.array = new Object[capacity];
         this.capacity = capacity;
 
-        this.head = capacity - 1;
-        this.tail = this.head;
+        this.head = 0;
+        this.tail = 0;
         this.fill = 0;
     }
 
