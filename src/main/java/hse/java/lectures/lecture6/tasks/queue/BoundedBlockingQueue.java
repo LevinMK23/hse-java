@@ -1,25 +1,59 @@
 package hse.java.lectures.lecture6.tasks.queue;
 
+
+import java.util.ArrayDeque;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 public class BoundedBlockingQueue<T> {
 
+    private final Object key = new Object();
+
+    int capacity = 0;
+    int size = 0;
+
+    final Queue<T> queue = new ArrayDeque<>();
 
     public BoundedBlockingQueue(int capacity) {
-
+        synchronized (key) {
+            if (capacity <= 0) {
+                throw new IllegalArgumentException("Capacity <= 0");
+            }
+            this.capacity = capacity;
+        }
     }
 
-    public void put(T item) {
-
+    public void put(T item) throws InterruptedException {
+        synchronized (key) {
+            if (item == null) {
+                throw new NullPointerException("Item must be not null");
+            }
+            if (size > capacity) {
+                key.wait();
+            }
+            queue.add(item);
+        }
     }
 
-    public T take() {
-        return null;
+    public T take() throws InterruptedException {
+        synchronized (key){
+            if(size == 0){
+                key.wait();
+            }
+            return queue.element();
+        }
     }
 
     public int size() {
-        return 0;
+        synchronized (key) {
+            return size;
+        }
     }
 
     public int capacity() {
-        return 0;
+        synchronized (key) {
+            return capacity;
+        }
     }
 }
