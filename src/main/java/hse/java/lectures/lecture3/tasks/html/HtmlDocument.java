@@ -14,6 +14,13 @@ public class HtmlDocument {
         this(Path.of(filePath));
     }
 
+    static void foo() {}
+
+    static void bar() {
+        foo();
+
+    }
+
     public HtmlDocument(Path filePath) {
         String content = readFile(filePath);
         validate(content);
@@ -27,6 +34,41 @@ public class HtmlDocument {
         }
     }
 
-    private void validate(String content){}
+    private class Pair<T, U> {
+        public T first;
+        public U second;
+        public Pair(T t, U u) {
+            first = t;
+            second = u;
+        }
+    }
+
+    private Pair<OTag, Integer> nextTag(String content, int current) {
+        content.s
+    }
+
+    public class Tag {}
+
+    enum OTag extends HtmlDocument.Tag {
+        html,
+        head,
+        body,
+        p,
+        div
+    }
+    enum CTag {
+        html,
+        head,
+        body,
+        p,
+        div
+    }
+    private void validate(String content){
+
+
+
+
+        boolean was_
+    }
 
 }

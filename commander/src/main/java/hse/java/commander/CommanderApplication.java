@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+
+
 public class CommanderApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
