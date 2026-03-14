@@ -30,6 +30,7 @@ public class BoundedBlockingQueue<T> {
         }
 
         queue.offer(item);
+        notifyAll();
     }
 
     public synchronized T take() {
