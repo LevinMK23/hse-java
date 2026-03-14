@@ -8,7 +8,7 @@ public class BoundedBlockingQueue<T> {
 
     public BoundedBlockingQueue(int capacity) {
         if (capacity <= 0) {
-            throw  new IllegalArgumentException("capacity must be positive");
+            throw new IllegalArgumentException("capacity must be positive");
         }
         this.capacity = capacity;
     }
@@ -22,7 +22,7 @@ public class BoundedBlockingQueue<T> {
             while (list.size() == capacity) {
                 this.wait();
             }
-            list.push(item);
+            list.addLast(item);
             notifyAll();
         }
     }
@@ -32,7 +32,8 @@ public class BoundedBlockingQueue<T> {
             while (list.isEmpty()) {
                 this.wait();
             }
-            T item = list.pop();
+            T item = list.getFirst();
+            list.removeFirst();
             notifyAll();
             return item;
         }
