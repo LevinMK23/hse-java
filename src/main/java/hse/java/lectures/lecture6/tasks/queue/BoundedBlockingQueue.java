@@ -29,7 +29,7 @@ public class BoundedBlockingQueue<T> {
             while (fill == capacity) {
                 this.wait();
             }
-
+            array[tail] = item;
             tail = (tail + 1) % capacity;
             fill++;
             this.notifyAll();
