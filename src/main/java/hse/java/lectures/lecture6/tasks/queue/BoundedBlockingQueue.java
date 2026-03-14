@@ -9,7 +9,9 @@ public class BoundedBlockingQueue<T> {
     private int capacity;
     private int size = 0;
     Object monitor = new Object();
-    public BoundedBlockingQueue(int capacity) {
+
+    public BoundedBlockingQueue(int capacity) throws IllegalArgumentException {
+        if (capacity <= 0) throw new IllegalArgumentException();
         this.capacity = capacity;
     }
 
@@ -17,7 +19,7 @@ public class BoundedBlockingQueue<T> {
         synchronized (monitor) {
             if (size == capacity) {
 
-                    monitor.wait();
+                monitor.wait();
 
             }
 
@@ -31,7 +33,7 @@ public class BoundedBlockingQueue<T> {
         synchronized (monitor) {
             while (size == 0) {
 
-                    monitor.wait();
+                monitor.wait();
 
             }
             size--;
