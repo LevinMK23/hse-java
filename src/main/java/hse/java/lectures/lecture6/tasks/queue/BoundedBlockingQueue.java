@@ -1,25 +1,47 @@
 package hse.java.lectures.lecture6.tasks.queue;
 
-public class BoundedBlockingQueue<T> {
+import java.util.LinkedList;
+import java.util.Queue;
 
+public class BoundedBlockingQueue<T> {
+    Queue<T> queue;
+    int capacity;
 
     public BoundedBlockingQueue(int capacity) {
-
+        if (capacity <= 0) {
+            throw new IllegalArgumentException();
+        }
+        this.capacity = capacity;
+        queue = new LinkedList<>();
     }
 
-    public void put(T item) {
+    public synchronized void put(T item) throws InterruptedException {
+        if (item == null) {
+            throw new NullPointerException();
+        }
 
+        while (queue.size() == capacity) {
+            wait();
+        }
+
+        queue.add(item);
+        notifyAll();
     }
 
-    public T take() {
-        return null;
+    public synchronized T take() throws InterruptedException {
+        while (queue.isEmpty()) {
+            wait();
+        }
+        T item = queue.poll();
+        notifyAll();
+        return item;
     }
 
-    public int size() {
-        return 0;
+    public synchronized int size() {
+        return queue.size();
     }
 
-    public int capacity() {
-        return 0;
+    public synchronized int capacity() {
+        return capacity;
     }
 }
