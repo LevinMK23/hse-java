@@ -42,9 +42,10 @@ public class BoundedBlockingQueue<T> {
             if(queue.isEmpty()){
                 key.wait();
             }
+            T el = queue.remove();
             key.notifyAll();
 
-            return queue.remove();
+            return el;
 
         }
     }
