@@ -18,7 +18,7 @@ public class BoundedBlockingQueue<T> {
         }
     }
 
-    public void put(T item) {
+    public void put(T item) throws InterruptedException {
         if (item == null) {
             throw new NullPointerException("Item is null");
         }
@@ -27,7 +27,7 @@ public class BoundedBlockingQueue<T> {
                 try {
                     monitor.wait();
                 } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    throw e;
                 }
             }
             q.add(item);
@@ -36,13 +36,13 @@ public class BoundedBlockingQueue<T> {
         }
     }
 
-    public T take() {
+    public T take() throws InterruptedException {
         synchronized (monitor) {
             while (size == 0) {
                 try {
                     monitor.wait();
                 } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    throw e;
                 }
             }
             T value = q.remove();
