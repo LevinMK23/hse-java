@@ -44,10 +44,10 @@ public class BoundedBlockingQueue<T> {
     }
 
     public int size() {
-        return 0;
+        return this.size;
     }
 
     public int capacity() {
-        return 0;
+        return this.capacity;
     }
 }
