@@ -16,30 +16,25 @@ public class BoundedBlockingQueue<T> {
         this.capacity = capacity;
     }
 
-    public synchronized void put(T item) {
+    public synchronized void put(T item) throws InterruptedException {
         if (item == null){
             throw  new IllegalArgumentException();
         }
 
         while (queue.size() == capacity){
-            try {
+
                 wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+
         }
 
         queue.offer(item);
         notifyAll();
     }
 
-    public synchronized T take() {
+    public synchronized T take() throws InterruptedException {
         while (queue.isEmpty()){
-            try {
+
                 wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
         }
         T item = queue.poll();
         notifyAll();
