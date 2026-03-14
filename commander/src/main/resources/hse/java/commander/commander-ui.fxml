@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -8,9 +9,15 @@
         <ListView fx:id="left" id="left" prefHeight="318.0" prefWidth="311.0" />
         <ListView fx:id="right" id="right" prefHeight="318.0" prefWidth="321.0" />
     </HBox>
-    <HBox spacing="10.0">
-        <Button fx:id="copy" mnemonicParsing="false" text="Copy" />
-        <Button fx:id="move" mnemonicParsing="false" text="Move" />
-        <Button fx:id="delete" mnemonicParsing="false" text="Delete" />
-    </HBox>
+
+    <ButtonBar prefHeight="52.0" prefWidth="580.0">
+        <buttons>
+            <Button fx:id="copy" mnemonicParsing="false" onAction="#handleCopy" text="Copy"/>
+            <Button fx:id="move" mnemonicParsing="false" onAction="#handleMove" text="Move"/>
+            <Button fx:id="delete" mnemonicParsing="false" onAction="#handleDelete" text="Delete"/>
+        </buttons>
+      <padding>
+         <Insets right="20.0" />
+      </padding>
+    </ButtonBar>
 </VBox>
