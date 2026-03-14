@@ -28,7 +28,7 @@ public class BoundedBlockingQueue<T> {
             if (item == null) {
                 throw new NullPointerException("Item must be not null");
             }
-            if (queue.size() > capacity) {
+            if (queue.size() >= capacity) {
                 key.wait();
             }
 
