@@ -7,7 +7,7 @@ public class BoundedBlockingQueue<T> {
     Queue<T> queue;
     private int capacity;
     private int size = 0;
-    Object monitor;
+    Object monitor = new Object();
     public BoundedBlockingQueue(int capacity) {
         this.capacity = capacity;
     }
