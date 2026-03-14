@@ -1,10 +1,11 @@
 package hse.java.lectures.lecture6.tasks.queue;
 
+import java.util.ArrayDeque;
 import java.util.Queue;
 
 public class BoundedBlockingQueue<T> {
 
-    Queue<T> queue;
+    ArrayDeque<T> queue = new ArrayDeque<>();
     private int capacity;
     private int size = 0;
     Object monitor = new Object();
