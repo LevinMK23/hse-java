@@ -13,14 +13,12 @@ public class BoundedBlockingQueue<T> {
         this.capacity = capacity;
     }
 
-    public void put(T item) {
+    public void put(T item) throws InterruptedException {
         synchronized (monitor) {
             if (size == capacity) {
-                try {
+
                     monitor.wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+
             }
 
             queue.add(item);
@@ -29,14 +27,12 @@ public class BoundedBlockingQueue<T> {
         }
     }
 
-    public T take() {
+    public T take() throws InterruptedException {
         synchronized (monitor) {
-            if (size == 0) {
-                try {
+            while (size == 0) {
+
                     monitor.wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+
             }
             size--;
             monitor.notifyAll();
