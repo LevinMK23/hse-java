@@ -16,14 +16,14 @@ public class BoundedBlockingQueue<T> {
         this.capacity = capacity;
     }
 
-    public void put(T item) {
+    public synchronized void put(T item) {
         if (item == null){
             throw  new IllegalArgumentException();
         }
 
         while (queue.size() == capacity){
             try {wait();} catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
 
