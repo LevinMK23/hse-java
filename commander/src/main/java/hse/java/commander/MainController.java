@@ -87,6 +87,7 @@ public class MainController {
         }
     }
 
+
     @FXML
     public void copy() {
         ListView<String> srcPanel = Panel;
