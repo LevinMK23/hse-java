@@ -24,8 +24,8 @@ public class MainController {
         rightPath = Paths.get(System.getProperty("user.dir"));
 
         Panel = left;
-        dir(left, leftPath);
-        dir(right, rightPath);
+        setInitialDirs(left, leftPath);
+        setInitialDirs(right, rightPath);
 
         left.setOnMouseClicked(e -> {
             Panel = left;
@@ -43,11 +43,11 @@ public class MainController {
     }
 
     private void update() {
-        dir(left, leftPath);
-        dir(right, rightPath);
+        setInitialDirs(left, leftPath);
+        setInitialDirs(right, rightPath);
     }
 
-    private void dir(ListView<String> panel, Path path) {
+    private void setInitialDirs(ListView<String> panel, Path path) {
         panel.getItems().clear();
         panel.getItems().add("...");
         try (Stream<Path> f = Files.list(path)) {
@@ -66,10 +66,10 @@ public class MainController {
             if (par != null) {
                 if (panel == left) {
                     leftPath = par;
-                    dir(left, leftPath);
+                    setInitialDirs(left, leftPath);
                 } else {
                     rightPath = par;
-                    dir(right, rightPath);
+                    setInitialDirs(right, rightPath);
                 }
             }
             return;
@@ -79,10 +79,10 @@ public class MainController {
         if (Files.isDirectory(touch)) {
             if (panel == left) {
                 leftPath = touch;
-                dir(left, leftPath);
+                setInitialDirs(left, leftPath);
             } else {
                 rightPath = touch;
-                dir(right, rightPath);
+                setInitialDirs(right, rightPath);
             }
         }
     }
