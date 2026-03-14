@@ -22,9 +22,7 @@ public class BoundedBlockingQueue<T> {
         }
 
         while (queue.size() == capacity){
-            try {wait();} catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            wait();
         }
 
         queue.offer(item);
@@ -32,9 +30,7 @@ public class BoundedBlockingQueue<T> {
 
     public synchronized T take() {
         while (queue.isEmpty()){
-            try {wait();} catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            wait();
         }
         T item = queue.poll();
         notifyAll();
