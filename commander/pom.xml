@@ -18,13 +18,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.12.1</junit.version>
         <testfx.version>4.0.17</testfx.version>
+        <javafx.version>21.0.2</javafx.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>21.0.6</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -54,7 +55,7 @@
         <dependency>
             <groupId>org.testfx</groupId>
             <artifactId>openjfx-monocle</artifactId>
-            <version>jdk-12.0.1+2</version>
+            <version>${javafx.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -98,6 +99,8 @@
                         -Dprism.order=sw
                         -Dprism.text=t2k
                         -Djava.awt.headless=true
+                        --add-exports javafx.graphics/com.sun.glass.ui.monocle=ALL-UNNAMED
+                        --add-exports javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
                     </argLine>
                 </configuration>
             </plugin>
