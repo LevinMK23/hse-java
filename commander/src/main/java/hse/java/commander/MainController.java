@@ -19,13 +19,13 @@ public class MainController {
     private Path rightPath;
     private ListView<String> Panel;
 
-    public void init() {
+    public void initialize() {
         leftPath = Paths.get(System.getProperty("user.dir"));
         rightPath = Paths.get(System.getProperty("user.dir"));
 
         Panel = left;
-        setInitialDirs(left, leftPath);
-        setInitialDirs(right, rightPath);
+        dir(left, leftPath);
+        dir(right, rightPath);
 
         left.setOnMouseClicked(e -> {
             Panel = left;
@@ -42,17 +42,24 @@ public class MainController {
         });
     }
 
-    private void update() {
-        setInitialDirs(left, leftPath);
-        setInitialDirs(right, rightPath);
-    }
-
-    private void setInitialDirs(ListView<String> panel, Path path) {
+    private void dir(ListView<String> panel, Path path) {
         panel.getItems().clear();
         panel.getItems().add("...");
         try (Stream<Path> f = Files.list(path)) {
             f.forEach(p -> panel.getItems().add(p.getFileName().toString()));
         } catch (Throwable e) {}
+    }
+
+    private void update() {
+        dir(left, leftPath);
+        dir(right, rightPath);
+    }
+
+    public void setInitialDirs(Path leftDir, Path rightDir) {
+        leftPath = leftDir;
+        rightPath = rightDir;
+        dir(left, leftPath);
+        dir(right, rightPath);
     }
 
     private void open(ListView<String> panel) {
@@ -66,10 +73,10 @@ public class MainController {
             if (par != null) {
                 if (panel == left) {
                     leftPath = par;
-                    setInitialDirs(left, leftPath);
+                    dir(left, leftPath);
                 } else {
                     rightPath = par;
-                    setInitialDirs(right, rightPath);
+                    dir(right, rightPath);
                 }
             }
             return;
@@ -79,10 +86,10 @@ public class MainController {
         if (Files.isDirectory(touch)) {
             if (panel == left) {
                 leftPath = touch;
-                setInitialDirs(left, leftPath);
+                dir(left, leftPath);
             } else {
                 rightPath = touch;
-                setInitialDirs(right, rightPath);
+                dir(right, rightPath);
             }
         }
     }
