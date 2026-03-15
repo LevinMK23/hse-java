@@ -1,6 +1,7 @@
 package hse.java.commander;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
 import java.lang.Throwable;
@@ -14,6 +15,15 @@ public class MainController {
 
     @FXML
     public ListView<String> right;
+
+    @FXML
+    public Button copy;
+
+    @FXML
+    public Button move;
+
+    @FXML
+    public Button delete;
 
     private Path leftPath;
     private Path rightPath;
@@ -94,19 +104,18 @@ public class MainController {
         }
     }
 
-
     @FXML
     public void copy() {
-        ListView<String> srcPanel = Panel;
+        if (Panel == null) return;
 
-        Path first_path = (Panel == left) ? leftPath : rightPath;
-        Path snd_path = (Panel == left) ? rightPath : leftPath;
-
-        String name = srcPanel.getSelectionModel().getSelectedItem();
+        String name = Panel.getSelectionModel().getSelectedItem();
         if (name == null || name.equals("...")) return;
 
-        Path src = first_path.resolve(name);
-        Path dst = snd_path.resolve(name);
+        Path srcPath = (Panel == left) ? leftPath : rightPath;
+        Path dstPath = (Panel == left) ? rightPath : leftPath;
+
+        Path src = srcPath.resolve(name);
+        Path dst = dstPath.resolve(name);
 
         try {
             Files.copy(src, dst, StandardCopyOption.REPLACE_EXISTING);
@@ -117,16 +126,16 @@ public class MainController {
 
     @FXML
     public void move() {
-        ListView<String> srcPanel = Panel;
+        if (Panel == null) return;
 
-        Path first_path = (Panel == left) ? leftPath : rightPath;
-        Path snd_path = (Panel == left) ? rightPath : leftPath;
-
-        String name = srcPanel.getSelectionModel().getSelectedItem();
+        String name = Panel.getSelectionModel().getSelectedItem();
         if (name == null || name.equals("...")) return;
 
-        Path src = first_path.resolve(name);
-        Path dst = snd_path.resolve(name);
+        Path srcPath = (Panel == left) ? leftPath : rightPath;
+        Path dstPath = (Panel == left) ? rightPath : leftPath;
+
+        Path src = srcPath.resolve(name);
+        Path dst = dstPath.resolve(name);
 
         try {
             Files.move(src, dst, StandardCopyOption.REPLACE_EXISTING);
@@ -136,13 +145,14 @@ public class MainController {
 
     @FXML
     public void delete() {
-        ListView<String> panel = Panel;
-        Path path = (panel == left) ? leftPath : rightPath;
+        if (Panel == null) return;
 
-        String name = panel.getSelectionModel().getSelectedItem();
+        String name = Panel.getSelectionModel().getSelectedItem();
         if (name == null || name.equals("...")) return;
 
-        Path file = path.resolve(name);
+        Path dir = (Panel == left) ? leftPath : rightPath;
+        Path file = dir.resolve(name);
+
         try {
             Files.deleteIfExists(file);
         } catch (Throwable e) {}
